@@ -1,0 +1,65 @@
+# =============================================================================
+# Argo CD Helm values: pin every component to DC-A
+# =============================================================================
+# Chart: argo-cd 10.8.0 (app v3.5.2), from the lab Helm mirror
+# (http://192.168.3.21:8888/helm/), not the upstream argo-helm repo. The
+# cluster's default route runs over the emulated fabric at ~15 KB/s; the mirror
+# sits on the flat management VLAN, reachable at ~110 MB/s. See
+# demo-lab/09-lab-artifact-mirror.md in blog-sandbox.
+#
+# DC-A holds only the three K3s server nodes (etcd + API) and carries no other
+# workloads by design (see demo-lab/06-services-distribution.md). Every
+# component below is still pinned there, as a deliberate exception:
+#
+#   - argocd-application-controller watches the API constantly. The API only
+#     exists in DC-A, so that inter-DC hop happens no matter where the
+#     controller runs.
+#   - repo-server, redis, and application-controller talk to each other more
+#     than a typical app does. Leaving them unpinned risks the scheduler
+#     splitting them across DC-B and DC-C, which would add a second,
+#     self-inflicted inter-DC hop on top of the one to the API that can't be
+#     avoided anyway.
+#   - DC-A has spare capacity precisely because nothing else runs there: three
+#     nodes, 4 vCPU / ~4GB allocatable each, essentially idle apart from
+#     etcd/API/scheduler/controller-manager (see the allocated-resources check
+#     in the deploy notes; pod-level requests were near zero before this).
+#
+# Everything Argo CD *deploys* (Longhorn, victoria-metrics-k8s-stack) is a
+# normal workload with no such constraint and lands in DC-B/DC-C like every
+# other pod in the cluster, per each app's own values file.
+#
+# The three DC-A nodes carry node-role.kubernetes.io/control-plane:NoSchedule
+# (applied by the k3s_config Ansible role in blog-sandbox) specifically to keep
+# unpinned workloads off them. Argo CD needs the matching toleration to be
+# allowed to land there at all.
+
+global:
+  nodeSelector:
+    kubernetes.io/os: linux
+    topology.kubernetes.io/zone: dc-a
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Equal
+      value: "true"
+      effect: NoSchedule
+
+# This is a lab install: one replica per component (the chart default), no HA
+# redis-ha subchart. Everything else is left at chart defaults until something
+# is observed to need changing; no reason to add config that isn't needed yet.
+
+# Exception: redis's source registry. The chart defaults to ECR Public
+# (ecr-public.aws.com/docker/library/redis after the lab's containerd rewrite)
+# specifically to dodge Docker Hub's anonymous pull rate limit. But ECR
+# Public's own anonymous limit turned out tighter still: the pull-through
+# cache on 192.168.3.21:5004 got a 429 from AWS on the very first blob fetch,
+# which then cascaded into 401s on every retry. Confirmed directly against
+# the real endpoint (bypassing the lab cache entirely) that ECR Public's
+# anonymous token endpoint returns a token scoped "aws", not the requested
+# "repository:...:pull" scope, so anonymous blob pulls are rejected outright
+# right now, not just slow. Docker Hub carries the identical
+# library/redis:8.6.4-alpine image and the lab's docker.io cache
+# (192.168.3.21:5000) is already proven working from every k3s node in Part
+# 6. Same tag, same CVE fix (see the tag comment below), different registry.
+redis:
+  image:
+    repository: docker.io/library/redis

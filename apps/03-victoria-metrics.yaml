@@ -1,0 +1,77 @@
+# =============================================================================
+# victoria-metrics-k8s-stack Application
+# =============================================================================
+# Discovered by root-app.yaml. Sync wave 2: after longhorn (wave 1), since
+# vmsingle's PVC requests the "longhorn" StorageClass (see
+# values/victoria-metrics-values.yaml) and would sit Pending if Longhorn's
+# StorageClass doesn't exist yet when this syncs.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: victoria-metrics-k8s-stack
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  sources:
+    - repoURL: http://192.168.3.21:8888/helm/victoria-metrics-k8s-stack-0.91.2.tgz
+      targetRevision: 0.91.2
+      chart: victoria-metrics-k8s-stack
+      helm:
+        valueFiles:
+          - $values/values/victoria-metrics-values.yaml
+    - repoURL: https://github.com/byrn-baker/blog-sandbox-argo-cd.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#respect-ignore-difference-configs
+      - RespectIgnoreDifferences=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+  # Both blocks below are from the chart's own ArgoCD-issues doc
+  # (docs.victoriametrics.com/helm/victoria-metrics-k8s-stack -> ArgoCD
+  # issues), not something found by trial and error here. No cert-manager
+  # in this cluster (confirmed: no cert-manager CRDs, no cert-manager
+  # namespace), so the operator's admission webhook self-signs and
+  # re-renders its cert/CA bundle on every reconcile. Without the first
+  # ignoreDifferences entry, selfHeal fights that re-render every sync and
+  # the Application never settles to Synced. The second entry does the same
+  # for the Grafana subchart's generated admin-password Secret and its
+  # checksum annotation on the Deployment.
+  ignoreDifferences:
+    # Names confirmed by rendering the real chart with `helm template
+    # victoria-metrics-k8s-stack ...` locally (Argo CD's Helm release name
+    # defaults to the Application name, so that's the prefix that actually
+    # lands in-cluster, not the chart's own generic doc example or a
+    # `helm install <anything-else>` test render).
+    - group: ""
+      kind: Secret
+      name: victoria-metrics-k8s-stack-victoria-metrics-operator-validation
+      namespace: observability
+      jsonPointers:
+        - /data
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: victoria-metrics-k8s-stack-victoria-metrics-operator-admission
+      jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'
+    - group: ""
+      kind: Secret
+      name: victoria-metrics-k8s-stack-grafana
+      namespace: observability
+      jsonPointers:
+        - /data/admin-password
+    - group: apps
+      kind: Deployment
+      name: victoria-metrics-k8s-stack-grafana
+      namespace: observability
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1secret

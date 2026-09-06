@@ -1,0 +1,47 @@
+# =============================================================================
+# victoria-metrics-k8s-stack values: single-node VM + Grafana, DC-B/DC-C only
+# =============================================================================
+# Chart: victoria-metrics-k8s-stack 0.91.2, from the lab Helm mirror
+# (http://192.168.3.21:8888/helm/victoria-metrics-k8s-stack-0.91.2.tgz).
+#
+# Pulled with `helm repo add vm https://victoriametrics.github.io/helm-charts/`
+# rather than the OCI path in the chart's own Chart.yaml
+# (oci://ghcr.io/victoriametrics/helm-charts/...). The upstream master branch
+# is on 0.92.0 but that version isn't published as an OCI artifact yet
+# (confirmed: `helm pull oci://...--version 0.92.0` returns "not found", while
+# `helm search repo vm/victoria-metrics-k8s-stack -l` lists 0.91.2 as the
+# newest actually-published release). Using the real latest, not the
+# in-progress one.
+#
+# No nodeSelector/toleration override, same reasoning as
+# values/longhorn-values.yaml: DC-A's control-plane taint keeps every
+# component here out of DC-A without any config on this end.
+
+vmsingle:
+  spec:
+    storage:
+      # Cluster's only default StorageClass is k3s's built-in local-path
+      # (confirmed: `kubectl get storageclass` showed it marked (default)).
+      # Without this override VMSingle's PVC binds to local-path.
+      # local-path ties the volume's data to whichever single node
+      # provisioned it, with no replication, which defeats the point of
+      # deploying Longhorn in the same app-of-apps run right before this.
+      storageClassName: longhorn
+      resources:
+        requests:
+          # Chart default (20Gi) kept as-is: a lab-scale scrape target (K8s
+          # cluster metrics + 38 network devices via snmp_exporter, added in
+          # a later step) fits comfortably at 1-month retention.
+          storage: 20Gi
+
+grafana:
+  persistence:
+    # Chart default is false (ephemeral emptyDir). Turned on because we now
+    # have real replicated storage to put it on: without this, dashboards,
+    # datasources, and any manual edits made in the UI vanish on every pod
+    # restart, which would undermine the Part 7 SNMP-dashboard verification
+    # step if the pod moved nodes between deploy and check.
+    enabled: true
+    type: pvc
+    storageClassName: longhorn
+    size: 2Gi

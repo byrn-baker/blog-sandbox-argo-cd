@@ -1,0 +1,37 @@
+# =============================================================================
+# Longhorn Application
+# =============================================================================
+# Discovered by root-app.yaml (bootstrap/root-app.yaml watches this apps/
+# directory). Sync wave 1: after Argo CD itself (wave -1 implicitly, it's
+# already running before this exists) but before victoria-metrics-k8s-stack
+# (wave 2), since the VM stack's vmsingle/vmstorage PVCs request the
+# "longhorn" StorageClass and would sit Pending if Longhorn's CRDs and
+# StorageClass don't exist yet.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  sources:
+    - repoURL: http://192.168.3.21:8888/helm/longhorn-1.12.1.tgz
+      targetRevision: 1.12.1
+      chart: longhorn
+      helm:
+        valueFiles:
+          - $values/values/longhorn-values.yaml
+    - repoURL: https://github.com/byrn-baker/blog-sandbox-argo-cd.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

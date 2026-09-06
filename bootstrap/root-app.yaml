@@ -1,0 +1,40 @@
+# =============================================================================
+# Root app-of-apps
+# =============================================================================
+# The one Application applied by hand (or by the bootstrap job). Everything
+# else in this repo's apps/ directory is a child Application that this one
+# discovers and syncs on its own. Adding a new app after this point means
+# adding a file under apps/, not touching this one again.
+#
+# Runs in argocd's own namespace, watching this same repo. Argo CD reads its
+# own Application CRs from any namespace it has access to, so the root app
+# and its children all live in argocd alongside the controller that manages
+# them.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # HTTPS, not the SSH remote used for pushes from this host. The repo is
+    # public (verified: anonymous clone over HTTPS works, no credentials
+    # configured in Argo CD's repo-secrets), so this avoids setting up a
+    # deploy key or repo credential just for a read-only pull.
+    repoURL: https://github.com/byrn-baker/blog-sandbox-argo-cd.git
+    targetRevision: main
+    path: apps
+    directory:
+      recurse: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

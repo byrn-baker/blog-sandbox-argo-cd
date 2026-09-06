@@ -1,0 +1,37 @@
+# =============================================================================
+# Longhorn values: 3-replica default StorageClass, DC-B/DC-C only
+# =============================================================================
+# Chart: longhorn 1.12.1, from the lab Helm mirror
+# (http://192.168.3.21:8888/helm/longhorn-1.12.1.tgz), pulled from
+# https://charts.longhorn.io. See demo-lab/09-lab-artifact-mirror.md.
+#
+# No nodeSelector/toleration override here, unlike argocd-values.yaml. Longhorn
+# doesn't need one: DC-A's three K3s server nodes already carry
+# node-role.kubernetes.io/control-plane:NoSchedule (see argocd-values.yaml's
+# comment for why), and this chart's manager DaemonSet gets no matching
+# toleration, so it can't land there. That taint alone keeps Longhorn
+# DC-B/DC-C-only without any config on this end.
+#
+# defaultClassReplicaCount (chart default: 3) and defaultDataPath (chart
+# default: /var/lib/longhorn/) are both left at their defaults deliberately:
+# they already match what's on disk. Every DC-B/DC-C worker (6 nodes) has
+# storage.enabled: true in its Nautobot config context, /dev/sdb mounted
+# ext4 at /var/lib/longhorn, confirmed live on all 6 before this file was
+# written (50G each). 6 eligible nodes for a 3-replica class gives real
+# headroom for a node to be down without volumes going degraded.
+#
+# ArgoCD note: sync waves matter here more than most apps. Longhorn's CRDs
+# and its own controllers need to exist before any PVC that requests the
+# longhorn StorageClass gets created, otherwise the PVC just sits Pending.
+# See apps/02-longhorn.yaml for the wave number relative to victoria-metrics.
+#
+# One side effect worth knowing: persistence.defaultClass (chart default:
+# true) marks this StorageClass storageclass.kubernetes.io/is-default-class,
+# same annotation k3s's built-in local-path already carries. Kubernetes
+# allows two classes both claiming default (behavior is then undefined for
+# any PVC that doesn't specify one), but every PVC created by this repo's
+# apps sets storageClassName: longhorn explicitly, so the ambiguity doesn't
+# actually affect anything deployed here. Left as chart default rather than
+# disabling it, since a future PVC added without an explicit class should
+# probably land on Longhorn (replicated) rather than local-path
+# (node-local, no replication) anyway.
