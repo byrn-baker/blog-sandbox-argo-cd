@@ -24,6 +24,23 @@
 # and its own controllers need to exist before any PVC that requests the
 # longhorn StorageClass gets created, otherwise the PVC just sits Pending.
 # See apps/02-longhorn.yaml for the wave number relative to victoria-metrics.
+
+preUpgradeChecker:
+  # Chart default is true. The chart's own values.yaml comment says exactly
+  # this: "Disable this setting when installing Longhorn using Argo CD or
+  # other GitOps solutions." Confirmed why: the pre-upgrade Job carries
+  # helm.sh/hook: pre-upgrade, which Argo CD maps to its own PreSync hook
+  # phase regardless of whether this is a fresh install or a real upgrade
+  # (Helm itself only runs pre-upgrade hooks on actual upgrades; Argo CD's
+  # hook model has no install-vs-upgrade distinction). On a first sync that
+  # runs the Job before longhorn-service-account exists, which the Job's
+  # pod spec requires (serviceAccountName: longhorn-service-account) - a
+  # real deadlock, not a transient race: kubectl described the Job stuck
+  # `Running 0/1` with job-controller retrying `FailedCreate` on the missing
+  # SA every few seconds, going nowhere on its own. This is a known,
+  # documented incompatibility (longhorn/longhorn#6415), not specific to
+  # this cluster.
+  jobEnabled: false
 #
 # One side effect worth knowing: persistence.defaultClass (chart default:
 # true) marks this StorageClass storageclass.kubernetes.io/is-default-class,
