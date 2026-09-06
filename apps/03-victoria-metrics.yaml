@@ -15,7 +15,10 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: http://192.168.3.21:8888/helm/victoria-metrics-k8s-stack-0.91.2.tgz
+    # repoURL is the repo root (serves index.yaml), not the chart's direct
+    # .tgz link. See apps/02-longhorn.yaml's comment for why - same fix
+    # applied here after the same error on first apply.
+    - repoURL: http://192.168.3.21:8888/helm/
       targetRevision: 0.91.2
       chart: victoria-metrics-k8s-stack
       helm:

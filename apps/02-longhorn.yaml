@@ -17,7 +17,18 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: http://192.168.3.21:8888/helm/longhorn-1.12.1.tgz
+    # repoURL must be the repo root serving index.yaml, not a direct link to
+    # one chart's .tgz. Argo CD's repo-server always appends /index.yaml and
+    # resolves `chart:` by name inside it (same as `helm repo add` +
+    # `helm search repo`) - a raw .tgz URL 404s
+    # (".../longhorn-1.12.1.tgz/index.yaml" doesn't exist). Confirmed by the
+    # exact error on first apply, then fixed by regenerating
+    # lab-mirror/helm/index.yaml with `helm repo index .` to include this
+    # chart (it only had argo-cd's entry before). This is a different code
+    # path from `helm pull <direct-tgz-url>`, which is what the Argo CD
+    # install itself used and why that direct-URL pattern didn't carry over
+    # cleanly here.
+    - repoURL: http://192.168.3.21:8888/helm/
       targetRevision: 1.12.1
       chart: longhorn
       helm:
