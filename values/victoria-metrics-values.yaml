@@ -46,6 +46,21 @@ grafana:
     storageClassName: longhorn
     size: 2Gi
 
+victoria-metrics-operator:
+  # The operator does its own leader election against the API server
+  # (controller-runtime's default: 15s lease-duration, 10s renew-deadline),
+  # completely separate from k3s's embedded kube-controller-manager/scheduler.
+  # It hit the exact same fatal pattern those did: an etcd apply occasionally
+  # takes 5-10s on this fabric, the lease renewal times out, and the operator
+  # treats that as fatal ("cannot start controller manager: leader election
+  # lost") and exits - 48 restarts over 9h before this was set. Widening to
+  # match the k3s-side fix (ansible/group_vars/k3s_cluster.yml,
+  # k3s_leader_elect_lease_duration/renew_deadline) gives the same slow
+  # applies more room before a lease loss is declared fatal.
+  extraArgs:
+    leader-elect-lease-duration: 30s
+    leader-elect-renew-deadline: 20s
+
 kube-state-metrics:
   # Chart default is resources: {}, no request/limit at all - deliberate per
   # the subchart's own values.yaml comment ("leave this as a conscious
