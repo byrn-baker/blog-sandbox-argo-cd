@@ -45,3 +45,24 @@ grafana:
     type: pvc
     storageClassName: longhorn
     size: 2Gi
+
+kube-state-metrics:
+  # Chart default is resources: {}, no request/limit at all - deliberate per
+  # the subchart's own values.yaml comment ("leave this as a conscious
+  # choice for the user"). Left unset, this pod crash-looped for 7+ hours
+  # (23 restarts) on an otherwise-idle node (cluster-wide CPU 1-4% at the
+  # time): the process itself never errored (clean startup log, no panic,
+  # no shutdown message - it just stops mid-log, consistent with an
+  # external kill), but its liveness probe (5s timeout, 3 failures) kept
+  # missing. With no CPU request, the container gets zero cgroup CPU
+  # share guarantee, so it can go briefly starved even on an idle node if
+  # anything else transient shares that CPU at the wrong moment, long
+  # enough to blow a 5s HTTP response window. A small guaranteed request
+  # fixes that without needing to touch the chart's probe timeouts (which
+  # aren't exposed as a values override at this level anyway).
+  resources:
+    requests:
+      cpu: 20m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
