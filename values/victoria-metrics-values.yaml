@@ -42,8 +42,12 @@ grafana:
     initialDelaySeconds: 1800
   progressDeadlineSeconds: 2100
   # A single RWO database must have one Grafana writer during updates.
+  # Client-side apply removes the previous defaulted rollingUpdate fields.
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=false
   deploymentStrategy:
     type: Recreate
+    rollingUpdate: null
   # Reach Grafana through existing node management addresses without a tunnel.
   service:
     type: NodePort
