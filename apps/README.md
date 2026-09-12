@@ -1,13 +1,13 @@
 # Application ordering and validation
 
 The root Application loads the manifests in this directory. Longhorn precedes
-VictoriaMetrics through their sync-wave annotations. Future telemetry Application
-names and waves are defined in the sibling blog-sandbox feature plan; they are
-not deployed applications yet.
+VictoriaMetrics through their sync-wave annotations. SNMP history follows at
+wave 4 (`snmp-metrics`), then its Collector at wave 5 (`otel-snmp`). Flow/syslog,
+MetalLB, VictoriaLogs and SuzieQ remain separate future work.
 
-The child-Application health script in ../bootstrap/argocd-values.yaml must be
-installed through the existing Argo CD Helm bootstrap before relying on root
-sync waves. It reports Progressing until a child has health information and
+The child-Application health script in ../bootstrap/argocd-values.yaml was
+installed through the existing Argo CD Helm bootstrap on 2026-09-12 and checked
+in the live argocd-cm. It reports Progressing until a child has health information and
 requires both Healthy and Synced for successful health. Degraded child health
 is preserved so a failed prerequisite remains visible.
 
@@ -16,21 +16,27 @@ change to that values file alone does not update the running Argo CD installatio
 Use the existing pinned argo-cd 10.8.0 chart and lab mirror for the reviewed
 bootstrap upgrade. Confirm argocd-cm contains the health script afterward.
 
-Before adding production dependencies, validate in an isolated test root:
+The isolated test root validated the following behavior on 2026-09-12:
 
-1. Create two disposable child Applications in successive waves, with the first
-   deliberately unable to become Healthy.
-2. Sync the test root and confirm the later child is not created until the first
-   is Healthy and Synced.
-3. Repair the first child and verify the later wave proceeds.
-4. Remove the disposable test resources and record the observed statuses.
+1. A first child referenced an absent source path. It reported Healthy but
+   Unknown sync status, which the customization correctly treated as Progressing.
+2. The root waited on that first child; the second child did not exist.
+3. Adding the prerequisite source allowed the first child to sync, then the
+   second child appeared and synced. All three Applications became Healthy.
+4. The test Applications, namespace and source manifests were removed.
 
 This is initial root synchronization ordering. Existing child Applications may
 reconcile independently through auto-sync; waves do not serialize their later
 updates. Workloads still need their own readiness, retries and dependency checks.
 Do not introduce a failure into the live Longhorn Application to test this.
 
-The 2026-09-09 local validation rendered the pinned chart and verified the script
-in the resulting ConfigMap. Lua execution and the live wave test remain pending.
-The running cluster also has control-plane and storage blockers documented in
-../../blog-sandbox/specs/blog-obs-stack/specs/001-otel-network-telemetry/evidence/2026-09-09-baseline/README.md.
+The SNMP canary checked one IOS-XE and one EOS device before full collection.
+The Collector obtains credentials from the externally managed
+`network-snmp-credentials` Secret. Generation and rotation are documented in
+../../blog-sandbox/telemetry/README.md. Generated values and dashboard data must
+be changed through that generator.
+
+The separate 547-day SNMP store leaves the existing cluster store's retention
+unchanged. Both receive the same SNMP samples over OTLP, allowing existing
+alerts and queries while independently budgeting history storage. This is
+SNMP-only delivery, not completion of the broader telemetry plan.

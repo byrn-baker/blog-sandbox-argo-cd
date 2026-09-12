@@ -5127,10 +5127,40 @@ extraManifests:
       \",if_type!=\\\"\\\"}\",\n          \"instant\": true,\n          \"format\"\
       : \"table\"\n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\"\
       : {\n          \"unit\": \"short\"\n        },\n        \"overrides\": []\n\
-      \      },\n      \"options\": {}\n    }\n  ],\n  \"templating\": {\n    \"list\"\
-      : [\n      {\n        \"name\": \"device\",\n        \"type\": \"query\",\n\
-      \        \"datasource\": {\n          \"type\": \"prometheus\",\n          \"\
-      uid\": \"network-snmp\"\n        },\n        \"query\": \"label_values(snmp_device_uptime_ticks,\
+      \      },\n      \"options\": {}\n    },\n    {\n      \"id\": 14,\n      \"\
+      title\": \"Polling errors in the last 5 minutes\",\n      \"type\": \"timeseries\"\
+      ,\n      \"datasource\": {\n        \"uid\": \"VictoriaMetrics\"\n      },\n\
+      \      \"description\": \"\",\n      \"gridPos\": {\n        \"x\": 12,\n  \
+      \      \"y\": 48,\n        \"w\": 12,\n        \"h\": 8\n      },\n      \"\
+      targets\": [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"\
+      sum by (receiver) (increase(otelcol_scraper_errored_metric_points{receiver=~\\\
+      \"snmp/.*\\\"}[5m]))\",\n          \"instant\": false,\n          \"format\"\
+      : \"time_series\"\n        }\n      ],\n      \"fieldConfig\": {\n        \"\
+      defaults\": {\n          \"unit\": \"short\"\n        },\n        \"overrides\"\
+      : []\n      },\n      \"options\": {}\n    },\n    {\n      \"id\": 15,\n  \
+      \    \"title\": \"Queued export requests\",\n      \"type\": \"timeseries\"\
+      ,\n      \"datasource\": {\n        \"uid\": \"VictoriaMetrics\"\n      },\n\
+      \      \"description\": \"\",\n      \"gridPos\": {\n        \"x\": 0,\n   \
+      \     \"y\": 56,\n        \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\"\
+      : [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"max by (exporter)\
+      \ (otelcol_exporter_queue_size{exporter=~\\\"otlp_http/(snmp_history|victoriametrics)\\\
+      \"})\",\n          \"instant\": false,\n          \"format\": \"time_series\"\
+      \n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n \
+      \         \"unit\": \"short\"\n        },\n        \"overrides\": []\n     \
+      \ },\n      \"options\": {}\n    },\n    {\n      \"id\": 16,\n      \"title\"\
+      : \"Metric points exported per second\",\n      \"type\": \"timeseries\",\n\
+      \      \"datasource\": {\n        \"uid\": \"VictoriaMetrics\"\n      },\n \
+      \     \"description\": \"\",\n      \"gridPos\": {\n        \"x\": 12,\n   \
+      \     \"y\": 56,\n        \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\"\
+      : [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"sum by (exporter)\
+      \ (rate(otelcol_exporter_sent_metric_points{exporter=~\\\"otlp_http/(snmp_history|victoriametrics)\\\
+      \"}[5m]))\",\n          \"instant\": false,\n          \"format\": \"time_series\"\
+      \n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n \
+      \         \"unit\": \"ops\"\n        },\n        \"overrides\": []\n      },\n\
+      \      \"options\": {}\n    }\n  ],\n  \"templating\": {\n    \"list\": [\n\
+      \      {\n        \"name\": \"device\",\n        \"type\": \"query\",\n    \
+      \    \"datasource\": {\n          \"type\": \"prometheus\",\n          \"uid\"\
+      : \"network-snmp\"\n        },\n        \"query\": \"label_values(snmp_device_uptime_ticks,\
       \ device)\",\n        \"refresh\": 1,\n        \"multi\": true,\n        \"\
       includeAll\": true,\n        \"allValue\": \".*\",\n        \"current\": {\n\
       \          \"text\": \"All\",\n          \"value\": \"$__all\"\n        }\n\
