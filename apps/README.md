@@ -40,3 +40,20 @@ The separate 547-day SNMP store leaves the existing cluster store's retention
 unchanged. Both receive the same SNMP samples over OTLP, allowing existing
 alerts and queries while independently budgeting history storage. This is
 SNMP-only delivery, not completion of the broader telemetry plan.
+
+## Grafana access from the management network
+
+Open [Network SNMP](http://192.168.3.66:30300/d/network-snmp) and use the
+existing Grafana login. The Grafana Service is declared as NodePort 30300 in
+../values/victoria-metrics-values.yaml and deployed through Argo CD. No extra
+VM or port-forward is required. The client must have a route to 192.168.3.0/24.
+
+On 2026-09-12, checks from the automation host on that subnet passed through
+192.168.3.63, 192.168.3.66 and 192.168.3.69: health returned HTTP 200 with the
+database healthy, login returned HTTP 200, and the authenticated dashboard API
+returned Network SNMP with 16 panels. Unauthenticated dashboard API requests
+returned HTTP 401. Access from the user's own computer was not verified.
+
+NodePort also exposes this port on other reachable node addresses; this is
+not a management-interface-only binding. The existing Grafana Service port
+remains 80 and the container listens on 3000. External traffic uses port 30300.
