@@ -35,6 +35,11 @@ vmsingle:
           storage: 20Gi
 
 grafana:
+  # Reach Grafana through existing node management addresses without a tunnel.
+  service:
+    type: NodePort
+    nodePort: 30300
+    externalTrafficPolicy: Cluster
   persistence:
     # Chart default is false (ephemeral emptyDir). Turned on because we now
     # have real replicated storage to put it on: without this, dashboards,
