@@ -35,6 +35,15 @@ vmsingle:
           storage: 20Gi
 
 grafana:
+  # A fresh SQLite database on replicated lab storage needs time for migrations.
+  # This pinned subchart does not expose a main-container startupProbe.
+  # Keep readiness active, but delay liveness so migrations can finish.
+  livenessProbe:
+    initialDelaySeconds: 1800
+  progressDeadlineSeconds: 2100
+  # A single RWO database must have one Grafana writer during updates.
+  deploymentStrategy:
+    type: Recreate
   # Reach Grafana through existing node management addresses without a tunnel.
   service:
     type: NodePort
