@@ -10,10 +10,349 @@ command:
   name: otelcol-contrib
 alternateConfig:
   receivers:
+    snmp/BORDER1:
+      endpoint: udp://192.168.3.50:161
+      version: v2c
+      community: ${env:SNMP_BORDER1}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
     snmp/CE1:
       endpoint: udp://192.168.3.60:161
       version: v2c
       community: ${env:SNMP_CE1}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/CE2:
+      endpoint: udp://192.168.3.61:161
+      version: v2c
+      community: ${env:SNMP_CE2}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/CE3:
+      endpoint: udp://192.168.3.62:161
+      version: v2c
+      community: ${env:SNMP_CE3}
       collection_interval: 60s
       timeout: 3s
       attributes:
@@ -236,6 +575,2605 @@ alternateConfig:
             - name: if_index
           gauge:
             value_type: int
+    snmp/DCA-Leaf02:
+      endpoint: udp://192.168.3.33:161
+      version: v2c
+      community: ${env:SNMP_DCA_LEAF02}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCA-Leaf03:
+      endpoint: udp://192.168.3.34:161
+      version: v2c
+      community: ${env:SNMP_DCA_LEAF03}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCA-Spine01:
+      endpoint: udp://192.168.3.30:161
+      version: v2c
+      community: ${env:SNMP_DCA_SPINE01}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCA-Spine02:
+      endpoint: udp://192.168.3.31:161
+      version: v2c
+      community: ${env:SNMP_DCA_SPINE02}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCB-Leaf01:
+      endpoint: udp://192.168.3.37:161
+      version: v2c
+      community: ${env:SNMP_DCB_LEAF01}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCB-Leaf02:
+      endpoint: udp://192.168.3.38:161
+      version: v2c
+      community: ${env:SNMP_DCB_LEAF02}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCB-Leaf03:
+      endpoint: udp://192.168.3.39:161
+      version: v2c
+      community: ${env:SNMP_DCB_LEAF03}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCB-Spine01:
+      endpoint: udp://192.168.3.35:161
+      version: v2c
+      community: ${env:SNMP_DCB_SPINE01}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCB-Spine02:
+      endpoint: udp://192.168.3.36:161
+      version: v2c
+      community: ${env:SNMP_DCB_SPINE02}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCC-Leaf01:
+      endpoint: udp://192.168.3.42:161
+      version: v2c
+      community: ${env:SNMP_DCC_LEAF01}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCC-Leaf02:
+      endpoint: udp://192.168.3.43:161
+      version: v2c
+      community: ${env:SNMP_DCC_LEAF02}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCC-Leaf03:
+      endpoint: udp://192.168.3.44:161
+      version: v2c
+      community: ${env:SNMP_DCC_LEAF03}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCC-Spine01:
+      endpoint: udp://192.168.3.40:161
+      version: v2c
+      community: ${env:SNMP_DCC_SPINE01}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/DCC-Spine02:
+      endpoint: udp://192.168.3.41:161
+      version: v2c
+      community: ${env:SNMP_DCC_SPINE02}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/RR1:
+      endpoint: udp://192.168.3.51:161
+      version: v2c
+      community: ${env:SNMP_RR1}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/RR2:
+      endpoint: udp://192.168.3.52:161
+      version: v2c
+      community: ${env:SNMP_RR2}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/SP1:
+      endpoint: udp://192.168.3.53:161
+      version: v2c
+      community: ${env:SNMP_SP1}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/SP2:
+      endpoint: udp://192.168.3.54:161
+      version: v2c
+      community: ${env:SNMP_SP2}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/SP3:
+      endpoint: udp://192.168.3.55:161
+      version: v2c
+      community: ${env:SNMP_SP3}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/SP4:
+      endpoint: udp://192.168.3.56:161
+      version: v2c
+      community: ${env:SNMP_SP4}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/SPE1:
+      endpoint: udp://192.168.3.57:161
+      version: v2c
+      community: ${env:SNMP_SPE1}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/SPE2:
+      endpoint: udp://192.168.3.58:161
+      version: v2c
+      community: ${env:SNMP_SPE2}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+    snmp/SPE3:
+      endpoint: udp://192.168.3.59:161
+      version: v2c
+      community: ${env:SNMP_SPE3}
+      collection_interval: 60s
+      timeout: 3s
+      attributes:
+        interface:
+          oid: 1.3.6.1.2.1.31.1.1.1.1
+        if_index:
+          indexed_value_prefix: if
+      metrics:
+        snmp_device_uptime_ticks:
+          description: sysUpTime in hundredths of a second; wraps after about 497
+            days
+          unit: '1'
+          gauge:
+            value_type: int
+          scalar_oids:
+          - oid: 1.3.6.1.2.1.1.3.0
+        snmp_interface_in_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.6
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_octets_total:
+          unit: By
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.10
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.14
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_errors_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.20
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_in_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.13
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_out_discards_total:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.19
+            attributes:
+            - name: interface
+            - name: if_index
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+        snmp_interface_oper_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.8
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_admin_status:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.2.2.1.7
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
+        snmp_interface_speed_mbps:
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.31.1.1.1.15
+            attributes:
+            - name: interface
+            - name: if_index
+          gauge:
+            value_type: int
   processors:
     memory_limiter:
       check_interval: 1s
@@ -245,6 +3183,29 @@ alternateConfig:
       timeout: 5s
       send_batch_size: 2048
       send_batch_max_size: 4096
+    resource/BORDER1:
+      attributes:
+      - key: device
+        value: BORDER1
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.50
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.50
+        action: upsert
     resource/CE1:
       attributes:
       - key: device
@@ -262,6 +3223,58 @@ alternateConfig:
       - key: telemetry_source
         value: snmp
         action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.60
+        action: upsert
+    resource/CE2:
+      attributes:
+      - key: device
+        value: CE2
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: DC-B
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.61
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.61
+        action: upsert
+    resource/CE3:
+      attributes:
+      - key: device
+        value: CE3
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: DC-C
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.62
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.62
+        action: upsert
     resource/DCA-Leaf01:
       attributes:
       - key: device
@@ -278,6 +3291,541 @@ alternateConfig:
         action: upsert
       - key: telemetry_source
         value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.32
+        action: upsert
+    resource/DCA-Leaf02:
+      attributes:
+      - key: device
+        value: DCA-Leaf02
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-A
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.33
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.33
+        action: upsert
+    resource/DCA-Leaf03:
+      attributes:
+      - key: device
+        value: DCA-Leaf03
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-A
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.34
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.34
+        action: upsert
+    resource/DCA-Spine01:
+      attributes:
+      - key: device
+        value: DCA-Spine01
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-A
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.30
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.30
+        action: upsert
+    resource/DCA-Spine02:
+      attributes:
+      - key: device
+        value: DCA-Spine02
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-A
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.31
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.31
+        action: upsert
+    resource/DCB-Leaf01:
+      attributes:
+      - key: device
+        value: DCB-Leaf01
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-B
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.37
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.37
+        action: upsert
+    resource/DCB-Leaf02:
+      attributes:
+      - key: device
+        value: DCB-Leaf02
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-B
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.38
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.38
+        action: upsert
+    resource/DCB-Leaf03:
+      attributes:
+      - key: device
+        value: DCB-Leaf03
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-B
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.39
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.39
+        action: upsert
+    resource/DCB-Spine01:
+      attributes:
+      - key: device
+        value: DCB-Spine01
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-B
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.35
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.35
+        action: upsert
+    resource/DCB-Spine02:
+      attributes:
+      - key: device
+        value: DCB-Spine02
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-B
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.36
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.36
+        action: upsert
+    resource/DCC-Leaf01:
+      attributes:
+      - key: device
+        value: DCC-Leaf01
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-C
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.42
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.42
+        action: upsert
+    resource/DCC-Leaf02:
+      attributes:
+      - key: device
+        value: DCC-Leaf02
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-C
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.43
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.43
+        action: upsert
+    resource/DCC-Leaf03:
+      attributes:
+      - key: device
+        value: DCC-Leaf03
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-C
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.44
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.44
+        action: upsert
+    resource/DCC-Spine01:
+      attributes:
+      - key: device
+        value: DCC-Spine01
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-C
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.40
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.40
+        action: upsert
+    resource/DCC-Spine02:
+      attributes:
+      - key: device
+        value: DCC-Spine02
+        action: upsert
+      - key: platform
+        value: arista_eos
+        action: upsert
+      - key: site
+        value: DC-C
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.41
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.41
+        action: upsert
+    resource/RR1:
+      attributes:
+      - key: device
+        value: RR1
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.51
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.51
+        action: upsert
+    resource/RR2:
+      attributes:
+      - key: device
+        value: RR2
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.52
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.52
+        action: upsert
+    resource/SP1:
+      attributes:
+      - key: device
+        value: SP1
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.53
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.53
+        action: upsert
+    resource/SP2:
+      attributes:
+      - key: device
+        value: SP2
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.54
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.54
+        action: upsert
+    resource/SP3:
+      attributes:
+      - key: device
+        value: SP3
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.55
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.55
+        action: upsert
+    resource/SP4:
+      attributes:
+      - key: device
+        value: SP4
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.56
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.56
+        action: upsert
+    resource/SPE1:
+      attributes:
+      - key: device
+        value: SPE1
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.57
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.57
+        action: upsert
+    resource/SPE2:
+      attributes:
+      - key: device
+        value: SPE2
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.58
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.58
+        action: upsert
+    resource/SPE3:
+      attributes:
+      - key: device
+        value: SPE3
+        action: upsert
+      - key: platform
+        value: cisco_iosxe
+        action: upsert
+      - key: site
+        value: SP-Core
+        action: upsert
+      - key: management_ip
+        value: 192.168.3.59
+        action: upsert
+      - key: telemetry_source
+        value: snmp
+        action: upsert
+      - key: job
+        value: snmp
+        action: upsert
+      - key: instance
+        value: 192.168.3.59
         action: upsert
   exporters:
     otlp_http/victoriametrics:
@@ -313,12 +3861,42 @@ alternateConfig:
     extensions:
     - health_check
     pipelines:
+      metrics/BORDER1:
+        receivers:
+        - snmp/BORDER1
+        processors:
+        - memory_limiter
+        - resource/BORDER1
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
       metrics/CE1:
         receivers:
         - snmp/CE1
         processors:
         - memory_limiter
         - resource/CE1
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/CE2:
+        receivers:
+        - snmp/CE2
+        processors:
+        - memory_limiter
+        - resource/CE2
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/CE3:
+        receivers:
+        - snmp/CE3
+        processors:
+        - memory_limiter
+        - resource/CE3
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -333,6 +3911,236 @@ alternateConfig:
         exporters:
         - otlp_http/victoriametrics
         - otlp_http/snmp_history
+      metrics/DCA-Leaf02:
+        receivers:
+        - snmp/DCA-Leaf02
+        processors:
+        - memory_limiter
+        - resource/DCA-Leaf02
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCA-Leaf03:
+        receivers:
+        - snmp/DCA-Leaf03
+        processors:
+        - memory_limiter
+        - resource/DCA-Leaf03
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCA-Spine01:
+        receivers:
+        - snmp/DCA-Spine01
+        processors:
+        - memory_limiter
+        - resource/DCA-Spine01
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCA-Spine02:
+        receivers:
+        - snmp/DCA-Spine02
+        processors:
+        - memory_limiter
+        - resource/DCA-Spine02
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCB-Leaf01:
+        receivers:
+        - snmp/DCB-Leaf01
+        processors:
+        - memory_limiter
+        - resource/DCB-Leaf01
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCB-Leaf02:
+        receivers:
+        - snmp/DCB-Leaf02
+        processors:
+        - memory_limiter
+        - resource/DCB-Leaf02
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCB-Leaf03:
+        receivers:
+        - snmp/DCB-Leaf03
+        processors:
+        - memory_limiter
+        - resource/DCB-Leaf03
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCB-Spine01:
+        receivers:
+        - snmp/DCB-Spine01
+        processors:
+        - memory_limiter
+        - resource/DCB-Spine01
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCB-Spine02:
+        receivers:
+        - snmp/DCB-Spine02
+        processors:
+        - memory_limiter
+        - resource/DCB-Spine02
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCC-Leaf01:
+        receivers:
+        - snmp/DCC-Leaf01
+        processors:
+        - memory_limiter
+        - resource/DCC-Leaf01
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCC-Leaf02:
+        receivers:
+        - snmp/DCC-Leaf02
+        processors:
+        - memory_limiter
+        - resource/DCC-Leaf02
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCC-Leaf03:
+        receivers:
+        - snmp/DCC-Leaf03
+        processors:
+        - memory_limiter
+        - resource/DCC-Leaf03
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCC-Spine01:
+        receivers:
+        - snmp/DCC-Spine01
+        processors:
+        - memory_limiter
+        - resource/DCC-Spine01
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCC-Spine02:
+        receivers:
+        - snmp/DCC-Spine02
+        processors:
+        - memory_limiter
+        - resource/DCC-Spine02
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/RR1:
+        receivers:
+        - snmp/RR1
+        processors:
+        - memory_limiter
+        - resource/RR1
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/RR2:
+        receivers:
+        - snmp/RR2
+        processors:
+        - memory_limiter
+        - resource/RR2
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/SP1:
+        receivers:
+        - snmp/SP1
+        processors:
+        - memory_limiter
+        - resource/SP1
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/SP2:
+        receivers:
+        - snmp/SP2
+        processors:
+        - memory_limiter
+        - resource/SP2
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/SP3:
+        receivers:
+        - snmp/SP3
+        processors:
+        - memory_limiter
+        - resource/SP3
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/SP4:
+        receivers:
+        - snmp/SP4
+        processors:
+        - memory_limiter
+        - resource/SP4
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/SPE1:
+        receivers:
+        - snmp/SPE1
+        processors:
+        - memory_limiter
+        - resource/SPE1
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/SPE2:
+        receivers:
+        - snmp/SPE2
+        processors:
+        - memory_limiter
+        - resource/SPE2
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/SPE3:
+        receivers:
+        - snmp/SPE3
+        processors:
+        - memory_limiter
+        - resource/SPE3
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
     telemetry:
       metrics:
         readers:
@@ -342,16 +4150,146 @@ alternateConfig:
                 host: ${env:MY_POD_IP}
                 port: 8888
 extraEnvs:
+- name: SNMP_BORDER1
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_BORDER1
 - name: SNMP_CE1
   valueFrom:
     secretKeyRef:
       name: network-snmp-credentials
       key: SNMP_CE1
+- name: SNMP_CE2
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_CE2
+- name: SNMP_CE3
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_CE3
 - name: SNMP_DCA_LEAF01
   valueFrom:
     secretKeyRef:
       name: network-snmp-credentials
       key: SNMP_DCA_LEAF01
+- name: SNMP_DCA_LEAF02
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCA_LEAF02
+- name: SNMP_DCA_LEAF03
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCA_LEAF03
+- name: SNMP_DCA_SPINE01
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCA_SPINE01
+- name: SNMP_DCA_SPINE02
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCA_SPINE02
+- name: SNMP_DCB_LEAF01
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCB_LEAF01
+- name: SNMP_DCB_LEAF02
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCB_LEAF02
+- name: SNMP_DCB_LEAF03
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCB_LEAF03
+- name: SNMP_DCB_SPINE01
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCB_SPINE01
+- name: SNMP_DCB_SPINE02
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCB_SPINE02
+- name: SNMP_DCC_LEAF01
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCC_LEAF01
+- name: SNMP_DCC_LEAF02
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCC_LEAF02
+- name: SNMP_DCC_LEAF03
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCC_LEAF03
+- name: SNMP_DCC_SPINE01
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCC_SPINE01
+- name: SNMP_DCC_SPINE02
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_DCC_SPINE02
+- name: SNMP_RR1
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_RR1
+- name: SNMP_RR2
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_RR2
+- name: SNMP_SP1
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_SP1
+- name: SNMP_SP2
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_SP2
+- name: SNMP_SP3
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_SP3
+- name: SNMP_SP4
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_SP4
+- name: SNMP_SPE1
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_SPE1
+- name: SNMP_SPE2
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_SPE2
+- name: SNMP_SPE3
+  valueFrom:
+    secretKeyRef:
+      name: network-snmp-credentials
+      key: SNMP_SPE3
 serviceAccount:
   automountServiceAccountToken: false
 resources:
@@ -383,6 +4321,8 @@ ports:
     enabled: true
 rollout:
   strategy: Recreate
+podAnnotations:
+  telemetry.lab/credential-revision: 27f97f2f-57e5-45fa-a7d1-5a346994e0db
 extraManifests:
 - apiVersion: v1
   kind: ConfigMap
@@ -397,7 +4337,7 @@ extraManifests:
       : 39,\n  \"version\": 1,\n  \"editable\": false,\n  \"timezone\": \"browser\"\
       ,\n  \"refresh\": \"30s\",\n  \"time\": {\n    \"from\": \"now-1h\",\n    \"\
       to\": \"now\"\n  },\n  \"panels\": [\n    {\n      \"id\": 1,\n      \"title\"\
-      : \"Devices polled in the last 3 minutes (expected 2)\",\n      \"type\": \"\
+      : \"Devices polled in the last 3 minutes (expected 28)\",\n      \"type\": \"\
       stat\",\n      \"datasource\": {\n        \"type\": \"prometheus\",\n      \
       \  \"uid\": \"network-snmp\"\n      },\n      \"description\": \"\",\n     \
       \ \"gridPos\": {\n        \"x\": 0,\n        \"y\": 0,\n        \"w\": 12,\n\
@@ -570,6 +4510,16 @@ extraManifests:
     - name: network-snmp-freshness
       rules:
       - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="BORDER1"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: BORDER1
+        annotations:
+          summary: BORDER1 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
         expr: absent_over_time(snmp_device_uptime_ticks{device="CE1"}[3m])
         for: 2m
         labels:
@@ -578,6 +4528,25 @@ extraManifests:
         annotations:
           summary: CE1 has no fresh SNMP uptime sample
       - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="CE2"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: CE2
+        annotations:
+          summary: CE2 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="CE3"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: CE3
+        annotations:
+          summary: CE3 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
         expr: absent_over_time(snmp_device_uptime_ticks{device="DCA-Leaf01"}[3m])
         for: 2m
         labels:
@@ -585,3 +4554,210 @@ extraManifests:
           device: DCA-Leaf01
         annotations:
           summary: DCA-Leaf01 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCA-Leaf02"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCA-Leaf02
+        annotations:
+          summary: DCA-Leaf02 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCA-Leaf03"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCA-Leaf03
+        annotations:
+          summary: DCA-Leaf03 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCA-Spine01"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCA-Spine01
+        annotations:
+          summary: DCA-Spine01 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCA-Spine02"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCA-Spine02
+        annotations:
+          summary: DCA-Spine02 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCB-Leaf01"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCB-Leaf01
+        annotations:
+          summary: DCB-Leaf01 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCB-Leaf02"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCB-Leaf02
+        annotations:
+          summary: DCB-Leaf02 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCB-Leaf03"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCB-Leaf03
+        annotations:
+          summary: DCB-Leaf03 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCB-Spine01"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCB-Spine01
+        annotations:
+          summary: DCB-Spine01 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCB-Spine02"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCB-Spine02
+        annotations:
+          summary: DCB-Spine02 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCC-Leaf01"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCC-Leaf01
+        annotations:
+          summary: DCC-Leaf01 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCC-Leaf02"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCC-Leaf02
+        annotations:
+          summary: DCC-Leaf02 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCC-Leaf03"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCC-Leaf03
+        annotations:
+          summary: DCC-Leaf03 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCC-Spine01"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCC-Spine01
+        annotations:
+          summary: DCC-Spine01 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="DCC-Spine02"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: DCC-Spine02
+        annotations:
+          summary: DCC-Spine02 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="RR1"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: RR1
+        annotations:
+          summary: RR1 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="RR2"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: RR2
+        annotations:
+          summary: RR2 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="SP1"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: SP1
+        annotations:
+          summary: SP1 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="SP2"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: SP2
+        annotations:
+          summary: SP2 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="SP3"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: SP3
+        annotations:
+          summary: SP3 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="SP4"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: SP4
+        annotations:
+          summary: SP4 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="SPE1"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: SPE1
+        annotations:
+          summary: SPE1 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="SPE2"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: SPE2
+        annotations:
+          summary: SPE2 has no fresh SNMP uptime sample
+      - alert: NetworkSnmpDeviceStale
+        record: ''
+        expr: absent_over_time(snmp_device_uptime_ticks{device="SPE3"}[3m])
+        for: 2m
+        labels:
+          severity: warning
+          device: SPE3
+        annotations:
+          summary: SPE3 has no fresh SNMP uptime sample
