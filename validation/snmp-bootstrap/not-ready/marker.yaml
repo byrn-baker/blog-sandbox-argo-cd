@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wave-first-ready
-data:
-  result: prerequisite repaired

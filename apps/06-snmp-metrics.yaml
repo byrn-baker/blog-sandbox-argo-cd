@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: snmp-metrics
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  project: default
+  sources:
+    - repoURL: http://192.168.3.21:8888/helm/
+      chart: victoria-metrics-single
+      targetRevision: 0.46.0
+      helm:
+        valueFiles:
+          - $values/values/snmp-metrics-values.yaml
+    - repoURL: https://github.com/byrn-baker/blog-sandbox-argo-cd.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

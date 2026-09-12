@@ -293,6 +293,19 @@ alternateConfig:
         initial_interval: 5s
         max_interval: 30s
         max_elapsed_time: 300s
+    otlp_http/snmp_history:
+      metrics_endpoint: http://snmp-metrics.observability.svc:8428/opentelemetry/v1/metrics
+      compression: gzip
+      timeout: 15s
+      sending_queue:
+        enabled: true
+        num_consumers: 2
+        queue_size: 1000
+      retry_on_failure:
+        enabled: true
+        initial_interval: 5s
+        max_interval: 30s
+        max_elapsed_time: 300s
   extensions:
     health_check:
       endpoint: ${env:MY_POD_IP}:13133
@@ -309,6 +322,7 @@ alternateConfig:
         - batch
         exporters:
         - otlp_http/victoriametrics
+        - otlp_http/snmp_history
       metrics/DCA-Leaf01:
         receivers:
         - snmp/DCA-Leaf01
@@ -318,6 +332,7 @@ alternateConfig:
         - batch
         exporters:
         - otlp_http/victoriametrics
+        - otlp_http/snmp_history
     telemetry:
       metrics:
         readers:
@@ -369,6 +384,170 @@ ports:
 rollout:
   strategy: Recreate
 extraManifests:
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: network-snmp-dashboard
+    namespace: observability
+    labels:
+      grafana_dashboard: '1'
+  data:
+    network-snmp.json: "{\n  \"uid\": \"network-snmp\",\n  \"title\": \"Network SNMP\"\
+      ,\n  \"tags\": [\n    \"network\",\n    \"snmp\"\n  ],\n  \"schemaVersion\"\
+      : 39,\n  \"version\": 1,\n  \"editable\": false,\n  \"timezone\": \"browser\"\
+      ,\n  \"refresh\": \"30s\",\n  \"time\": {\n    \"from\": \"now-1h\",\n    \"\
+      to\": \"now\"\n  },\n  \"panels\": [\n    {\n      \"id\": 1,\n      \"title\"\
+      : \"Devices polled in the last 3 minutes (expected 2)\",\n      \"type\": \"\
+      stat\",\n      \"datasource\": {\n        \"type\": \"prometheus\",\n      \
+      \  \"uid\": \"network-snmp\"\n      },\n      \"description\": \"\",\n     \
+      \ \"gridPos\": {\n        \"x\": 0,\n        \"y\": 0,\n        \"w\": 12,\n\
+      \        \"h\": 8\n      },\n      \"targets\": [\n        {\n          \"refId\"\
+      : \"A\",\n          \"expr\": \"count(time() - timestamp(snmp_device_uptime_ticks)\
+      \ < 180) or vector(0)\",\n          \"instant\": true,\n          \"format\"\
+      : \"time_series\"\n        }\n      ],\n      \"fieldConfig\": {\n        \"\
+      defaults\": {\n          \"unit\": \"short\"\n        },\n        \"overrides\"\
+      : []\n      },\n      \"options\": {}\n    },\n    {\n      \"id\": 2,\n   \
+      \   \"title\": \"Device uptime\",\n      \"type\": \"table\",\n      \"datasource\"\
+      : {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n\
+      \      },\n      \"description\": \"SNMP sysUpTime is hundredths of a second\
+      \ and wraps after about 497 days.\",\n      \"gridPos\": {\n        \"x\": 12,\n\
+      \        \"y\": 0,\n        \"w\": 12,\n        \"h\": 8\n      },\n      \"\
+      targets\": [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"\
+      snmp_device_uptime_ticks{device=~\\\"$device\\\"} / 100\",\n          \"instant\"\
+      : true,\n          \"format\": \"table\"\n        }\n      ],\n      \"fieldConfig\"\
+      : {\n        \"defaults\": {\n          \"unit\": \"s\"\n        },\n      \
+      \  \"overrides\": []\n      },\n      \"options\": {}\n    },\n    {\n     \
+      \ \"id\": 3,\n      \"title\": \"Inbound traffic\",\n      \"type\": \"timeseries\"\
+      ,\n      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\"\
+      : \"network-snmp\"\n      },\n      \"description\": \"\",\n      \"gridPos\"\
+      : {\n        \"x\": 0,\n        \"y\": 8,\n        \"w\": 12,\n        \"h\"\
+      : 8\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n\
+      \          \"expr\": \"rate(snmp_interface_in_octets_total{device=~\\\"$device\\\
+      \",interface=~\\\"$interface\\\"}[5m]) * 8\",\n          \"instant\": false,\n\
+      \          \"format\": \"time_series\"\n        }\n      ],\n      \"fieldConfig\"\
+      : {\n        \"defaults\": {\n          \"unit\": \"bps\"\n        },\n    \
+      \    \"overrides\": []\n      },\n      \"options\": {}\n    },\n    {\n   \
+      \   \"id\": 4,\n      \"title\": \"Outbound traffic\",\n      \"type\": \"timeseries\"\
+      ,\n      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\"\
+      : \"network-snmp\"\n      },\n      \"description\": \"\",\n      \"gridPos\"\
+      : {\n        \"x\": 12,\n        \"y\": 8,\n        \"w\": 12,\n        \"h\"\
+      : 8\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n\
+      \          \"expr\": \"rate(snmp_interface_out_octets_total{device=~\\\"$device\\\
+      \",interface=~\\\"$interface\\\"}[5m]) * 8\",\n          \"instant\": false,\n\
+      \          \"format\": \"time_series\"\n        }\n      ],\n      \"fieldConfig\"\
+      : {\n        \"defaults\": {\n          \"unit\": \"bps\"\n        },\n    \
+      \    \"overrides\": []\n      },\n      \"options\": {}\n    },\n    {\n   \
+      \   \"id\": 5,\n      \"title\": \"Inbound utilization\",\n      \"type\": \"\
+      timeseries\",\n      \"datasource\": {\n        \"type\": \"prometheus\",\n\
+      \        \"uid\": \"network-snmp\"\n      },\n      \"description\": \"Uses\
+      \ reported interface speed. Virtual interface speed is not a measured forwarding\
+      \ capacity.\",\n      \"gridPos\": {\n        \"x\": 0,\n        \"y\": 16,\n\
+      \        \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\": [\n    \
+      \    {\n          \"refId\": \"A\",\n          \"expr\": \"100 * rate(snmp_interface_in_octets_total{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}[5m]) * 8 / (snmp_interface_speed_mbps{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"} * 1000000 > 0)\",\n          \"\
+      instant\": false,\n          \"format\": \"time_series\"\n        }\n      ],\n\
+      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"percent\"\
+      \n        },\n        \"overrides\": []\n      },\n      \"options\": {}\n \
+      \   },\n    {\n      \"id\": 6,\n      \"title\": \"Outbound utilization\",\n\
+      \      \"type\": \"timeseries\",\n      \"datasource\": {\n        \"type\"\
+      : \"prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"description\"\
+      : \"\",\n      \"gridPos\": {\n        \"x\": 12,\n        \"y\": 16,\n    \
+      \    \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n\
+      \          \"refId\": \"A\",\n          \"expr\": \"100 * rate(snmp_interface_out_octets_total{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}[5m]) * 8 / (snmp_interface_speed_mbps{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"} * 1000000 > 0)\",\n          \"\
+      instant\": false,\n          \"format\": \"time_series\"\n        }\n      ],\n\
+      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"percent\"\
+      \n        },\n        \"overrides\": []\n      },\n      \"options\": {}\n \
+      \   },\n    {\n      \"id\": 7,\n      \"title\": \"Inbound errors\",\n    \
+      \  \"type\": \"timeseries\",\n      \"datasource\": {\n        \"type\": \"\
+      prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"description\"\
+      : \"\",\n      \"gridPos\": {\n        \"x\": 0,\n        \"y\": 24,\n     \
+      \   \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n\
+      \          \"refId\": \"A\",\n          \"expr\": \"rate(snmp_interface_in_errors_total{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}[5m])\",\n          \"instant\"\
+      : false,\n          \"format\": \"time_series\"\n        }\n      ],\n     \
+      \ \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"ops\"\n\
+      \        },\n        \"overrides\": []\n      },\n      \"options\": {}\n  \
+      \  },\n    {\n      \"id\": 8,\n      \"title\": \"Outbound errors\",\n    \
+      \  \"type\": \"timeseries\",\n      \"datasource\": {\n        \"type\": \"\
+      prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"description\"\
+      : \"\",\n      \"gridPos\": {\n        \"x\": 12,\n        \"y\": 24,\n    \
+      \    \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n\
+      \          \"refId\": \"A\",\n          \"expr\": \"rate(snmp_interface_out_errors_total{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}[5m])\",\n          \"instant\"\
+      : false,\n          \"format\": \"time_series\"\n        }\n      ],\n     \
+      \ \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"ops\"\n\
+      \        },\n        \"overrides\": []\n      },\n      \"options\": {}\n  \
+      \  },\n    {\n      \"id\": 9,\n      \"title\": \"Inbound discards\",\n   \
+      \   \"type\": \"timeseries\",\n      \"datasource\": {\n        \"type\": \"\
+      prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"description\"\
+      : \"\",\n      \"gridPos\": {\n        \"x\": 0,\n        \"y\": 32,\n     \
+      \   \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n\
+      \          \"refId\": \"A\",\n          \"expr\": \"rate(snmp_interface_in_discards_total{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}[5m])\",\n          \"instant\"\
+      : false,\n          \"format\": \"time_series\"\n        }\n      ],\n     \
+      \ \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"ops\"\n\
+      \        },\n        \"overrides\": []\n      },\n      \"options\": {}\n  \
+      \  },\n    {\n      \"id\": 10,\n      \"title\": \"Outbound discards\",\n \
+      \     \"type\": \"timeseries\",\n      \"datasource\": {\n        \"type\":\
+      \ \"prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"description\"\
+      : \"\",\n      \"gridPos\": {\n        \"x\": 12,\n        \"y\": 32,\n    \
+      \    \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n\
+      \          \"refId\": \"A\",\n          \"expr\": \"rate(snmp_interface_out_discards_total{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}[5m])\",\n          \"instant\"\
+      : false,\n          \"format\": \"time_series\"\n        }\n      ],\n     \
+      \ \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"ops\"\n\
+      \        },\n        \"overrides\": []\n      },\n      \"options\": {}\n  \
+      \  },\n    {\n      \"id\": 11,\n      \"title\": \"Interface operational state\"\
+      ,\n      \"type\": \"table\",\n      \"datasource\": {\n        \"type\": \"\
+      prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"description\"\
+      : \"IF-MIB: 1 up, 2 down, 3 testing, 4 unknown, 5 dormant, 6 notPresent, 7 lowerLayerDown.\"\
+      ,\n      \"gridPos\": {\n        \"x\": 0,\n        \"y\": 40,\n        \"w\"\
+      : 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n       \
+      \   \"refId\": \"A\",\n          \"expr\": \"snmp_interface_oper_status{device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}\",\n          \"instant\": true,\n\
+      \          \"format\": \"table\"\n        }\n      ],\n      \"fieldConfig\"\
+      : {\n        \"defaults\": {\n          \"unit\": \"short\"\n        },\n  \
+      \      \"overrides\": []\n      },\n      \"options\": {}\n    },\n    {\n \
+      \     \"id\": 12,\n      \"title\": \"Sample age\",\n      \"type\": \"table\"\
+      ,\n      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\"\
+      : \"network-snmp\"\n      },\n      \"description\": \"Missing samples are unknown,\
+      \ not zero traffic. Devices missing over the query lookback disappear; compare\
+      \ fleet count above.\",\n      \"gridPos\": {\n        \"x\": 12,\n        \"\
+      y\": 40,\n        \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\"\
+      : [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"time() -\
+      \ timestamp(snmp_device_uptime_ticks{device=~\\\"$device\\\"})\",\n        \
+      \  \"instant\": true,\n          \"format\": \"table\"\n        }\n      ],\n\
+      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"s\"\
+      \n        },\n        \"overrides\": []\n      },\n      \"options\": {}\n \
+      \   }\n  ],\n  \"templating\": {\n    \"list\": [\n      {\n        \"name\"\
+      : \"device\",\n        \"type\": \"query\",\n        \"datasource\": {\n   \
+      \       \"type\": \"prometheus\",\n          \"uid\": \"network-snmp\"\n   \
+      \     },\n        \"query\": \"label_values(snmp_device_uptime_ticks, device)\"\
+      ,\n        \"refresh\": 1,\n        \"multi\": true,\n        \"includeAll\"\
+      : true,\n        \"allValue\": \".*\",\n        \"current\": {\n          \"\
+      text\": \"All\",\n          \"value\": \"$__all\"\n        }\n      },\n   \
+      \   {\n        \"name\": \"interface\",\n        \"type\": \"query\",\n    \
+      \    \"datasource\": {\n          \"type\": \"prometheus\",\n          \"uid\"\
+      : \"network-snmp\"\n        },\n        \"query\": \"label_values(snmp_interface_oper_status{device=~\\\
+      \"$device\\\"}, interface)\",\n        \"refresh\": 1,\n        \"multi\": true,\n\
+      \        \"includeAll\": true,\n        \"allValue\": \".*\",\n        \"current\"\
+      : {\n          \"text\": \"All\",\n          \"value\": \"$__all\"\n       \
+      \ }\n      }\n    ]\n  }\n}"
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: network-snmp-datasource
+    namespace: observability
+    labels:
+      grafana_datasource: '1'
+  data:
+    network-snmp.yaml: "apiVersion: 1\ndatasources:\n- access: proxy\n  editable:\
+      \ false\n  isDefault: false\n  jsonData:\n    httpMethod: POST\n    timeInterval:\
+      \ 60s\n  name: Network SNMP (547 days)\n  type: prometheus\n  uid: network-snmp\n\
+      \  url: http://snmp-metrics.observability.svc:8428\n"
 - apiVersion: operator.victoriametrics.com/v1beta1
   kind: VMServiceScrape
   metadata:

@@ -1,0 +1,21 @@
+# Dedicated SNMP history avoids extending the high-volume cluster metrics store.
+# Size is an initial budget, checked against measured series and ingest below.
+rbac:
+  create: false
+serviceAccount:
+  automountToken: false
+server:
+  fullnameOverride: snmp-metrics
+  retentionPeriod: 547d
+  image:
+    tag: v1.151.0
+  persistentVolume:
+    enabled: true
+    storageClassName: longhorn
+    size: 20Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 768Mi
