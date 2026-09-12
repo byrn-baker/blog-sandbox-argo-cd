@@ -35,6 +35,12 @@ vmsingle:
           storage: 20Gi
 
 grafana:
+  # Avoid reader/writer lock contention observed during dashboard provisioning.
+  grafana.ini:
+    database:
+      wal: true
+  readinessProbe:
+    timeoutSeconds: 5
   # A fresh SQLite database on replicated lab storage needs time for migrations.
   # This pinned subchart does not expose a main-container startupProbe.
   # Keep readiness active, but delay liveness so migrations can finish.
