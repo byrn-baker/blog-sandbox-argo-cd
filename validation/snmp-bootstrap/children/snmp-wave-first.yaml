@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: snmp-wave-first
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '0'
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/byrn-baker/blog-sandbox-argo-cd.git
+    targetRevision: main
+    path: validation/snmp-bootstrap/not-ready
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: snmp-wave-validation
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
