@@ -16,6 +16,7 @@ spec:
         summary: Incomplete kube-etcd monitoring
         description: Expected three successful kube-etcd targets, one per master.
           Check the local metrics DaemonSet and its remote-write queue.
+      record: ''
     - alert: LabKubeSchedulerCoverage
       expr: (sum(up{job="kube-scheduler"}) or vector(0)) < 3
       for: 5m
@@ -25,6 +26,7 @@ spec:
         summary: Incomplete kube-scheduler monitoring
         description: Expected three successful kube-scheduler targets, one per master.
           Check the local metrics DaemonSet and its remote-write queue.
+      record: ''
     - alert: LabKubeControllerManagerCoverage
       expr: (sum(up{job="kube-controller-manager"}) or vector(0)) < 3
       for: 5m
@@ -34,6 +36,7 @@ spec:
         summary: Incomplete kube-controller-manager monitoring
         description: Expected three successful kube-controller-manager targets, one
           per master. Check the local metrics DaemonSet and its remote-write queue.
+      record: ''
     - alert: LabLonghornMetricsCoverage
       expr: (sum(up{job="longhorn"}) or vector(0)) < 6
       for: 5m
@@ -43,6 +46,7 @@ spec:
         summary: Longhorn monitoring is incomplete
         description: Expected six successful manager scrapes. Check NetworkPolicy,
           endpoints and the VMServiceScrape.
+      record: ''
     - alert: LabLonghornVolumeUnhealthy
       expr: longhorn_volume_robustness{state=~"degraded|faulted|unknown"} == 1
       for: 5m
@@ -52,6 +56,7 @@ spec:
         summary: Longhorn volume is not healthy
         description: PVC {{ $labels.pvc }} is {{ $labels.state }}. Inspect replicas
           before deleting or salvaging anything.
+      record: ''
     - alert: LabLonghornReplicaError
       expr: longhorn_engine_replica_mode{mode="ERR"} == 1
       for: 5m
@@ -61,6 +66,7 @@ spec:
         summary: Longhorn engine reports a failed replica
         description: Volume {{ $labels.volume }} replica {{ $labels.replica }} is
           in ERR mode.
+      record: ''
     - alert: LabArgoMetricsCoverage
       expr: (sum(up{job=~"argocd-.*"}) or vector(0)) < 5
       for: 5m
@@ -70,6 +76,7 @@ spec:
         summary: Argo CD monitoring is incomplete
         description: Expected five component targets. Check metrics listeners and
           NetworkPolicy.
+      record: ''
     - alert: LabLonghornCSIRestarts
       expr: increase(kube_pod_container_status_restarts_total{namespace="longhorn-system",pod=~"csi-.*"}[15m])
         > 0
@@ -80,3 +87,4 @@ spec:
         summary: Longhorn CSI container restarted
         description: '{{ $labels.pod }} / {{ $labels.container }} restarted. Correlate
           its previous logs with API latency and etcd metrics.'
+      record: ''

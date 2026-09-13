@@ -5,6 +5,7 @@ resources:
 - longhorn.yaml
 - argocd.yaml
 - rules.yaml
+- dashboard-migration.yaml
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:

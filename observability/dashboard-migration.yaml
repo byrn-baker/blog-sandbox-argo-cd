@@ -1,0 +1,160 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: migrate-dashboard-folders
+  namespace: observability
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: migrate-dashboard-folders
+  namespace: observability
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  resourceNames:
+  - victoria-metrics-k8s-stack-dashboard-alertmanager-overview
+  - victoria-metrics-k8s-stack-dashboard-apiserver
+  - victoria-metrics-k8s-stack-dashboard-cluster-total
+  - victoria-metrics-k8s-stack-dashboard-controller-manager
+  - victoria-metrics-k8s-stack-dashboard-etcd
+  - victoria-metrics-k8s-stack-dashboard-grafana-overview
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-cluster
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-multicluster
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-namespace
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-node
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-nodes-overview
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-pod
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-windows-cluster
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-windows-namespace
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-windows-pod
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-workload
+  - victoria-metrics-k8s-stack-dashboard-k8s-resources-workloads-namespace
+  - victoria-metrics-k8s-stack-dashboard-k8s-windows-cluster-rsrc-use
+  - victoria-metrics-k8s-stack-dashboard-k8s-windows-node-rsrc-use
+  - victoria-metrics-k8s-stack-dashboard-kubelet
+  - victoria-metrics-k8s-stack-dashboard-kubernetes-system-api-server
+  - victoria-metrics-k8s-stack-dashboard-kubernetes-system-coredns
+  - victoria-metrics-k8s-stack-dashboard-kubernetes-views-global
+  - victoria-metrics-k8s-stack-dashboard-kubernetes-views-namespaces
+  - victoria-metrics-k8s-stack-dashboard-kubernetes-views-nodes
+  - victoria-metrics-k8s-stack-dashboard-kubernetes-views-pods
+  - victoria-metrics-k8s-stack-dashboard-namespace-by-pod
+  - victoria-metrics-k8s-stack-dashboard-namespace-by-workload
+  - victoria-metrics-k8s-stack-dashboard-node-cluster-rsrc-use
+  - victoria-metrics-k8s-stack-dashboard-node-exporter-full
+  - victoria-metrics-k8s-stack-dashboard-node-rsrc-use
+  - victoria-metrics-k8s-stack-dashboard-nodes
+  - victoria-metrics-k8s-stack-dashboard-nodes-aix
+  - victoria-metrics-k8s-stack-dashboard-nodes-darwin
+  - victoria-metrics-k8s-stack-dashboard-persistentvolumesusage
+  - victoria-metrics-k8s-stack-dashboard-pod-total
+  - victoria-metrics-k8s-stack-dashboard-prometheus
+  - victoria-metrics-k8s-stack-dashboard-prometheus-remote-write
+  - victoria-metrics-k8s-stack-dashboard-scheduler
+  - victoria-metrics-k8s-stack-dashboard-victoriametrics-operator
+  - victoria-metrics-k8s-stack-dashboard-victoriametrics-single-node
+  - victoria-metrics-k8s-stack-dashboard-victoriametrics-vmagent
+  - victoria-metrics-k8s-stack-dashboard-victoriametrics-vmalert
+  - victoria-metrics-k8s-stack-dashboard-workload-total
+  verbs:
+  - get
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: migrate-dashboard-folders
+  namespace: observability
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: migrate-dashboard-folders
+subjects:
+- kind: ServiceAccount
+  name: migrate-dashboard-folders
+  namespace: observability
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate-dashboard-folders
+  namespace: observability
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/sync-wave: '1'
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  backoffLimit: 2
+  activeDeadlineSeconds: 300
+  template:
+    spec:
+      serviceAccountName: migrate-dashboard-folders
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+      containers:
+      - name: cleanup
+        image: quay.io/kiwigrid/k8s-sidecar:2.8.1
+        command:
+        - python3
+        - -c
+        - "import json, ssl, urllib.request, urllib.error, pathlib, os\nnames = ['victoria-metrics-k8s-stack-dashboard-alertmanager-overview',\
+          \ 'victoria-metrics-k8s-stack-dashboard-apiserver', 'victoria-metrics-k8s-stack-dashboard-cluster-total',\
+          \ 'victoria-metrics-k8s-stack-dashboard-controller-manager', 'victoria-metrics-k8s-stack-dashboard-etcd',\
+          \ 'victoria-metrics-k8s-stack-dashboard-grafana-overview', 'victoria-metrics-k8s-stack-dashboard-k8s-resources-cluster',\
+          \ 'victoria-metrics-k8s-stack-dashboard-k8s-resources-multicluster', 'victoria-metrics-k8s-stack-dashboard-k8s-resources-namespace',\
+          \ 'victoria-metrics-k8s-stack-dashboard-k8s-resources-node', 'victoria-metrics-k8s-stack-dashboard-k8s-resources-nodes-overview',\
+          \ 'victoria-metrics-k8s-stack-dashboard-k8s-resources-pod', 'victoria-metrics-k8s-stack-dashboard-k8s-resources-windows-cluster',\
+          \ 'victoria-metrics-k8s-stack-dashboard-k8s-resources-windows-namespace',\
+          \ 'victoria-metrics-k8s-stack-dashboard-k8s-resources-windows-pod', 'victoria-metrics-k8s-stack-dashboard-k8s-resources-workload',\
+          \ 'victoria-metrics-k8s-stack-dashboard-k8s-resources-workloads-namespace',\
+          \ 'victoria-metrics-k8s-stack-dashboard-k8s-windows-cluster-rsrc-use', 'victoria-metrics-k8s-stack-dashboard-k8s-windows-node-rsrc-use',\
+          \ 'victoria-metrics-k8s-stack-dashboard-kubelet', 'victoria-metrics-k8s-stack-dashboard-kubernetes-system-api-server',\
+          \ 'victoria-metrics-k8s-stack-dashboard-kubernetes-system-coredns', 'victoria-metrics-k8s-stack-dashboard-kubernetes-views-global',\
+          \ 'victoria-metrics-k8s-stack-dashboard-kubernetes-views-namespaces', 'victoria-metrics-k8s-stack-dashboard-kubernetes-views-nodes',\
+          \ 'victoria-metrics-k8s-stack-dashboard-kubernetes-views-pods', 'victoria-metrics-k8s-stack-dashboard-namespace-by-pod',\
+          \ 'victoria-metrics-k8s-stack-dashboard-namespace-by-workload', 'victoria-metrics-k8s-stack-dashboard-node-cluster-rsrc-use',\
+          \ 'victoria-metrics-k8s-stack-dashboard-node-exporter-full', 'victoria-metrics-k8s-stack-dashboard-node-rsrc-use',\
+          \ 'victoria-metrics-k8s-stack-dashboard-nodes', 'victoria-metrics-k8s-stack-dashboard-nodes-aix',\
+          \ 'victoria-metrics-k8s-stack-dashboard-nodes-darwin', 'victoria-metrics-k8s-stack-dashboard-persistentvolumesusage',\
+          \ 'victoria-metrics-k8s-stack-dashboard-pod-total', 'victoria-metrics-k8s-stack-dashboard-prometheus',\
+          \ 'victoria-metrics-k8s-stack-dashboard-prometheus-remote-write', 'victoria-metrics-k8s-stack-dashboard-scheduler',\
+          \ 'victoria-metrics-k8s-stack-dashboard-victoriametrics-operator', 'victoria-metrics-k8s-stack-dashboard-victoriametrics-single-node',\
+          \ 'victoria-metrics-k8s-stack-dashboard-victoriametrics-vmagent', 'victoria-metrics-k8s-stack-dashboard-victoriametrics-vmalert',\
+          \ 'victoria-metrics-k8s-stack-dashboard-workload-total']\nbase = \"https://kubernetes.default.svc/api/v1/namespaces/observability/configmaps/\"\
+          \ntoken = pathlib.Path(\"/var/run/secrets/kubernetes.io/serviceaccount/token\"\
+          ).read_text().strip()\nctx = ssl.create_default_context(cafile=\"/var/run/secrets/kubernetes.io/serviceaccount/ca.crt\"\
+          )\ndef call(name, method=\"GET\", data=None):\n    request = urllib.request.Request(base\
+          \ + name, method=method, data=data, headers={\"Authorization\": \"Bearer\
+          \ \" + token, \"Content-Type\": \"application/json\"})\n    try:\n     \
+          \   with urllib.request.urlopen(request, context=ctx, timeout=20) as response:\n\
+          \            return json.load(response)\n    except urllib.error.HTTPError\
+          \ as error:\n        if error.code == 404:\n            return None\n  \
+          \      raise RuntimeError(\"Kubernetes API returned HTTP \" + str(error.code))\
+          \ from None\nfor name in names:\n    obj = call(name)\n    if obj is None:\n\
+          \        continue\n    labels = obj[\"metadata\"].get(\"labels\", {})\n\
+          \    if labels.get(\"app.kubernetes.io/managed-by\") != \"sync-job\" or\
+          \ labels.get(\"app.kubernetes.io/instance\") != \"victoria-metrics-k8s-stack\"\
+          :\n        raise RuntimeError(\"Refusing to delete a ConfigMap with unexpected\
+          \ ownership: \" + name)\n    body = {\"apiVersion\":\"v1\", \"kind\":\"\
+          DeleteOptions\", \"preconditions\":{\"uid\":obj[\"metadata\"][\"uid\"],\
+          \ \"resourceVersion\":obj[\"metadata\"][\"resourceVersion\"]}}\n    call(name,\
+          \ \"DELETE\", json.dumps(body).encode())\n    print(\"Removed obsolete dashboard\
+          \ ConfigMap\", name, flush=True)\nprint(\"Dashboard migration cleanup complete\"\
+          , flush=True)\n"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            memory: 96Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL

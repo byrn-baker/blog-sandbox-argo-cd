@@ -14,8 +14,10 @@ alerts and Grafana dashboard folders. Changes deploy through Git and Argo CD.
 The existing upstream dashboards are pinned from the previously provisioned
 ConfigMaps. `dashboard-provenance.json` records their original names and UIDs.
 Their JSON, queries and UIDs are preserved. The chart's dashboard downloader is
-disabled; its rule synchronization remains enabled. The sync job prunes its old
-dashboard ConfigMaps after this migration. Windows, AIX, macOS, multi-cluster and
+disabled; its rule synchronization remains enabled. The chart sync job does not prune old dashboard ConfigMaps when all dashboard
+sources are disabled. `dashboard-migration.yaml` removes only the 44 explicitly
+named obsolete ConfigMaps, checking their sync-job ownership and Kubernetes UID
+before deletion. Its idempotent Argo hook cannot delete the new dashboards. Windows, AIX, macOS, multi-cluster and
 Prometheus-server dashboards were omitted because those systems are not deployed.
 Review pinned dashboards when upgrading the stack rather than silently fetching
 new JSON on every deployment.
@@ -48,7 +50,8 @@ on ephemeral storage; pod replacement can lose queued samples. This is not a
 lossless event archive.
 
 The empty chart Service scrapes are removed while their standard alert rules
-remain enabled. Extra coverage rules expect three healthy targets for each
+remain enabled. The VMRule source includes the empty `record` field added by the operator so
+Argo does not continually detect false drift. Extra coverage rules expect three healthy targets for each
 control-plane job. Missing agents must not turn into a falsely healthy empty
 query.
 
