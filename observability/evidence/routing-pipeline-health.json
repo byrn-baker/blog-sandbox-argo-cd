@@ -1,0 +1,87 @@
+{
+  "sum(otelcol_exporter_queue_size)": [
+    {
+      "metric": {},
+      "value": [
+        1789319333,
+        "0"
+      ]
+    }
+  ],
+  "sum(otelcol_receiver_failed_metric_points)": [
+    {
+      "metric": {},
+      "value": [
+        1789319333,
+        "0"
+      ]
+    }
+  ],
+  "sum(otelcol_receiver_refused_metric_points)": [
+    {
+      "metric": {},
+      "value": [
+        1789319333,
+        "0"
+      ]
+    }
+  ],
+  "sum(otelcol_scraper_errored_metric_points)": [
+    {
+      "metric": {},
+      "value": [
+        1789319333,
+        "0"
+      ]
+    }
+  ],
+  "vmalert_config_last_reload_successful": [
+    {
+      "metric": {
+        "__name__": "vmalert_config_last_reload_successful",
+        "container": "vmalert",
+        "endpoint": "http",
+        "instance": "10.42.8.11:8080",
+        "job": "vmalert-victoria-metrics-k8s-stack",
+        "namespace": "observability",
+        "pod": "vmalert-victoria-metrics-k8s-stack-78689f75d9-cphs5",
+        "prometheus": "observability/victoria-metrics-k8s-stack",
+        "service": "vmalert-victoria-metrics-k8s-stack",
+        "victoriametrics_app": "true"
+      },
+      "value": [
+        1789319333,
+        "1"
+      ]
+    }
+  ],
+  "sum(vmalert_alerting_rules_errors_total{group=\"lab-routing-health\"})": [
+    {
+      "metric": {},
+      "value": [
+        1789319333,
+        "0"
+      ]
+    }
+  ],
+  "count(vmalert_alerting_rules_errors_total{group=\"lab-routing-health\"})": [
+    {
+      "metric": {},
+      "value": [
+        1789319334,
+        "47"
+      ]
+    }
+  ],
+  "routing_rules": {
+    "count": 47,
+    "all_healthy": true,
+    "all_inactive": true
+  },
+  "folders": {
+    "Observability": 7,
+    "K3s": 28,
+    "Storage": 2,
+    "Network": 2
+  }
+}

@@ -1,0 +1,316 @@
+[
+  {
+    "device": "BORDER1",
+    "bgp_cli_peers": 2,
+    "bgp_snmp_peers": 2,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 2,
+    "isis_snmp": 2,
+    "bfd_cli": 2,
+    "bfd_snmp_application_rows": 4
+  },
+  {
+    "device": "CE1",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "CE2",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "CE3",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCA-Leaf01",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCA-Leaf02",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCA-Leaf03",
+    "bgp_cli_peers": 5,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [
+      "10.1.1.17"
+    ],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCA-Spine01",
+    "bgp_cli_peers": 11,
+    "bgp_snmp_peers": 11,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCA-Spine02",
+    "bgp_cli_peers": 11,
+    "bgp_snmp_peers": 11,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCB-Leaf01",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCB-Leaf02",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCB-Leaf03",
+    "bgp_cli_peers": 5,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [
+      "10.1.2.17"
+    ],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCB-Spine01",
+    "bgp_cli_peers": 11,
+    "bgp_snmp_peers": 11,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCB-Spine02",
+    "bgp_cli_peers": 11,
+    "bgp_snmp_peers": 11,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCC-Leaf01",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCC-Leaf02",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCC-Leaf03",
+    "bgp_cli_peers": 5,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [
+      "10.1.3.17"
+    ],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCC-Spine01",
+    "bgp_cli_peers": 11,
+    "bgp_snmp_peers": 11,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "DCC-Spine02",
+    "bgp_cli_peers": 11,
+    "bgp_snmp_peers": 11,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 0,
+    "isis_snmp": 0,
+    "bfd_cli": 0,
+    "bfd_snmp_application_rows": 0
+  },
+  {
+    "device": "RR1",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 1,
+    "isis_snmp": 1,
+    "bfd_cli": 1,
+    "bfd_snmp_application_rows": 2
+  },
+  {
+    "device": "RR2",
+    "bgp_cli_peers": 4,
+    "bgp_snmp_peers": 4,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 1,
+    "isis_snmp": 1,
+    "bfd_cli": 1,
+    "bfd_snmp_application_rows": 2
+  },
+  {
+    "device": "SP1",
+    "bgp_cli_peers": 0,
+    "bgp_snmp_peers": 0,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 5,
+    "isis_snmp": 5,
+    "bfd_cli": 5,
+    "bfd_snmp_application_rows": 10
+  },
+  {
+    "device": "SP2",
+    "bgp_cli_peers": 0,
+    "bgp_snmp_peers": 0,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 5,
+    "isis_snmp": 5,
+    "bfd_cli": 5,
+    "bfd_snmp_application_rows": 10
+  },
+  {
+    "device": "SP3",
+    "bgp_cli_peers": 0,
+    "bgp_snmp_peers": 0,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 4,
+    "isis_snmp": 4,
+    "bfd_cli": 4,
+    "bfd_snmp_application_rows": 8
+  },
+  {
+    "device": "SP4",
+    "bgp_cli_peers": 0,
+    "bgp_snmp_peers": 0,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 4,
+    "isis_snmp": 4,
+    "bfd_cli": 4,
+    "bfd_snmp_application_rows": 8
+  },
+  {
+    "device": "SPE1",
+    "bgp_cli_peers": 3,
+    "bgp_snmp_peers": 3,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 2,
+    "isis_snmp": 2,
+    "bfd_cli": 2,
+    "bfd_snmp_application_rows": 4
+  },
+  {
+    "device": "SPE2",
+    "bgp_cli_peers": 3,
+    "bgp_snmp_peers": 3,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 2,
+    "isis_snmp": 2,
+    "bfd_cli": 2,
+    "bfd_snmp_application_rows": 4
+  },
+  {
+    "device": "SPE3",
+    "bgp_cli_peers": 3,
+    "bgp_snmp_peers": 3,
+    "bgp_matches_cli": true,
+    "cli_peers_not_in_default_snmp_context": [],
+    "isis_cli": 2,
+    "isis_snmp": 2,
+    "bfd_cli": 2,
+    "bfd_snmp_application_rows": 4
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "observed_at": "2026-09-13T17:05:49.745763+00:00",
+    "stores": {
+      "network-snmp": {
+        "counts": {
+          "bgp": 133,
+          "bgp_uptime": 133,
+          "bgp_transitions": 133,
+          "isis": 28,
+          "bfd": 56,
+          "uptime": 28
+        },
+        "bfd_distinct_cli_discriminators": 28,
+        "all_expected_states_up": true,
+        "fresh_devices_under_180_seconds": [
+          {
+            "metric": {},
+            "value": [
+              1789319151,
+              "28"
+            ]
+          }
+        ]
+      },
+      "VictoriaMetrics": {
+        "counts": {
+          "bgp": 133,
+          "bgp_uptime": 133,
+          "bgp_transitions": 133,
+          "isis": 28,
+          "bfd": 56,
+          "uptime": 28
+        },
+        "bfd_distinct_cli_discriminators": 28,
+        "all_expected_states_up": true,
+        "fresh_devices_under_180_seconds": [
+          {
+            "metric": {},
+            "value": [
+              1789319152,
+              "28"
+            ]
+          }
+        ]
+      }
+    },
+    "dashboard": {
+      "folder": "Network",
+      "panels_with_data": 15,
+      "isis_interface_names_match_cli": true
+    },
+    "coverage_limitations": [
+      "Three Leaf03 SERVERS-VRF peers absent from default SNMP tables",
+      "BFD interface mapping omitted because reported indices disagree with IF-MIB",
+      "No routing trap/syslog receiver or external alert notification delivery verified"
+    ]
+  },
+  {
+    "observed_at": "2026-09-13T17:08:12.722051+00:00",
+    "stores": {
+      "network-snmp": {
+        "counts": {
+          "bgp": 133,
+          "bgp_uptime": 133,
+          "bgp_transitions": 133,
+          "isis": 28,
+          "bfd": 56,
+          "uptime": 28
+        },
+        "bfd_distinct_cli_discriminators": 28,
+        "all_expected_states_up": true,
+        "fresh_devices_under_180_seconds": [
+          {
+            "metric": {},
+            "value": [
+              1789319296,
+              "28"
+            ]
+          }
+        ]
+      },
+      "VictoriaMetrics": {
+        "counts": {
+          "bgp": 133,
+          "bgp_uptime": 133,
+          "bgp_transitions": 133,
+          "isis": 28,
+          "bfd": 56,
+          "uptime": 28
+        },
+        "bfd_distinct_cli_discriminators": 28,
+        "all_expected_states_up": true,
+        "fresh_devices_under_180_seconds": [
+          {
+            "metric": {},
+            "value": [
+              1789319298,
+              "28"
+            ]
+          }
+        ]
+      }
+    },
+    "dashboard": {
+      "folder": "Network",
+      "panels_with_data": 15,
+      "isis_interface_names_match_cli": true
+    },
+    "coverage_limitations": [
+      "Three Leaf03 SERVERS-VRF peers absent from default SNMP tables",
+      "BFD interface mapping omitted because reported indices disagree with IF-MIB",
+      "No routing trap/syslog receiver or external alert notification delivery verified"
+    ]
+  }
+]
