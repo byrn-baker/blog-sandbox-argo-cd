@@ -6,6 +6,7 @@ resources:
 - argocd.yaml
 - rules.yaml
 - dashboard-migration.yaml
+- routing-rules.yaml
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
@@ -341,4 +342,13 @@ configMapGenerator:
       grafana_dashboard: '1'
     annotations:
       grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability
+- name: lab-dashboard-network-routing
+  files:
+  - dashboards/Network/network-routing.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Network
   namespace: observability

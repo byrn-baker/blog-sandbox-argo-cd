@@ -1,0 +1,967 @@
+{
+  "uid": "network-routing",
+  "title": "Network Routing",
+  "schemaVersion": 39,
+  "version": 1,
+  "tags": [
+    "network",
+    "snmp",
+    "routing"
+  ],
+  "editable": false,
+  "timezone": "browser",
+  "refresh": "1m",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "description": "Polled routing health via OpenTelemetry SNMP. State and BGP transitions, not a trap/syslog event archive. Missing peers are checked separately by coverage alerts.",
+  "templating": {
+    "list": [
+      {
+        "name": "device",
+        "label": "Device",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "network-snmp"
+        },
+        "definition": "label_values(snmp_interface_oper_status{job=\"snmp\"},device)",
+        "query": {
+          "query": "label_values(snmp_interface_oper_status{job=\"snmp\"},device)",
+          "refId": "device"
+        },
+        "refresh": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "BGP peers",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "description": "Observed rows in the selected devices. Fleet baseline: 133 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"}) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 2,
+      "title": "BGP peers not up",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 4,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "description": "Counts reported non-up states. Missing rows require the coverage checks below.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"} != 6) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 3,
+      "title": "IS-IS adjacencies",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "description": "Observed rows in the selected devices. Fleet baseline: 133 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(snmp_isis_adjacency_state{job=\"snmp\",device=~\"$device\"}) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 4,
+      "title": "IS-IS adjacencies not up",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "description": "Counts reported non-up states. Missing rows require the coverage checks below.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(snmp_isis_adjacency_state{job=\"snmp\",device=~\"$device\"} != 3) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Cisco BFD application rows",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "description": "Observed rows in the selected devices. Fleet baseline: 133 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(snmp_bfd_session_state{local_discriminator!=\"\",job=\"snmp\",device=~\"$device\"}) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 6,
+      "title": "Cisco BFD application rows not up",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "description": "Counts reported non-up states. Missing rows require the coverage checks below.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(snmp_bfd_session_state{local_discriminator!=\"\",job=\"snmp\",device=~\"$device\"} != 4) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 7,
+      "title": "BGP peers",
+      "type": "table",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 24,
+        "h": 10
+      },
+      "description": "IPv4 peer transports in the default SNMP context. This table does not inventory VPNv4, EVPN, IPv6 address families or per-VRF prefixes. Three SERVERS-VRF peers on the Leaf03 devices are absent from these SNMP tables. Their sessions require separate VRF-aware collection.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max by(device,peer,remote_as)(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"})",
+          "instant": true,
+          "range": false,
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "State"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "1": {
+                        "text": "Idle",
+                        "color": "red"
+                      },
+                      "2": {
+                        "text": "Connect",
+                        "color": "red"
+                      },
+                      "3": {
+                        "text": "Active",
+                        "color": "red"
+                      },
+                      "4": {
+                        "text": "OpenSent",
+                        "color": "red"
+                      },
+                      "5": {
+                        "text": "OpenConfirm",
+                        "color": "red"
+                      },
+                      "6": {
+                        "text": "Established",
+                        "color": "green"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "sortBy": [
+          {
+            "displayName": "Device",
+            "desc": false
+          }
+        ]
+      },
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "peer",
+                "remote_as",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "device": 0,
+              "peer": 1,
+              "remote_as": 2,
+              "Value": 3
+            },
+            "renameByName": {
+              "device": "Device",
+              "peer": "Peer address",
+              "remote_as": "Remote AS",
+              "Value": "State"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "IS-IS adjacencies by interface",
+      "type": "table",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Circuit indices are joined dynamically to IF-MIB so interfaces match the router CLI. Multiple neighbors on a shared interface remain separate rows.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max by(device,interface,isis_adjacency)(label_replace(snmp_isis_adjacency_state{job=\"snmp\",device=~\"$device\"}, \"circuit_id\", \"circuit.$1\", \"isis_adjacency\", \"adj[.]([0-9]+)[.].*\") * on(device,circuit_id) group_left(if_index) max by(device,circuit_id,if_index)(snmp_isis_circuit_if_index{job=\"snmp\"} > bool 0) * on(device,if_index) group_left(interface) max by(device,if_index,interface)(snmp_interface_oper_status{job=\"snmp\",if_type!=\"\",if_type!=\"166\"} > bool 0))",
+          "instant": true,
+          "range": false,
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "State"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "1": {
+                        "text": "Down",
+                        "color": "red"
+                      },
+                      "2": {
+                        "text": "Initializing",
+                        "color": "red"
+                      },
+                      "3": {
+                        "text": "Up",
+                        "color": "green"
+                      },
+                      "4": {
+                        "text": "Failed",
+                        "color": "red"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "sortBy": [
+          {
+            "displayName": "Device",
+            "desc": false
+          }
+        ]
+      },
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "interface",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "device": 0,
+              "interface": 1,
+              "Value": 2
+            },
+            "renameByName": {
+              "device": "Device",
+              "interface": "Interface",
+              "Value": "State"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Cisco BFD state by local discriminator",
+      "type": "table",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 14,
+        "w": 12,
+        "h": 10
+      },
+      "description": "The local discriminator is the LD column in show bfd neighbors. The image exports two application rows per live session (IDs 9 and 15). Its interface indices disagree with IF-MIB, so no interface names are inferred here.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max by(device,local_discriminator,application_id)(snmp_bfd_session_state{local_discriminator!=\"\",job=\"snmp\",device=~\"$device\"})",
+          "instant": true,
+          "range": false,
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "State"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "1": {
+                        "text": "AdminDown",
+                        "color": "red"
+                      },
+                      "2": {
+                        "text": "Down",
+                        "color": "red"
+                      },
+                      "3": {
+                        "text": "Init",
+                        "color": "red"
+                      },
+                      "4": {
+                        "text": "Up",
+                        "color": "green"
+                      },
+                      "5": {
+                        "text": "Failing",
+                        "color": "red"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "sortBy": [
+          {
+            "displayName": "Device",
+            "desc": false
+          }
+        ]
+      },
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "local_discriminator",
+                "application_id",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "device": 0,
+              "local_discriminator": 1,
+              "application_id": 2,
+              "Value": 3
+            },
+            "renameByName": {
+              "device": "Device",
+              "local_discriminator": "Local discriminator (LD)",
+              "application_id": "Application ID",
+              "Value": "State"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "BGP time established",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Seconds since this peer entered Established. A reset helps locate a flap.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "snmp_bgp_peer_uptime_seconds{job=\"snmp\",device=~\"$device\"}",
+          "instant": false,
+          "range": true,
+          "format": "time_series",
+          "legendFormat": "{{device}} to {{peer}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 11,
+      "title": "BGP entries into Established in 15 minutes",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Transitions into Established can expose a recovered flap between polls. A counter reset or a gap still needs investigation.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(snmp_bgp_peer_established_transitions_total{job=\"snmp\",device=~\"$device\"}[15m])",
+          "instant": false,
+          "range": true,
+          "format": "time_series",
+          "legendFormat": "{{device}} to {{peer}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 12,
+      "title": "IS-IS rows without interface mapping",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "description": "Must be zero when adjacency rows exist. A nonzero value indicates a failed interface mapping.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(count(snmp_isis_adjacency_state{job=\"snmp\",device=~\"$device\"}) or vector(0)) - (count(label_replace(snmp_isis_adjacency_state{job=\"snmp\",device=~\"$device\"}, \"circuit_id\", \"circuit.$1\", \"isis_adjacency\", \"adj[.]([0-9]+)[.].*\") * on(device,circuit_id) group_left(if_index) max by(device,circuit_id,if_index)(snmp_isis_circuit_if_index{job=\"snmp\"} > bool 0) * on(device,if_index) group_left(interface) max by(device,if_index,interface)(snmp_interface_oper_status{job=\"snmp\",if_type!=\"\",if_type!=\"166\"} > bool 0)) or vector(0))",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 13,
+      "title": "Distinct Cisco BFD sessions",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 6,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "description": "28 local discriminators across the full core, matching show bfd neighbors. Application rows are retained separately in the table above.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(count by(device,local_discriminator)(snmp_bfd_session_state{local_discriminator!=\"\",job=\"snmp\",device=~\"$device\"})) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 14,
+      "title": "Devices with BGP data",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "description": "Full-fleet baseline is 24. The four P routers have no BGP by design.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(count by(device)(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"})) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    },
+    {
+      "id": 15,
+      "title": "Devices with IS-IS data",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 18,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "description": "Full-fleet baseline is 10 Cisco core routers.",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(count by(device)(snmp_isis_adjacency_state{job=\"snmp\",device=~\"$device\"})) or vector(0)",
+          "instant": true,
+          "range": false,
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      }
+    }
+  ]
+}

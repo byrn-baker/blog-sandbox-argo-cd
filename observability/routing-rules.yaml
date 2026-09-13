@@ -1,0 +1,606 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: lab-routing-health
+  namespace: observability
+spec:
+  groups:
+  - name: lab-routing-health
+    rules:
+    - alert: LabBGPNotUp
+      expr: snmp_bgp_peer_state{job="snmp"} != 6
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: BGP reports a non-up state
+        description: '{{ $labels.device }} reports state {{ $value }}. Inspect routing
+          in the CLI; polling does not provide the reason for this transition.'
+      record: ''
+    - alert: LabISISNotUp
+      expr: snmp_isis_adjacency_state{job="snmp"} != 3
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: ISIS reports a non-up state
+        description: '{{ $labels.device }} reports state {{ $value }}. Inspect routing
+          in the CLI; polling does not provide the reason for this transition.'
+      record: ''
+    - alert: LabBFDNotUp
+      expr: snmp_bfd_session_state{job="snmp"} != 4
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: BFD reports a non-up state
+        description: '{{ $labels.device }} reports state {{ $value }}. Inspect routing
+          in the CLI; polling does not provide the reason for this transition.'
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="BORDER1"}) or vector(0))
+        < 2
+      for: 5m
+      labels:
+        severity: warning
+        device: BORDER1
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 2 BGP rows on BORDER1. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="BORDER1"}) or vector(0))
+        < 2
+      for: 5m
+      labels:
+        severity: warning
+        device: BORDER1
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 2 ISIS rows on BORDER1. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="BORDER1"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: BORDER1
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 4 BFD rows on BORDER1. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="CE1"}) or vector(0)) < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: CE1
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on CE1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="CE2"}) or vector(0)) < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: CE2
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on CE2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="CE3"}) or vector(0)) < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: CE3
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on CE3. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Leaf01"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCA-Leaf01
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCA-Leaf01. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Leaf02"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCA-Leaf02
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCA-Leaf02. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Leaf03"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCA-Leaf03
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCA-Leaf03. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Spine01"}) or vector(0))
+        < 11
+      for: 5m
+      labels:
+        severity: warning
+        device: DCA-Spine01
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 11 BGP rows on DCA-Spine01. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Spine02"}) or vector(0))
+        < 11
+      for: 5m
+      labels:
+        severity: warning
+        device: DCA-Spine02
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 11 BGP rows on DCA-Spine02. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf01"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCB-Leaf01
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCB-Leaf01. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf02"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCB-Leaf02
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCB-Leaf02. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf03"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCB-Leaf03
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCB-Leaf03. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Spine01"}) or vector(0))
+        < 11
+      for: 5m
+      labels:
+        severity: warning
+        device: DCB-Spine01
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 11 BGP rows on DCB-Spine01. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Spine02"}) or vector(0))
+        < 11
+      for: 5m
+      labels:
+        severity: warning
+        device: DCB-Spine02
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 11 BGP rows on DCB-Spine02. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf01"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCC-Leaf01
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCC-Leaf01. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf02"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCC-Leaf02
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCC-Leaf02. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf03"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: DCC-Leaf03
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on DCC-Leaf03. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Spine01"}) or vector(0))
+        < 11
+      for: 5m
+      labels:
+        severity: warning
+        device: DCC-Spine01
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 11 BGP rows on DCC-Spine01. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Spine02"}) or vector(0))
+        < 11
+      for: 5m
+      labels:
+        severity: warning
+        device: DCC-Spine02
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 11 BGP rows on DCC-Spine02. Check missing peers,
+          SNMP access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="RR1"}) or vector(0)) < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: RR1
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on RR1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="RR1"}) or vector(0))
+        < 1
+      for: 5m
+      labels:
+        severity: warning
+        device: RR1
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 1 ISIS rows on RR1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="RR1"}) or vector(0))
+        < 2
+      for: 5m
+      labels:
+        severity: warning
+        device: RR1
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 2 BFD rows on RR1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="RR2"}) or vector(0)) < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: RR2
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 4 BGP rows on RR2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="RR2"}) or vector(0))
+        < 1
+      for: 5m
+      labels:
+        severity: warning
+        device: RR2
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 1 ISIS rows on RR2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="RR2"}) or vector(0))
+        < 2
+      for: 5m
+      labels:
+        severity: warning
+        device: RR2
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 2 BFD rows on RR2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="SP1"}) or vector(0))
+        < 5
+      for: 5m
+      labels:
+        severity: warning
+        device: SP1
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 5 ISIS rows on SP1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="SP1"}) or vector(0))
+        < 10
+      for: 5m
+      labels:
+        severity: warning
+        device: SP1
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 10 BFD rows on SP1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="SP2"}) or vector(0))
+        < 5
+      for: 5m
+      labels:
+        severity: warning
+        device: SP2
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 5 ISIS rows on SP2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="SP2"}) or vector(0))
+        < 10
+      for: 5m
+      labels:
+        severity: warning
+        device: SP2
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 10 BFD rows on SP2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="SP3"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: SP3
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 4 ISIS rows on SP3. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="SP3"}) or vector(0))
+        < 8
+      for: 5m
+      labels:
+        severity: warning
+        device: SP3
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 8 BFD rows on SP3. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="SP4"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: SP4
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 4 ISIS rows on SP4. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="SP4"}) or vector(0))
+        < 8
+      for: 5m
+      labels:
+        severity: warning
+        device: SP4
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 8 BFD rows on SP4. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="SPE1"}) or vector(0)) <
+        3
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE1
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 3 BGP rows on SPE1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="SPE1"}) or vector(0))
+        < 2
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE1
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 2 ISIS rows on SPE1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="SPE1"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE1
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 4 BFD rows on SPE1. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="SPE2"}) or vector(0)) <
+        3
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE2
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 3 BGP rows on SPE2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="SPE2"}) or vector(0))
+        < 2
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE2
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 2 ISIS rows on SPE2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="SPE2"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE2
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 4 BFD rows on SPE2. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBGPCoverage
+      expr: (count(snmp_bgp_peer_state{job="snmp",device="SPE3"}) or vector(0)) <
+        3
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE3
+      annotations:
+        summary: BGP polling has fewer rows than the verified baseline
+        description: Expected at least 3 BGP rows on SPE3. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabISISCoverage
+      expr: (count(snmp_isis_adjacency_state{job="snmp",device="SPE3"}) or vector(0))
+        < 2
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE3
+      annotations:
+        summary: ISIS polling has fewer rows than the verified baseline
+        description: Expected at least 2 ISIS rows on SPE3. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
+    - alert: LabBFDCoverage
+      expr: (count(snmp_bfd_session_state{job="snmp",device="SPE3"}) or vector(0))
+        < 4
+      for: 5m
+      labels:
+        severity: warning
+        device: SPE3
+      annotations:
+        summary: BFD polling has fewer rows than the verified baseline
+        description: Expected at least 4 BFD rows on SPE3. Check missing peers, SNMP
+          access and collector errors. Update this Git baseline after intentional
+          topology changes. BFD rows are per application, not unique sessions.
+      record: ''
