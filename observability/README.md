@@ -85,3 +85,11 @@ plane job, 6/6 Longhorn managers and 5/5 Argo CD components. Query direct etcd
 and Longhorn metrics, not just Kubernetes readiness. Check the folder inventory
 and rendered dashboard queries in Grafana. Alert rules should load without
 errors; a firing alert is investigated rather than removed to make the UI green.
+
+The dashboard sidecar loads the initial ConfigMaps in an init container. It then
+watches file changes without sending a separate Grafana HTTP reload for every
+ConfigMap. Grafana's file provider polls every 30 seconds. During migration,
+per-object reloads hit SQLite lock errors and HTTP read timeouts, leaving the
+sidecar behind on deletion events. Batching startup files and using the file
+provider avoids that reload queue. This does not establish that all SQLite
+contention or underlying storage latency is resolved.

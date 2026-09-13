@@ -39,6 +39,11 @@ grafana:
     dashboards:
       defaultFolderName: ""
       folderAnnotation: grafana_folder
+      # Batch the initial files before Grafana starts. Its file provider polls
+      # every 30s; per-ConfigMap HTTP reloads stalled the sidecar on SQLite locks
+      # during folder migration and prevented it from processing deletions.
+      skipReload: true
+      initDashboards: true
       provider:
         foldersFromFilesStructure: true
   # Avoid reader/writer lock contention observed during dashboard provisioning.
