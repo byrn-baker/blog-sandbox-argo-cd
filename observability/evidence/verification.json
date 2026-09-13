@@ -1,0 +1,939 @@
+{
+  "checked_at": "2026-09-13T16:18:16.188664+00:00",
+  "queries": {
+    "control_plane_targets": {
+      "query": "sum by(job)(up{job=~\"kube-etcd|kube-scheduler|kube-controller-manager|k3s-control-plane-metrics\"})",
+      "result": [
+        {
+          "metric": {
+            "job": "k3s-control-plane-metrics"
+          },
+          "value": [
+            1789316296,
+            "3"
+          ]
+        },
+        {
+          "metric": {
+            "job": "kube-controller-manager"
+          },
+          "value": [
+            1789316296,
+            "3"
+          ]
+        },
+        {
+          "metric": {
+            "job": "kube-etcd"
+          },
+          "value": [
+            1789316296,
+            "3"
+          ]
+        },
+        {
+          "metric": {
+            "job": "kube-scheduler"
+          },
+          "value": [
+            1789316296,
+            "3"
+          ]
+        }
+      ]
+    },
+    "longhorn_targets": {
+      "query": "sum(up{job=\"longhorn\"})",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1789316297,
+            "6"
+          ]
+        }
+      ]
+    },
+    "argocd_targets": {
+      "query": "sum by(job)(up{job=~\"argocd-.*\"})",
+      "result": [
+        {
+          "metric": {
+            "job": "argocd-application-controller"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "job": "argocd-applicationset-controller"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "job": "argocd-notifications-controller"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "job": "argocd-repo-server"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "job": "argocd-server"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        }
+      ]
+    },
+    "etcd_leaders": {
+      "query": "etcd_server_has_leader{job=\"kube-etcd\"}",
+      "result": [
+        {
+          "metric": {
+            "__name__": "etcd_server_has_leader",
+            "instance": "dca-k3s-m1",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "etcd_server_has_leader",
+            "instance": "dca-k3s-m2",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "etcd_server_has_leader",
+            "instance": "dca-k3s-m3",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316298,
+            "1"
+          ]
+        }
+      ]
+    },
+    "etcd_fsync": {
+      "query": "etcd_disk_wal_fsync_duration_seconds_count{job=\"kube-etcd\"}",
+      "result": [
+        {
+          "metric": {
+            "__name__": "etcd_disk_wal_fsync_duration_seconds_count",
+            "instance": "dca-k3s-m1",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316299,
+            "142764"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "etcd_disk_wal_fsync_duration_seconds_count",
+            "instance": "dca-k3s-m2",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316299,
+            "142779"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "etcd_disk_wal_fsync_duration_seconds_count",
+            "instance": "dca-k3s-m3",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316299,
+            "442775"
+          ]
+        }
+      ]
+    },
+    "longhorn_health": {
+      "query": "longhorn_volume_robustness == 1",
+      "result": [
+        {
+          "metric": {
+            "__name__": "longhorn_volume_robustness",
+            "container": "longhorn-manager",
+            "endpoint": "manager",
+            "instance": "10.42.6.3:9500",
+            "job": "longhorn",
+            "namespace": "longhorn-system",
+            "node": "dcb-k3s-w2",
+            "pod": "longhorn-manager-6pmm7",
+            "prometheus": "observability/victoria-metrics-k8s-stack",
+            "pvc": "victoria-metrics-k8s-stack-grafana",
+            "pvc_namespace": "observability",
+            "service": "longhorn-backend",
+            "state": "healthy",
+            "volume": "pvc-e9b8c99b-96f6-4c61-9817-d4a56cd6088d"
+          },
+          "value": [
+            1789316300,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "longhorn_volume_robustness",
+            "container": "longhorn-manager",
+            "endpoint": "manager",
+            "instance": "10.42.7.9:9500",
+            "job": "longhorn",
+            "namespace": "longhorn-system",
+            "node": "dcb-k3s-w1",
+            "pod": "longhorn-manager-rnqcg",
+            "prometheus": "observability/victoria-metrics-k8s-stack",
+            "pvc": "vmsingle-victoria-metrics-k8s-stack",
+            "pvc_namespace": "observability",
+            "service": "longhorn-backend",
+            "state": "healthy",
+            "volume": "pvc-6d0ae7d0-9ac7-4db5-97d7-1e53a9606782"
+          },
+          "value": [
+            1789316300,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "longhorn_volume_robustness",
+            "container": "longhorn-manager",
+            "endpoint": "manager",
+            "instance": "10.42.8.2:9500",
+            "job": "longhorn",
+            "namespace": "longhorn-system",
+            "node": "dcc-k3s-w6",
+            "pod": "longhorn-manager-wtjjh",
+            "prometheus": "observability/victoria-metrics-k8s-stack",
+            "pvc": "server-volume-snmp-metrics-0",
+            "pvc_namespace": "observability",
+            "service": "longhorn-backend",
+            "state": "healthy",
+            "volume": "pvc-aa3265e8-9ed9-4f01-9709-2e563b040418"
+          },
+          "value": [
+            1789316300,
+            "1"
+          ]
+        }
+      ]
+    },
+    "longhorn_replica_modes": {
+      "query": "sum by(volume,mode)(longhorn_engine_replica_mode == 1)",
+      "result": [
+        {
+          "metric": {
+            "mode": "RW",
+            "volume": "pvc-6d0ae7d0-9ac7-4db5-97d7-1e53a9606782"
+          },
+          "value": [
+            1789316301,
+            "3"
+          ]
+        },
+        {
+          "metric": {
+            "mode": "RW",
+            "volume": "pvc-aa3265e8-9ed9-4f01-9709-2e563b040418"
+          },
+          "value": [
+            1789316301,
+            "3"
+          ]
+        },
+        {
+          "metric": {
+            "mode": "RW",
+            "volume": "pvc-e9b8c99b-96f6-4c61-9817-d4a56cd6088d"
+          },
+          "value": [
+            1789316301,
+            "3"
+          ]
+        }
+      ]
+    },
+    "control_scrape_age": {
+      "query": "time() - timestamp(up{job=~\"kube-etcd|kube-scheduler|kube-controller-manager\"})",
+      "result": [
+        {
+          "metric": {
+            "instance": "dca-k3s-m1",
+            "job": "kube-controller-manager",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "16.177000045776367"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m2",
+            "job": "kube-controller-manager",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "16.177000045776367"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m3",
+            "job": "kube-controller-manager",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "16.176000118255615"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m1",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "19.94000005722046"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m2",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "19.94000005722046"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m3",
+            "job": "kube-etcd",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "19.94000005722046"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m1",
+            "job": "kube-scheduler",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "13.586000204086304"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m2",
+            "job": "kube-scheduler",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "13.585000038146973"
+          ]
+        },
+        {
+          "metric": {
+            "instance": "dca-k3s-m3",
+            "job": "kube-scheduler",
+            "namespace": "kube-system"
+          },
+          "value": [
+            1789316301,
+            "13.585000038146973"
+          ]
+        }
+      ]
+    },
+    "failed_targets": {
+      "query": "up == 0",
+      "result": []
+    },
+    "control_plane_alerts": {
+      "query": "ALERTS{alertname=~\"KubeControllerManagerDown|KubeSchedulerDown|Lab.*|ScrapePoolHasNoTargets\"}",
+      "result": []
+    },
+    "local_agent_queue": {
+      "query": "vmagent_remotewrite_pending_data_bytes{job=\"k3s-control-plane-metrics\"}",
+      "result": [
+        {
+          "metric": {
+            "__name__": "vmagent_remotewrite_pending_data_bytes",
+            "instance": "dca-k3s-m1",
+            "job": "k3s-control-plane-metrics",
+            "path": "/queue/persistent-queue/1_F442873C83BB2912",
+            "url": "1:secret-url"
+          },
+          "value": [
+            1789316303,
+            "0"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "vmagent_remotewrite_pending_data_bytes",
+            "instance": "dca-k3s-m2",
+            "job": "k3s-control-plane-metrics",
+            "path": "/queue/persistent-queue/1_F442873C83BB2912",
+            "url": "1:secret-url"
+          },
+          "value": [
+            1789316303,
+            "0"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "vmagent_remotewrite_pending_data_bytes",
+            "instance": "dca-k3s-m3",
+            "job": "k3s-control-plane-metrics",
+            "path": "/queue/persistent-queue/1_F442873C83BB2912",
+            "url": "1:secret-url"
+          },
+          "value": [
+            1789316303,
+            "0"
+          ]
+        }
+      ]
+    },
+    "vmalert_errors": {
+      "query": "sum(increase(vmalert_execution_errors_total[5m]))",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1789316304,
+            "0"
+          ]
+        }
+      ]
+    },
+    "ready_nodes": {
+      "query": "sum(kube_node_status_condition{condition=\"Ready\",status=\"true\"})",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1789316304,
+            "9"
+          ]
+        }
+      ]
+    },
+    "snmp_devices": {
+      "query": "count(count by(device)(snmp_interface_oper_status{job=\"snmp\"}))",
+      "result": [
+        {
+          "metric": {},
+          "value": [
+            1789316305,
+            "28"
+          ]
+        }
+      ]
+    }
+  },
+  "folders": {
+    "Observability": 7,
+    "K3s": 28,
+    "Storage": 2,
+    "Network": 1
+  },
+  "dashboards": [
+    {
+      "title": "Alertmanager / Overview",
+      "uid": "alertmanager-overview",
+      "folderTitle": "Observability",
+      "url": "/d/alertmanager-overview/alertmanager-overview"
+    },
+    {
+      "title": "Argo CD / Applications and Components",
+      "uid": "lab-argocd",
+      "folderTitle": "Observability",
+      "url": "/d/lab-argocd/argo-cd-applications-and-components"
+    },
+    {
+      "title": "etcd",
+      "uid": "c2f4e12cdf69feb95caa41a5a1b423d9",
+      "folderTitle": "K3s",
+      "url": "/d/c2f4e12cdf69feb95caa41a5a1b423d9/etcd"
+    },
+    {
+      "title": "Grafana Overview",
+      "uid": "6be0s85Mk",
+      "folderTitle": "Observability",
+      "url": "/d/6be0s85Mk/grafana-overview"
+    },
+    {
+      "title": "K3s / Stability",
+      "uid": "lab-k3s-stability",
+      "folderTitle": "K3s",
+      "url": "/d/lab-k3s-stability/k3s-stability"
+    },
+    {
+      "title": "Kubernetes / API server",
+      "uid": "09ec8aa1e996d6ffcd6817bbaff4db1b",
+      "folderTitle": "K3s",
+      "url": "/d/09ec8aa1e996d6ffcd6817bbaff4db1b/kubernetes-api-server"
+    },
+    {
+      "title": "Kubernetes / Compute Resources / Cluster",
+      "uid": "efa86fd1d0c121a26444b636a3f509a8",
+      "folderTitle": "K3s",
+      "url": "/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster"
+    },
+    {
+      "title": "Kubernetes / Compute Resources / Namespace (Pods)",
+      "uid": "85a562078cdf77779eaa1add43ccec1e",
+      "folderTitle": "K3s",
+      "url": "/d/85a562078cdf77779eaa1add43ccec1e/kubernetes-compute-resources-namespace-pods"
+    },
+    {
+      "title": "Kubernetes / Compute Resources / Namespace (Workloads)",
+      "uid": "a87fb0d919ec0ea5f6543124e16c42a5",
+      "folderTitle": "K3s",
+      "url": "/d/a87fb0d919ec0ea5f6543124e16c42a5/kubernetes-compute-resources-namespace-workloads"
+    },
+    {
+      "title": "Kubernetes / Compute Resources / Node (Pods)",
+      "uid": "200ac8fdbfbb74b39aff88118e4d1c2c",
+      "folderTitle": "K3s",
+      "url": "/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods"
+    },
+    {
+      "title": "Kubernetes / Compute Resources / Nodes Overview",
+      "uid": "058020e04168bfdea0c52269cb699df2",
+      "folderTitle": "K3s",
+      "url": "/d/058020e04168bfdea0c52269cb699df2/kubernetes-compute-resources-nodes-overview"
+    },
+    {
+      "title": "Kubernetes / Compute Resources / Pod",
+      "uid": "6581e46e4e5c7ba40a07646395ef7b23",
+      "folderTitle": "K3s",
+      "url": "/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod"
+    },
+    {
+      "title": "Kubernetes / Compute Resources / Workload",
+      "uid": "a164a7f0339f99e89cea5cb47e9be617",
+      "folderTitle": "K3s",
+      "url": "/d/a164a7f0339f99e89cea5cb47e9be617/kubernetes-compute-resources-workload"
+    },
+    {
+      "title": "Kubernetes / Controller Manager",
+      "uid": "72e0e05bef5099e5f049b05fdc429ed4",
+      "folderTitle": "K3s",
+      "url": "/d/72e0e05bef5099e5f049b05fdc429ed4/kubernetes-controller-manager"
+    },
+    {
+      "title": "Kubernetes / Kubelet",
+      "uid": "3138fa155d5915769fbded898ac09fd9",
+      "folderTitle": "K3s",
+      "url": "/d/3138fa155d5915769fbded898ac09fd9/kubernetes-kubelet"
+    },
+    {
+      "title": "Kubernetes / Networking / Cluster",
+      "uid": "ff635a025bcfea7bc3dd4f508990a3e9",
+      "folderTitle": "K3s",
+      "url": "/d/ff635a025bcfea7bc3dd4f508990a3e9/kubernetes-networking-cluster"
+    },
+    {
+      "title": "Kubernetes / Networking / Namespace (Pods)",
+      "uid": "8b7a8b326d7a6f1f04244066368c67af",
+      "folderTitle": "K3s",
+      "url": "/d/8b7a8b326d7a6f1f04244066368c67af/kubernetes-networking-namespace-pods"
+    },
+    {
+      "title": "Kubernetes / Networking / Namespace (Workload)",
+      "uid": "bbb2a765a623ae38130206c7d94a160f",
+      "folderTitle": "K3s",
+      "url": "/d/bbb2a765a623ae38130206c7d94a160f/kubernetes-networking-namespace-workload"
+    },
+    {
+      "title": "Kubernetes / Networking / Pod",
+      "uid": "7a18067ce943a40ae25454675c19ff5c",
+      "folderTitle": "K3s",
+      "url": "/d/7a18067ce943a40ae25454675c19ff5c/kubernetes-networking-pod"
+    },
+    {
+      "title": "Kubernetes / Networking / Workload",
+      "uid": "728bf77cc1166d2f3133bf25846876cc",
+      "folderTitle": "K3s",
+      "url": "/d/728bf77cc1166d2f3133bf25846876cc/kubernetes-networking-workload"
+    },
+    {
+      "title": "Kubernetes / Persistent Volumes",
+      "uid": "919b92a8e8041bd567af9edab12c840c",
+      "folderTitle": "Storage",
+      "url": "/d/919b92a8e8041bd567af9edab12c840c/kubernetes-persistent-volumes"
+    },
+    {
+      "title": "Kubernetes / Scheduler",
+      "uid": "2e6b6a3b4bddf1427b3a55aa1311c656",
+      "folderTitle": "K3s",
+      "url": "/d/2e6b6a3b4bddf1427b3a55aa1311c656/kubernetes-scheduler"
+    },
+    {
+      "title": "Kubernetes / System / API Server",
+      "uid": "k8s_system_apisrv",
+      "folderTitle": "K3s",
+      "url": "/d/k8s_system_apisrv/kubernetes-system-api-server"
+    },
+    {
+      "title": "Kubernetes / System / CoreDNS",
+      "uid": "k8s_system_coredns",
+      "folderTitle": "K3s",
+      "url": "/d/k8s_system_coredns/kubernetes-system-coredns"
+    },
+    {
+      "title": "Kubernetes / Views / Global",
+      "uid": "k8s_views_global",
+      "folderTitle": "K3s",
+      "url": "/d/k8s_views_global/kubernetes-views-global"
+    },
+    {
+      "title": "Kubernetes / Views / Namespaces",
+      "uid": "k8s_views_ns",
+      "folderTitle": "K3s",
+      "url": "/d/k8s_views_ns/kubernetes-views-namespaces"
+    },
+    {
+      "title": "Kubernetes / Views / Nodes",
+      "uid": "k8s_views_nodes",
+      "folderTitle": "K3s",
+      "url": "/d/k8s_views_nodes/kubernetes-views-nodes"
+    },
+    {
+      "title": "Kubernetes / Views / Pods",
+      "uid": "k8s_views_pods",
+      "folderTitle": "K3s",
+      "url": "/d/k8s_views_pods/kubernetes-views-pods"
+    },
+    {
+      "title": "Longhorn / Volumes and Replicas",
+      "uid": "lab-longhorn",
+      "folderTitle": "Storage",
+      "url": "/d/lab-longhorn/longhorn-volumes-and-replicas"
+    },
+    {
+      "title": "Network SNMP",
+      "uid": "network-snmp",
+      "folderTitle": "Network",
+      "url": "/d/network-snmp/network-snmp"
+    },
+    {
+      "title": "Node Exporter / Nodes",
+      "uid": "7d57716318ee0dddbac5a7f451fb7753",
+      "folderTitle": "K3s",
+      "url": "/d/7d57716318ee0dddbac5a7f451fb7753/node-exporter-nodes"
+    },
+    {
+      "title": "Node Exporter / USE Method / Cluster",
+      "uid": "3e97d1d02672cdd0861f4c97c64f89b2",
+      "folderTitle": "K3s",
+      "url": "/d/3e97d1d02672cdd0861f4c97c64f89b2/node-exporter-use-method-cluster"
+    },
+    {
+      "title": "Node Exporter / USE Method / Node",
+      "uid": "fac67cfbe174d3ef53eb473d73d9212f",
+      "folderTitle": "K3s",
+      "url": "/d/fac67cfbe174d3ef53eb473d73d9212f/node-exporter-use-method-node"
+    },
+    {
+      "title": "Node Exporter Full",
+      "uid": "rYdddlPWk",
+      "folderTitle": "K3s",
+      "url": "/d/rYdddlPWk/node-exporter-full"
+    },
+    {
+      "title": "VictoriaMetrics - operator",
+      "uid": "1H179hunk",
+      "folderTitle": "Observability",
+      "url": "/d/1H179hunk/victoriametrics-operator"
+    },
+    {
+      "title": "VictoriaMetrics - single-node",
+      "uid": "wNf0q_kZk",
+      "folderTitle": "Observability",
+      "url": "/d/wNf0q_kZk/victoriametrics-single-node"
+    },
+    {
+      "title": "VictoriaMetrics - vmagent",
+      "uid": "G7Z9GzMGz",
+      "folderTitle": "Observability",
+      "url": "/d/G7Z9GzMGz/victoriametrics-vmagent"
+    },
+    {
+      "title": "VictoriaMetrics - vmalert",
+      "uid": "LzldHAVnz",
+      "folderTitle": "Observability",
+      "url": "/d/LzldHAVnz/victoriametrics-vmalert"
+    }
+  ],
+  "panel_queries": [
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "Ready nodes",
+      "series": 1,
+      "query": "sum(kube_node_status_condition{condition=\"Ready\",status=\"true\"})"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "Control-plane scrape coverage",
+      "series": 3,
+      "query": "sum by(job) (up{job=~\"kube-etcd|kube-scheduler|kube-controller-manager\"})"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "Container restarts over one hour",
+      "series": 4,
+      "query": "sum by(namespace) (increase(kube_pod_container_status_restarts_total[1h]))"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "API request latency, p99",
+      "series": 7,
+      "query": "histogram_quantile(0.99, sum by(le,verb) (rate(apiserver_request_duration_seconds_bucket{job=\"apiserver\",verb!~\"WATCH|CONNECT\"}[5m])))"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "etcd WAL fsync latency, p99",
+      "series": 3,
+      "query": "histogram_quantile(0.99,sum by(le,instance)(rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=\"kube-etcd\"}[5m])))"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "etcd backend commit latency, p99",
+      "series": 3,
+      "query": "histogram_quantile(0.99,sum by(le,instance)(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=\"kube-etcd\"}[5m])))"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "etcd members with a leader",
+      "series": 3,
+      "query": "etcd_server_has_leader{job=\"kube-etcd\"}"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "etcd leader changes over one hour",
+      "series": 3,
+      "query": "increase(etcd_server_leader_changes_seen_total{job=\"kube-etcd\"}[1h])"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "TCP retransmitted segments per second",
+      "series": 9,
+      "query": "rate(node_netstat_Tcp_RetransSegs{job=\"node-exporter\"}[5m]) * on(instance) group_left(nodename) node_uname_info{job=\"node-exporter\"}"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "TCP retransmissions relative to sent segments",
+      "series": 9,
+      "query": "100 * rate(node_netstat_Tcp_RetransSegs{job=\"node-exporter\"}[5m]) / clamp_min(rate(node_netstat_Tcp_OutSegs{job=\"node-exporter\"}[5m]),1) * on(instance) group_left(nodename) node_uname_info{job=\"node-exporter\"}"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "Monitoring targets failing",
+      "series": 1,
+      "query": "count by(job)(up == 0) or vector(0)"
+    },
+    {
+      "dashboard": "lab-k3s-stability",
+      "panel": "Longhorn volumes by health",
+      "series": 1,
+      "query": "sum by(state)(longhorn_volume_robustness == 1)"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Volume health",
+      "series": 3,
+      "query": "longhorn_volume_robustness == 1"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Volume attachment state",
+      "series": 3,
+      "query": "longhorn_volume_state == 1"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Replica modes reported by engines",
+      "series": 3,
+      "query": "sum by(volume,mode)(longhorn_engine_replica_mode == 1) * on(volume) group_left(pvc) max by(volume,pvc)(longhorn_volume_capacity_bytes > bool 0)"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Provisioned volume capacity",
+      "series": 3,
+      "query": "longhorn_volume_capacity_bytes"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Read latency",
+      "series": 3,
+      "query": "longhorn_volume_read_latency / 1e9"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Write latency",
+      "series": 3,
+      "query": "longhorn_volume_write_latency / 1e9"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Read throughput",
+      "series": 3,
+      "query": "longhorn_volume_read_throughput"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Write throughput",
+      "series": 3,
+      "query": "longhorn_volume_write_throughput"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Storage used by node",
+      "series": 6,
+      "query": "longhorn_node_storage_usage_bytes"
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "panel": "Longhorn manager scrape health",
+      "series": 6,
+      "query": "up{job=\"longhorn\"}"
+    },
+    {
+      "dashboard": "lab-argocd",
+      "panel": "Application sync status",
+      "series": 6,
+      "query": "argocd_app_info"
+    },
+    {
+      "dashboard": "lab-argocd",
+      "panel": "Component scrape health",
+      "series": 5,
+      "query": "up{job=~\"argocd-.*\"}"
+    },
+    {
+      "dashboard": "lab-argocd",
+      "panel": "Application reconciliation latency, p99",
+      "series": 1,
+      "query": "histogram_quantile(0.99,sum by(le)(rate(argocd_app_reconcile_bucket[5m])))"
+    },
+    {
+      "dashboard": "lab-argocd",
+      "panel": "Argo CD container restarts over one hour",
+      "series": 7,
+      "query": "sum by(pod,container)(increase(kube_pod_container_status_restarts_total{namespace=\"argocd\"}[1h]))"
+    }
+  ],
+  "deployed_commit": "2f289a47fd9cb0a786a6a010a1e1c201952b4729",
+  "applications": [
+    {
+      "name": "cluster-observability",
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    {
+      "name": "longhorn",
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    {
+      "name": "otel-snmp",
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    {
+      "name": "root-app",
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    {
+      "name": "snmp-metrics",
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    {
+      "name": "victoria-metrics-k8s-stack",
+      "sync": "Synced",
+      "health": "Healthy"
+    }
+  ],
+  "pods": {
+    "active": 70,
+    "unready": []
+  },
+  "browser_checks": [
+    {
+      "dashboard": "lab-k3s-stability",
+      "query_errors": [],
+      "unexpected_error": false,
+      "no_data_panels": 0
+    },
+    {
+      "dashboard": "lab-longhorn",
+      "query_errors": [],
+      "unexpected_error": false,
+      "no_data_panels": 0
+    },
+    {
+      "dashboard": "lab-argocd",
+      "query_errors": [],
+      "unexpected_error": false,
+      "no_data_panels": 0
+    }
+  ]
+}
