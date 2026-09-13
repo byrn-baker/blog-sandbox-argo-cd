@@ -5023,7 +5023,7 @@ extraManifests:
       : \"rate(snmp_interface_in_octets_total{job=\\\"snmp\\\",if_type!=\\\"\\\",if_type!=\\\
       \"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\"$device\\\",interface=~\\\
       \"$interface\\\"}[5m]) * 8\",\n          \"instant\": false,\n          \"format\"\
-      : \"time_series\",\n          \"legendFormat\": \"{{device}} / {{interface}}\"\
+      : \"time_series\",\n          \"legendFormat\": \"{{`{{device}}`}} / {{`{{interface}}`}}\"\
       \n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n \
       \         \"unit\": \"bps\"\n        },\n        \"overrides\": []\n      },\n\
       \      \"options\": {\n        \"legend\": {\n          \"displayMode\": \"\
@@ -5038,71 +5038,72 @@ extraManifests:
       \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
       \",device=~\\\"$device\\\",interface=~\\\"$interface\\\"}[5m]) * 8\",\n    \
       \      \"instant\": false,\n          \"format\": \"time_series\",\n       \
-      \   \"legendFormat\": \"{{device}} / {{interface}}\"\n        }\n      ],\n\
-      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"bps\"\
-      \n        },\n        \"overrides\": []\n      },\n      \"options\": {\n  \
-      \      \"legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
-      : \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\n       \
-      \   ]\n        }\n      }\n    },\n    {\n      \"id\": 5,\n      \"title\"\
-      : \"Inbound utilization\",\n      \"type\": \"timeseries\",\n      \"datasource\"\
-      : {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n\
-      \      },\n      \"description\": \"Uses reported interface speed. Virtual interface\
-      \ speed is not a measured forwarding capacity.\",\n      \"gridPos\": {\n  \
-      \      \"x\": 0,\n        \"y\": 16,\n        \"w\": 12,\n        \"h\": 8\n\
-      \      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n  \
-      \        \"expr\": \"100 * rate(snmp_interface_in_octets_total{job=\\\"snmp\\\
+      \   \"legendFormat\": \"{{`{{device}}`}} / {{`{{interface}}`}}\"\n        }\n\
+      \      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\"\
+      : \"bps\"\n        },\n        \"overrides\": []\n      },\n      \"options\"\
+      : {\n        \"legend\": {\n          \"displayMode\": \"table\",\n        \
+      \  \"placement\": \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\
+      \n          ]\n        }\n      }\n    },\n    {\n      \"id\": 5,\n      \"\
+      title\": \"Inbound utilization\",\n      \"type\": \"timeseries\",\n      \"\
+      datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\
+      \n      },\n      \"description\": \"Uses reported interface speed. Virtual\
+      \ interface speed is not a measured forwarding capacity.\",\n      \"gridPos\"\
+      : {\n        \"x\": 0,\n        \"y\": 16,\n        \"w\": 12,\n        \"h\"\
+      : 8\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n\
+      \          \"expr\": \"100 * rate(snmp_interface_in_octets_total{job=\\\"snmp\\\
       \",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\
       \"$device\\\",interface=~\\\"$interface\\\"}[5m]) * 8 / (snmp_interface_speed_mbps{job=\\\
       \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
       \",device=~\\\"$device\\\",interface=~\\\"$interface\\\"} * 1000000 > 0)\",\n\
       \          \"instant\": false,\n          \"format\": \"time_series\",\n   \
-      \       \"legendFormat\": \"{{device}} / {{interface}}\"\n        }\n      ],\n\
-      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"percent\"\
-      \n        },\n        \"overrides\": []\n      },\n      \"options\": {\n  \
-      \      \"legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
-      : \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\n       \
-      \   ]\n        }\n      }\n    },\n    {\n      \"id\": 6,\n      \"title\"\
-      : \"Outbound utilization\",\n      \"type\": \"timeseries\",\n      \"datasource\"\
-      : {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n\
-      \      },\n      \"description\": \"\",\n      \"gridPos\": {\n        \"x\"\
-      : 12,\n        \"y\": 16,\n        \"w\": 12,\n        \"h\": 8\n      },\n\
-      \      \"targets\": [\n        {\n          \"refId\": \"A\",\n          \"\
-      expr\": \"100 * rate(snmp_interface_out_octets_total{job=\\\"snmp\\\",if_type!=\\\
-      \"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\"$device\\\
-      \",interface=~\\\"$interface\\\"}[5m]) * 8 / (snmp_interface_speed_mbps{job=\\\
+      \       \"legendFormat\": \"{{`{{device}}`}} / {{`{{interface}}`}}\"\n     \
+      \   }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+      \   \"unit\": \"percent\"\n        },\n        \"overrides\": []\n      },\n\
+      \      \"options\": {\n        \"legend\": {\n          \"displayMode\": \"\
+      table\",\n          \"placement\": \"bottom\",\n          \"calcs\": [\n   \
+      \         \"lastNotNull\"\n          ]\n        }\n      }\n    },\n    {\n\
+      \      \"id\": 6,\n      \"title\": \"Outbound utilization\",\n      \"type\"\
+      : \"timeseries\",\n      \"datasource\": {\n        \"type\": \"prometheus\"\
+      ,\n        \"uid\": \"network-snmp\"\n      },\n      \"description\": \"\"\
+      ,\n      \"gridPos\": {\n        \"x\": 12,\n        \"y\": 16,\n        \"\
+      w\": 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n    \
+      \      \"refId\": \"A\",\n          \"expr\": \"100 * rate(snmp_interface_out_octets_total{job=\\\
+      \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
+      \",device=~\\\"$device\\\",interface=~\\\"$interface\\\"}[5m]) * 8 / (snmp_interface_speed_mbps{job=\\\
       \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
       \",device=~\\\"$device\\\",interface=~\\\"$interface\\\"} * 1000000 > 0)\",\n\
       \          \"instant\": false,\n          \"format\": \"time_series\",\n   \
-      \       \"legendFormat\": \"{{device}} / {{interface}}\"\n        }\n      ],\n\
-      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"percent\"\
-      \n        },\n        \"overrides\": []\n      },\n      \"options\": {\n  \
-      \      \"legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
-      : \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\n       \
-      \   ]\n        }\n      }\n    },\n    {\n      \"id\": 7,\n      \"title\"\
-      : \"Inbound errors\",\n      \"type\": \"timeseries\",\n      \"datasource\"\
-      : {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n\
-      \      },\n      \"description\": \"\",\n      \"gridPos\": {\n        \"x\"\
-      : 0,\n        \"y\": 24,\n        \"w\": 12,\n        \"h\": 8\n      },\n \
-      \     \"targets\": [\n        {\n          \"refId\": \"A\",\n          \"expr\"\
-      : \"rate(snmp_interface_in_errors_total{job=\\\"snmp\\\",if_type!=\\\"\\\",if_type!=\\\
-      \"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\"$device\\\",interface=~\\\
-      \"$interface\\\"}[5m])\",\n          \"instant\": false,\n          \"format\"\
-      : \"time_series\",\n          \"legendFormat\": \"{{device}} / {{interface}}\"\
-      \n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n \
-      \         \"unit\": \"suffix: errors/s\"\n        },\n        \"overrides\"\
-      : []\n      },\n      \"options\": {\n        \"legend\": {\n          \"displayMode\"\
-      : \"table\",\n          \"placement\": \"bottom\",\n          \"calcs\": [\n\
-      \            \"lastNotNull\"\n          ]\n        }\n      }\n    },\n    {\n\
-      \      \"id\": 8,\n      \"title\": \"Outbound errors\",\n      \"type\": \"\
+      \       \"legendFormat\": \"{{`{{device}}`}} / {{`{{interface}}`}}\"\n     \
+      \   }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+      \   \"unit\": \"percent\"\n        },\n        \"overrides\": []\n      },\n\
+      \      \"options\": {\n        \"legend\": {\n          \"displayMode\": \"\
+      table\",\n          \"placement\": \"bottom\",\n          \"calcs\": [\n   \
+      \         \"lastNotNull\"\n          ]\n        }\n      }\n    },\n    {\n\
+      \      \"id\": 7,\n      \"title\": \"Inbound errors\",\n      \"type\": \"\
       timeseries\",\n      \"datasource\": {\n        \"type\": \"prometheus\",\n\
       \        \"uid\": \"network-snmp\"\n      },\n      \"description\": \"\",\n\
-      \      \"gridPos\": {\n        \"x\": 12,\n        \"y\": 24,\n        \"w\"\
+      \      \"gridPos\": {\n        \"x\": 0,\n        \"y\": 24,\n        \"w\"\
       : 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n       \
-      \   \"refId\": \"A\",\n          \"expr\": \"rate(snmp_interface_out_errors_total{job=\\\
+      \   \"refId\": \"A\",\n          \"expr\": \"rate(snmp_interface_in_errors_total{job=\\\
       \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
       \",device=~\\\"$device\\\",interface=~\\\"$interface\\\"}[5m])\",\n        \
       \  \"instant\": false,\n          \"format\": \"time_series\",\n          \"\
-      legendFormat\": \"{{device}} / {{interface}}\"\n        }\n      ],\n      \"\
+      legendFormat\": \"{{`{{device}}`}} / {{`{{interface}}`}}\"\n        }\n    \
+      \  ],\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\"\
+      : \"suffix: errors/s\"\n        },\n        \"overrides\": []\n      },\n  \
+      \    \"options\": {\n        \"legend\": {\n          \"displayMode\": \"table\"\
+      ,\n          \"placement\": \"bottom\",\n          \"calcs\": [\n          \
+      \  \"lastNotNull\"\n          ]\n        }\n      }\n    },\n    {\n      \"\
+      id\": 8,\n      \"title\": \"Outbound errors\",\n      \"type\": \"timeseries\"\
+      ,\n      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\"\
+      : \"network-snmp\"\n      },\n      \"description\": \"\",\n      \"gridPos\"\
+      : {\n        \"x\": 12,\n        \"y\": 24,\n        \"w\": 12,\n        \"\
+      h\": 8\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\"\
+      ,\n          \"expr\": \"rate(snmp_interface_out_errors_total{job=\\\"snmp\\\
+      \",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\
+      \"$device\\\",interface=~\\\"$interface\\\"}[5m])\",\n          \"instant\"\
+      : false,\n          \"format\": \"time_series\",\n          \"legendFormat\"\
+      : \"{{`{{device}}`}} / {{`{{interface}}`}}\"\n        }\n      ],\n      \"\
       fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"suffix: errors/s\"\
       \n        },\n        \"overrides\": []\n      },\n      \"options\": {\n  \
       \      \"legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
@@ -5116,59 +5117,59 @@ extraManifests:
       : \"rate(snmp_interface_in_discards_total{job=\\\"snmp\\\",if_type!=\\\"\\\"\
       ,if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\"$device\\\
       \",interface=~\\\"$interface\\\"}[5m])\",\n          \"instant\": false,\n \
-      \         \"format\": \"time_series\",\n          \"legendFormat\": \"{{device}}\
-      \ / {{interface}}\"\n        }\n      ],\n      \"fieldConfig\": {\n       \
-      \ \"defaults\": {\n          \"unit\": \"suffix: discards/s\"\n        },\n\
-      \        \"overrides\": []\n      },\n      \"options\": {\n        \"legend\"\
-      : {\n          \"displayMode\": \"table\",\n          \"placement\": \"bottom\"\
-      ,\n          \"calcs\": [\n            \"lastNotNull\"\n          ]\n      \
-      \  }\n      }\n    },\n    {\n      \"id\": 10,\n      \"title\": \"Outbound\
-      \ discards\",\n      \"type\": \"timeseries\",\n      \"datasource\": {\n  \
-      \      \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n\
-      \      \"description\": \"\",\n      \"gridPos\": {\n        \"x\": 12,\n  \
-      \      \"y\": 32,\n        \"w\": 12,\n        \"h\": 8\n      },\n      \"\
-      targets\": [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"\
-      rate(snmp_interface_out_discards_total{job=\\\"snmp\\\",if_type!=\\\"\\\",if_type!=\\\
-      \"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\"$device\\\",interface=~\\\
-      \"$interface\\\"}[5m])\",\n          \"instant\": false,\n          \"format\"\
-      : \"time_series\",\n          \"legendFormat\": \"{{device}} / {{interface}}\"\
-      \n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n \
-      \         \"unit\": \"suffix: discards/s\"\n        },\n        \"overrides\"\
-      : []\n      },\n      \"options\": {\n        \"legend\": {\n          \"displayMode\"\
-      : \"table\",\n          \"placement\": \"bottom\",\n          \"calcs\": [\n\
-      \            \"lastNotNull\"\n          ]\n        }\n      }\n    },\n    {\n\
-      \      \"id\": 11,\n      \"title\": \"Interface status\",\n      \"type\":\
-      \ \"table\",\n      \"datasource\": {\n        \"type\": \"prometheus\",\n \
-      \       \"uid\": \"network-snmp\"\n      },\n      \"description\": \"Names\
-      \ match the full CLI interface names. MPLS protocol-layer rows and IOS null\
-      \ sinks are excluded from normal interface views. Arista internal Vlan4097 is\
-      \ absent from the collected IF-MIB rows.\",\n      \"gridPos\": {\n        \"\
-      x\": 0,\n        \"y\": 40,\n        \"w\": 12,\n        \"h\": 8\n      },\n\
+      \         \"format\": \"time_series\",\n          \"legendFormat\": \"{{`{{device}}`}}\
+      \ / {{`{{interface}}`}}\"\n        }\n      ],\n      \"fieldConfig\": {\n \
+      \       \"defaults\": {\n          \"unit\": \"suffix: discards/s\"\n      \
+      \  },\n        \"overrides\": []\n      },\n      \"options\": {\n        \"\
+      legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
+      : \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\n       \
+      \   ]\n        }\n      }\n    },\n    {\n      \"id\": 10,\n      \"title\"\
+      : \"Outbound discards\",\n      \"type\": \"timeseries\",\n      \"datasource\"\
+      : {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n\
+      \      },\n      \"description\": \"\",\n      \"gridPos\": {\n        \"x\"\
+      : 12,\n        \"y\": 32,\n        \"w\": 12,\n        \"h\": 8\n      },\n\
       \      \"targets\": [\n        {\n          \"refId\": \"A\",\n          \"\
-      expr\": \"snmp_interface_oper_status{job=\\\"snmp\\\",if_type!=\\\"\\\",if_type!=\\\
-      \"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\"$device\\\",interface=~\\\
-      \"$interface\\\"}\",\n          \"instant\": true,\n          \"format\": \"\
-      table\"\n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\"\
-      : {\n          \"unit\": \"none\",\n          \"mappings\": [\n            {\n\
-      \              \"type\": \"value\",\n              \"options\": {\n        \
-      \        \"1\": {\n                  \"text\": \"Up\",\n                  \"\
-      color\": \"green\"\n                },\n                \"2\": {\n         \
-      \         \"text\": \"Down\",\n                  \"color\": \"red\"\n      \
-      \          },\n                \"3\": {\n                  \"text\": \"Testing\"\
-      ,\n                  \"color\": \"yellow\"\n                },\n           \
-      \     \"4\": {\n                  \"text\": \"Unknown\",\n                 \
-      \ \"color\": \"gray\"\n                },\n                \"5\": {\n      \
-      \            \"text\": \"Dormant\",\n                  \"color\": \"yellow\"\
-      \n                },\n                \"6\": {\n                  \"text\":\
-      \ \"Not present\",\n                  \"color\": \"gray\"\n                },\n\
-      \                \"7\": {\n                  \"text\": \"Lower layer down\"\
-      ,\n                  \"color\": \"red\"\n                }\n              }\n\
-      \            }\n          ]\n        },\n        \"overrides\": []\n      },\n\
-      \      \"options\": {\n        \"showHeader\": true,\n        \"sortBy\": [\n\
-      \          {\n            \"displayName\": \"Device\",\n            \"desc\"\
-      : false\n          }\n        ]\n      },\n      \"transformations\": [\n  \
-      \      {\n          \"id\": \"filterFieldsByName\",\n          \"options\":\
-      \ {\n            \"include\": {\n              \"names\": [\n              \
+      expr\": \"rate(snmp_interface_out_discards_total{job=\\\"snmp\\\",if_type!=\\\
+      \"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\",device=~\\\"$device\\\
+      \",interface=~\\\"$interface\\\"}[5m])\",\n          \"instant\": false,\n \
+      \         \"format\": \"time_series\",\n          \"legendFormat\": \"{{`{{device}}`}}\
+      \ / {{`{{interface}}`}}\"\n        }\n      ],\n      \"fieldConfig\": {\n \
+      \       \"defaults\": {\n          \"unit\": \"suffix: discards/s\"\n      \
+      \  },\n        \"overrides\": []\n      },\n      \"options\": {\n        \"\
+      legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
+      : \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\n       \
+      \   ]\n        }\n      }\n    },\n    {\n      \"id\": 11,\n      \"title\"\
+      : \"Interface status\",\n      \"type\": \"table\",\n      \"datasource\": {\n\
+      \        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n    \
+      \  },\n      \"description\": \"Names match the full CLI interface names. MPLS\
+      \ protocol-layer rows and IOS null sinks are excluded from normal interface\
+      \ views. Arista internal Vlan4097 is absent from the collected IF-MIB rows.\"\
+      ,\n      \"gridPos\": {\n        \"x\": 0,\n        \"y\": 40,\n        \"w\"\
+      : 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n       \
+      \   \"refId\": \"A\",\n          \"expr\": \"snmp_interface_oper_status{job=\\\
+      \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
+      \",device=~\\\"$device\\\",interface=~\\\"$interface\\\"}\",\n          \"instant\"\
+      : true,\n          \"format\": \"table\"\n        }\n      ],\n      \"fieldConfig\"\
+      : {\n        \"defaults\": {\n          \"unit\": \"none\",\n          \"mappings\"\
+      : [\n            {\n              \"type\": \"value\",\n              \"options\"\
+      : {\n                \"1\": {\n                  \"text\": \"Up\",\n       \
+      \           \"color\": \"green\"\n                },\n                \"2\"\
+      : {\n                  \"text\": \"Down\",\n                  \"color\": \"\
+      red\"\n                },\n                \"3\": {\n                  \"text\"\
+      : \"Testing\",\n                  \"color\": \"yellow\"\n                },\n\
+      \                \"4\": {\n                  \"text\": \"Unknown\",\n      \
+      \            \"color\": \"gray\"\n                },\n                \"5\"\
+      : {\n                  \"text\": \"Dormant\",\n                  \"color\":\
+      \ \"yellow\"\n                },\n                \"6\": {\n               \
+      \   \"text\": \"Not present\",\n                  \"color\": \"gray\"\n    \
+      \            },\n                \"7\": {\n                  \"text\": \"Lower\
+      \ layer down\",\n                  \"color\": \"red\"\n                }\n \
+      \             }\n            }\n          ]\n        },\n        \"overrides\"\
+      : []\n      },\n      \"options\": {\n        \"showHeader\": true,\n      \
+      \  \"sortBy\": [\n          {\n            \"displayName\": \"Device\",\n  \
+      \          \"desc\": false\n          }\n        ]\n      },\n      \"transformations\"\
+      : [\n        {\n          \"id\": \"filterFieldsByName\",\n          \"options\"\
+      : {\n            \"include\": {\n              \"names\": [\n              \
       \  \"device\",\n                \"interface\",\n                \"Value\"\n\
       \              ]\n            }\n          }\n        },\n        {\n      \
       \    \"id\": \"organize\",\n          \"options\": {\n            \"indexByName\"\
@@ -5233,8 +5234,8 @@ extraManifests:
       expr\": \"label_replace(sum by (receiver) (increase(otelcol_scraper_errored_metric_points{receiver=~\\\
       \"snmp/($device)\\\"}[5m])), \\\"device\\\", \\\"$1\\\", \\\"receiver\\\", \\\
       \"snmp/(.*)\\\")\",\n          \"instant\": false,\n          \"format\": \"\
-      time_series\",\n          \"legendFormat\": \"{{device}}\"\n        }\n    \
-      \  ],\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\"\
+      time_series\",\n          \"legendFormat\": \"{{`{{device}}`}}\"\n        }\n\
+      \      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\"\
       : \"short\"\n        },\n        \"overrides\": []\n      },\n      \"options\"\
       : {\n        \"legend\": {\n          \"displayMode\": \"table\",\n        \
       \  \"placement\": \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\
@@ -5248,8 +5249,8 @@ extraManifests:
       \"}), \\\"destination\\\", \\\"SNMP history\\\", \\\"exporter\\\", \\\"otlp_http/snmp_history\\\
       \"), \\\"destination\\\", \\\"Cluster metrics\\\", \\\"exporter\\\", \\\"otlp_http/victoriametrics\\\
       \")\",\n          \"instant\": false,\n          \"format\": \"time_series\"\
-      ,\n          \"legendFormat\": \"{{destination}}\"\n        }\n      ],\n  \
-      \    \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"short\"\
+      ,\n          \"legendFormat\": \"{{`{{destination}}`}}\"\n        }\n      ],\n\
+      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"short\"\
       \n        },\n        \"overrides\": []\n      },\n      \"options\": {\n  \
       \      \"legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
       : \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\n       \
@@ -5264,22 +5265,22 @@ extraManifests:
       otlp_http/snmp_history\\\"), \\\"destination\\\", \\\"Cluster metrics\\\", \\\
       \"exporter\\\", \\\"otlp_http/victoriametrics\\\")\",\n          \"instant\"\
       : false,\n          \"format\": \"time_series\",\n          \"legendFormat\"\
-      : \"{{destination}}\"\n        }\n      ],\n      \"fieldConfig\": {\n     \
-      \   \"defaults\": {\n          \"unit\": \"suffix: points/s\"\n        },\n\
-      \        \"overrides\": []\n      },\n      \"options\": {\n        \"legend\"\
-      : {\n          \"displayMode\": \"table\",\n          \"placement\": \"bottom\"\
-      ,\n          \"calcs\": [\n            \"lastNotNull\"\n          ]\n      \
-      \  }\n      }\n    }\n  ],\n  \"templating\": {\n    \"list\": [\n      {\n\
-      \        \"name\": \"device\",\n        \"label\": \"Device\",\n        \"type\"\
-      : \"query\",\n        \"datasource\": {\n          \"type\": \"prometheus\"\
-      ,\n          \"uid\": \"network-snmp\"\n        },\n        \"query\": \"label_values(snmp_device_uptime_ticks,\
-      \ device)\",\n        \"refresh\": 1,\n        \"multi\": true,\n        \"\
-      includeAll\": true,\n        \"allValue\": \".*\",\n        \"current\": {\n\
-      \          \"text\": \"All\",\n          \"value\": \"$__all\"\n        }\n\
-      \      },\n      {\n        \"name\": \"interface\",\n        \"label\": \"\
-      Interface\",\n        \"type\": \"query\",\n        \"datasource\": {\n    \
-      \      \"type\": \"prometheus\",\n          \"uid\": \"network-snmp\"\n    \
-      \    },\n        \"query\": \"label_values(snmp_interface_oper_status{job=\\\
+      : \"{{`{{destination}}`}}\"\n        }\n      ],\n      \"fieldConfig\": {\n\
+      \        \"defaults\": {\n          \"unit\": \"suffix: points/s\"\n       \
+      \ },\n        \"overrides\": []\n      },\n      \"options\": {\n        \"\
+      legend\": {\n          \"displayMode\": \"table\",\n          \"placement\"\
+      : \"bottom\",\n          \"calcs\": [\n            \"lastNotNull\"\n       \
+      \   ]\n        }\n      }\n    }\n  ],\n  \"templating\": {\n    \"list\": [\n\
+      \      {\n        \"name\": \"device\",\n        \"label\": \"Device\",\n  \
+      \      \"type\": \"query\",\n        \"datasource\": {\n          \"type\":\
+      \ \"prometheus\",\n          \"uid\": \"network-snmp\"\n        },\n       \
+      \ \"query\": \"label_values(snmp_device_uptime_ticks, device)\",\n        \"\
+      refresh\": 1,\n        \"multi\": true,\n        \"includeAll\": true,\n   \
+      \     \"allValue\": \".*\",\n        \"current\": {\n          \"text\": \"\
+      All\",\n          \"value\": \"$__all\"\n        }\n      },\n      {\n    \
+      \    \"name\": \"interface\",\n        \"label\": \"Interface\",\n        \"\
+      type\": \"query\",\n        \"datasource\": {\n          \"type\": \"prometheus\"\
+      ,\n          \"uid\": \"network-snmp\"\n        },\n        \"query\": \"label_values(snmp_interface_oper_status{job=\\\
       \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
       \",device=~\\\"$device\\\"}, interface)\",\n        \"refresh\": 1,\n      \
       \  \"multi\": true,\n        \"includeAll\": true,\n        \"allValue\": \"\
