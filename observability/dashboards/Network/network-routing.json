@@ -93,7 +93,7 @@
     },
     {
       "id": 2,
-      "title": "BGP peers not up",
+      "title": "BGP not up",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -141,7 +141,7 @@
     },
     {
       "id": 3,
-      "title": "IS-IS adjacencies",
+      "title": "IS-IS neighbors",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -189,7 +189,7 @@
     },
     {
       "id": 4,
-      "title": "IS-IS adjacencies not up",
+      "title": "IS-IS not up",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -237,7 +237,7 @@
     },
     {
       "id": 5,
-      "title": "Cisco BFD application rows",
+      "title": "BFD app rows",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -285,7 +285,7 @@
     },
     {
       "id": 6,
-      "title": "Cisco BFD application rows not up",
+      "title": "BFD not up",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -358,10 +358,13 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "none",
           "noValue": "No data",
           "color": {
             "mode": "palette-classic"
+          },
+          "custom": {
+            "minWidth": 70
           }
         },
         "overrides": [
@@ -410,6 +413,18 @@
                 "value": {
                   "type": "color-text"
                 }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Remote AS"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
               }
             ]
           }
@@ -485,10 +500,13 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "none",
           "noValue": "No data",
           "color": {
             "mode": "palette-classic"
+          },
+          "custom": {
+            "minWidth": 70
           }
         },
         "overrides": [
@@ -601,10 +619,13 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "none",
           "noValue": "No data",
           "color": {
             "mode": "palette-classic"
+          },
+          "custom": {
+            "minWidth": 70
           }
         },
         "overrides": [
@@ -651,6 +672,54 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 110
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Local LD"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Application ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 115
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "State"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
           }
         ]
       },
@@ -689,7 +758,7 @@
             },
             "renameByName": {
               "device": "Device",
-              "local_discriminator": "Local discriminator (LD)",
+              "local_discriminator": "Local LD",
               "application_id": "Application ID",
               "Value": "State"
             }
