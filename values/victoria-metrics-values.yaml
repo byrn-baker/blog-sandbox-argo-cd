@@ -30,11 +30,17 @@ vmsingle:
       resources:
         requests:
           # Chart default (20Gi) kept as-is: a lab-scale scrape target (K8s
-          # cluster metrics + 38 network devices via snmp_exporter, added in
+          # cluster metrics + 28 network devices via the OTel SNMP collector, added in
           # a later step) fits comfortably at 1-month retention.
           storage: 20Gi
 
 grafana:
+  sidecar:
+    dashboards:
+      defaultFolderName: ""
+      folderAnnotation: grafana_folder
+      provider:
+        foldersFromFilesStructure: true
   # Avoid reader/writer lock contention observed during dashboard provisioning.
   grafana.ini:
     database:
@@ -105,3 +111,24 @@ kube-state-metrics:
       memory: 64Mi
     limits:
       memory: 128Mi
+
+# Dashboard JSON and folder assignments are pinned in observability/dashboards.
+# Keep the sync job for recording/alerting rules; it prunes its old dashboards.
+defaultDashboards:
+  enabled: false
+
+# K3s embeds these components in k3s-server with loopback metrics listeners.
+# The host-network DaemonSet in observability/control-plane.yaml supplies the
+# same jobs. Preserve default rules while removing the empty Service scrapes.
+kubeControllerManager:
+  vmScrape: null
+  service:
+    enabled: false
+kubeScheduler:
+  vmScrape: null
+  service:
+    enabled: false
+kubeEtcd:
+  vmScrape: null
+  service:
+    enabled: false

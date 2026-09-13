@@ -1,0 +1,343 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- control-plane.yaml
+- longhorn.yaml
+- argocd.yaml
+- rules.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+- name: lab-dashboard-alertmanager-overview
+  files:
+  - dashboards/Observability/alertmanager-overview.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability
+- name: lab-dashboard-apiserver
+  files:
+  - dashboards/K3s/apiserver.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-cluster-total
+  files:
+  - dashboards/K3s/cluster-total.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-controller-manager
+  files:
+  - dashboards/K3s/controller-manager.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-etcd
+  files:
+  - dashboards/K3s/etcd.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-grafana-overview
+  files:
+  - dashboards/Observability/grafana-overview.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability
+- name: lab-dashboard-k8s-resources-cluster
+  files:
+  - dashboards/K3s/k8s-resources-cluster.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-k8s-resources-namespace
+  files:
+  - dashboards/K3s/k8s-resources-namespace.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-k8s-resources-node
+  files:
+  - dashboards/K3s/k8s-resources-node.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-k8s-resources-nodes-overview
+  files:
+  - dashboards/K3s/k8s-resources-nodes-overview.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-k8s-resources-pod
+  files:
+  - dashboards/K3s/k8s-resources-pod.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-k8s-resources-workload
+  files:
+  - dashboards/K3s/k8s-resources-workload.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-k8s-resources-workloads-namespace
+  files:
+  - dashboards/K3s/k8s-resources-workloads-namespace.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-kubelet
+  files:
+  - dashboards/K3s/kubelet.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-kubernetes-system-api-server
+  files:
+  - dashboards/K3s/kubernetes-system-api-server.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-kubernetes-system-coredns
+  files:
+  - dashboards/K3s/kubernetes-system-coredns.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-kubernetes-views-global
+  files:
+  - dashboards/K3s/kubernetes-views-global.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-kubernetes-views-namespaces
+  files:
+  - dashboards/K3s/kubernetes-views-namespaces.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-kubernetes-views-nodes
+  files:
+  - dashboards/K3s/kubernetes-views-nodes.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-kubernetes-views-pods
+  files:
+  - dashboards/K3s/kubernetes-views-pods.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-namespace-by-pod
+  files:
+  - dashboards/K3s/namespace-by-pod.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-namespace-by-workload
+  files:
+  - dashboards/K3s/namespace-by-workload.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-node-cluster-rsrc-use
+  files:
+  - dashboards/K3s/node-cluster-rsrc-use.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-node-exporter-full
+  files:
+  - dashboards/K3s/node-exporter-full.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-node-rsrc-use
+  files:
+  - dashboards/K3s/node-rsrc-use.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-nodes
+  files:
+  - dashboards/K3s/nodes.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-persistentvolumesusage
+  files:
+  - dashboards/Storage/persistentvolumesusage.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Storage
+  namespace: observability
+- name: lab-dashboard-pod-total
+  files:
+  - dashboards/K3s/pod-total.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-scheduler
+  files:
+  - dashboards/K3s/scheduler.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-victoriametrics-operator
+  files:
+  - dashboards/Observability/victoriametrics-operator.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability
+- name: lab-dashboard-victoriametrics-single-node
+  files:
+  - dashboards/Observability/victoriametrics-single-node.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability
+- name: lab-dashboard-victoriametrics-vmagent
+  files:
+  - dashboards/Observability/victoriametrics-vmagent.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability
+- name: lab-dashboard-victoriametrics-vmalert
+  files:
+  - dashboards/Observability/victoriametrics-vmalert.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability
+- name: lab-dashboard-workload-total
+  files:
+  - dashboards/K3s/workload-total.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-lab-k3s-stability
+  files:
+  - dashboards/K3s/lab-k3s-stability.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/K3s
+  namespace: observability
+- name: lab-dashboard-lab-longhorn
+  files:
+  - dashboards/Storage/lab-longhorn.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Storage
+  namespace: observability
+- name: lab-dashboard-lab-argocd
+  files:
+  - dashboards/Observability/lab-argocd.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Observability
+  namespace: observability

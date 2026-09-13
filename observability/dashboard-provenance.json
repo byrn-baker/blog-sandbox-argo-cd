@@ -1,0 +1,172 @@
+[
+  {
+    "file": "dashboards/Observability/alertmanager-overview.json",
+    "uid": "alertmanager-overview",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-alertmanager-overview"
+  },
+  {
+    "file": "dashboards/K3s/apiserver.json",
+    "uid": "09ec8aa1e996d6ffcd6817bbaff4db1b",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-apiserver"
+  },
+  {
+    "file": "dashboards/K3s/cluster-total.json",
+    "uid": "ff635a025bcfea7bc3dd4f508990a3e9",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-cluster-total"
+  },
+  {
+    "file": "dashboards/K3s/controller-manager.json",
+    "uid": "72e0e05bef5099e5f049b05fdc429ed4",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-controller-manager"
+  },
+  {
+    "file": "dashboards/K3s/etcd.json",
+    "uid": "c2f4e12cdf69feb95caa41a5a1b423d9",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-etcd"
+  },
+  {
+    "file": "dashboards/Observability/grafana-overview.json",
+    "uid": "6be0s85Mk",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-grafana-overview"
+  },
+  {
+    "file": "dashboards/K3s/k8s-resources-cluster.json",
+    "uid": "efa86fd1d0c121a26444b636a3f509a8",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-k8s-resources-cluster"
+  },
+  {
+    "file": "dashboards/K3s/k8s-resources-namespace.json",
+    "uid": "85a562078cdf77779eaa1add43ccec1e",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-k8s-resources-namespace"
+  },
+  {
+    "file": "dashboards/K3s/k8s-resources-node.json",
+    "uid": "200ac8fdbfbb74b39aff88118e4d1c2c",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-k8s-resources-node"
+  },
+  {
+    "file": "dashboards/K3s/k8s-resources-nodes-overview.json",
+    "uid": "058020e04168bfdea0c52269cb699df2",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-k8s-resources-nodes-overview"
+  },
+  {
+    "file": "dashboards/K3s/k8s-resources-pod.json",
+    "uid": "6581e46e4e5c7ba40a07646395ef7b23",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-k8s-resources-pod"
+  },
+  {
+    "file": "dashboards/K3s/k8s-resources-workload.json",
+    "uid": "a164a7f0339f99e89cea5cb47e9be617",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-k8s-resources-workload"
+  },
+  {
+    "file": "dashboards/K3s/k8s-resources-workloads-namespace.json",
+    "uid": "a87fb0d919ec0ea5f6543124e16c42a5",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-k8s-resources-workloads-namespace"
+  },
+  {
+    "file": "dashboards/K3s/kubelet.json",
+    "uid": "3138fa155d5915769fbded898ac09fd9",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-kubelet"
+  },
+  {
+    "file": "dashboards/K3s/kubernetes-system-api-server.json",
+    "uid": "k8s_system_apisrv",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-kubernetes-system-api-server"
+  },
+  {
+    "file": "dashboards/K3s/kubernetes-system-coredns.json",
+    "uid": "k8s_system_coredns",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-kubernetes-system-coredns"
+  },
+  {
+    "file": "dashboards/K3s/kubernetes-views-global.json",
+    "uid": "k8s_views_global",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-kubernetes-views-global"
+  },
+  {
+    "file": "dashboards/K3s/kubernetes-views-namespaces.json",
+    "uid": "k8s_views_ns",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-kubernetes-views-namespaces"
+  },
+  {
+    "file": "dashboards/K3s/kubernetes-views-nodes.json",
+    "uid": "k8s_views_nodes",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-kubernetes-views-nodes"
+  },
+  {
+    "file": "dashboards/K3s/kubernetes-views-pods.json",
+    "uid": "k8s_views_pods",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-kubernetes-views-pods"
+  },
+  {
+    "file": "dashboards/K3s/namespace-by-pod.json",
+    "uid": "8b7a8b326d7a6f1f04244066368c67af",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-namespace-by-pod"
+  },
+  {
+    "file": "dashboards/K3s/namespace-by-workload.json",
+    "uid": "bbb2a765a623ae38130206c7d94a160f",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-namespace-by-workload"
+  },
+  {
+    "file": "dashboards/K3s/node-cluster-rsrc-use.json",
+    "uid": "3e97d1d02672cdd0861f4c97c64f89b2",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-node-cluster-rsrc-use"
+  },
+  {
+    "file": "dashboards/K3s/node-exporter-full.json",
+    "uid": "rYdddlPWk",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-node-exporter-full"
+  },
+  {
+    "file": "dashboards/K3s/node-rsrc-use.json",
+    "uid": "fac67cfbe174d3ef53eb473d73d9212f",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-node-rsrc-use"
+  },
+  {
+    "file": "dashboards/K3s/nodes.json",
+    "uid": "7d57716318ee0dddbac5a7f451fb7753",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-nodes"
+  },
+  {
+    "file": "dashboards/Storage/persistentvolumesusage.json",
+    "uid": "919b92a8e8041bd567af9edab12c840c",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-persistentvolumesusage"
+  },
+  {
+    "file": "dashboards/K3s/pod-total.json",
+    "uid": "7a18067ce943a40ae25454675c19ff5c",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-pod-total"
+  },
+  {
+    "file": "dashboards/K3s/scheduler.json",
+    "uid": "2e6b6a3b4bddf1427b3a55aa1311c656",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-scheduler"
+  },
+  {
+    "file": "dashboards/Observability/victoriametrics-operator.json",
+    "uid": "1H179hunk",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-victoriametrics-operator"
+  },
+  {
+    "file": "dashboards/Observability/victoriametrics-single-node.json",
+    "uid": "wNf0q_kZk",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-victoriametrics-single-node"
+  },
+  {
+    "file": "dashboards/Observability/victoriametrics-vmagent.json",
+    "uid": "G7Z9GzMGz",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-victoriametrics-vmagent"
+  },
+  {
+    "file": "dashboards/Observability/victoriametrics-vmalert.json",
+    "uid": "LzldHAVnz",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-victoriametrics-vmalert"
+  },
+  {
+    "file": "dashboards/K3s/workload-total.json",
+    "uid": "728bf77cc1166d2f3133bf25846876cc",
+    "sourceConfigMap": "victoria-metrics-k8s-stack-dashboard-workload-total"
+  }
+]
