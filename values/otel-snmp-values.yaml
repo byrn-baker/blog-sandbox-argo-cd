@@ -161,6 +161,10 @@ alternateConfig:
           oid: 1.3.6.1.2.1.2.2.1.3
         if_index:
           indexed_value_prefix: if
+        peer:
+          oid: 1.3.6.1.2.1.15.3.1.7
+        remote_as:
+          oid: 1.3.6.1.2.1.15.3.1.9
       metrics:
         snmp_device_uptime_ticks:
           description: sysUpTime in hundredths of a second; wraps after about 497
@@ -280,6 +284,41 @@ alternateConfig:
             - name: if_type
             - name: if_index
           gauge:
+            value_type: int
+        snmp_bgp_peer_state:
+          description: 'BGP4-MIB peer state: 1 Idle, 2 Connect, 3 Active, 4 OpenSent,
+            5 OpenConfirm, 6 Established'
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.2
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_uptime_seconds:
+          description: Seconds in Established state; default SNMP context, IPv4 peer
+            transport
+          unit: s
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.16
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_established_transitions_total:
+          description: Transitions into Established; not a count of every intermediate
+            state change
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.15
+            attributes:
+            - name: peer
+            - name: remote_as
+          sum:
+            aggregation: cumulative
+            monotonic: true
             value_type: int
       initial_delay: 3s
     snmp/CE2:
@@ -569,6 +608,10 @@ alternateConfig:
           oid: 1.3.6.1.2.1.2.2.1.3
         if_index:
           indexed_value_prefix: if
+        peer:
+          oid: 1.3.6.1.2.1.15.3.1.7
+        remote_as:
+          oid: 1.3.6.1.2.1.15.3.1.9
       metrics:
         snmp_device_uptime_ticks:
           description: sysUpTime in hundredths of a second; wraps after about 497
@@ -688,6 +731,41 @@ alternateConfig:
             - name: if_type
             - name: if_index
           gauge:
+            value_type: int
+        snmp_bgp_peer_state:
+          description: 'BGP4-MIB peer state: 1 Idle, 2 Connect, 3 Active, 4 OpenSent,
+            5 OpenConfirm, 6 Established'
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.2
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_uptime_seconds:
+          description: Seconds in Established state; default SNMP context, IPv4 peer
+            transport
+          unit: s
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.16
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_established_transitions_total:
+          description: Transitions into Established; not a count of every intermediate
+            state change
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.15
+            attributes:
+            - name: peer
+            - name: remote_as
+          sum:
+            aggregation: cumulative
+            monotonic: true
             value_type: int
       initial_delay: 9s
     snmp/DCA-Leaf02:
@@ -2881,6 +2959,14 @@ alternateConfig:
           oid: 1.3.6.1.2.1.2.2.1.3
         if_index:
           indexed_value_prefix: if
+        isis_adjacency:
+          indexed_value_prefix: adj
+        circuit_id:
+          indexed_value_prefix: circuit
+        bfd_session:
+          indexed_value_prefix: bfd
+        address_family:
+          oid: 1.3.6.1.4.1.9.10.137.1.2.1.13
       metrics:
         snmp_device_uptime_ticks:
           description: sysUpTime in hundredths of a second; wraps after about 497
@@ -2999,6 +3085,45 @@ alternateConfig:
             - name: if_name
             - name: if_type
             - name: if_index
+          gauge:
+            value_type: int
+        snmp_isis_adjacency_state:
+          description: 'Cisco IS-IS adjacency: 1 Down, 2 Initializing, 3 Up, 4 Failed'
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.4.1.9.10.118.1.6.1.1.2
+            attributes:
+            - name: isis_adjacency
+          gauge:
+            value_type: int
+        snmp_isis_circuit_if_index:
+          description: Dynamic IS-IS circuit to IF-MIB index mapping, including configured
+            circuits without neighbors
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.4.1.9.10.118.1.3.2.1.2
+            attributes:
+            - name: circuit_id
+          gauge:
+            value_type: int
+        snmp_bfd_session_state:
+          description: 'Cisco BFD state: 1 AdminDown, 2 Down, 3 Init, 4 Up, 5 Failing;
+            not supported by the EOS profile'
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.4.1.9.10.137.1.2.1.6
+            attributes:
+            - name: bfd_session
+            - name: address_family
+          gauge:
+            value_type: int
+        snmp_bfd_session_if_index:
+          description: Dynamic Cisco BFD session to IF-MIB interface index mapping
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.4.1.9.10.137.1.2.1.25
+            attributes:
+            - name: bfd_session
           gauge:
             value_type: int
       initial_delay: 44s
@@ -4471,6 +4596,13 @@ alternateConfig:
       - key: instance
         value: 192.168.3.59
         action: upsert
+    transform/routing_indices:
+      error_mode: propagate
+      metric_statements:
+      - context: datapoint
+        statements:
+        - set(attributes["if_index"], Concat(["if", String(value_int)], ".")) where
+          metric.name == "snmp_isis_circuit_if_index" or metric.name == "snmp_bfd_session_if_index"
   exporters:
     otlp_http/victoriametrics:
       metrics_endpoint: http://vmsingle-victoria-metrics-k8s-stack.observability.svc:8428/opentelemetry/v1/metrics
@@ -4511,6 +4643,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/BORDER1
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4521,6 +4654,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/CE1
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4531,6 +4665,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/CE2
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4541,6 +4676,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/CE3
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4551,6 +4687,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCA-Leaf01
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4561,6 +4698,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCA-Leaf02
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4571,6 +4709,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCA-Leaf03
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4581,6 +4720,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCA-Spine01
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4591,6 +4731,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCA-Spine02
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4601,6 +4742,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCB-Leaf01
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4611,6 +4753,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCB-Leaf02
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4621,6 +4764,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCB-Leaf03
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4631,6 +4775,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCB-Spine01
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4641,6 +4786,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCB-Spine02
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4651,6 +4797,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCC-Leaf01
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4661,6 +4808,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCC-Leaf02
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4671,6 +4819,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCC-Leaf03
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4681,6 +4830,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCC-Spine01
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4691,6 +4841,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/DCC-Spine02
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4701,6 +4852,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/RR1
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4711,6 +4863,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/RR2
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4721,6 +4874,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/SP1
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4731,6 +4885,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/SP2
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4741,6 +4896,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/SP3
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4751,6 +4907,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/SP4
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4761,6 +4918,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/SPE1
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4771,6 +4929,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/SPE2
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
@@ -4781,6 +4940,7 @@ alternateConfig:
         processors:
         - memory_limiter
         - resource/SPE3
+        - transform/routing_indices
         - batch
         exporters:
         - otlp_http/victoriametrics
