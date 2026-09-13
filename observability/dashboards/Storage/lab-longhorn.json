@@ -136,8 +136,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by(volume,mode)(longhorn_engine_replica_mode == 1)",
-          "legendFormat": "{{volume}} / {{mode}}",
+          "expr": "sum by(volume,mode)(longhorn_engine_replica_mode == 1) * on(volume) group_left(pvc) max by(volume,pvc)(longhorn_volume_capacity_bytes > bool 0)",
+          "legendFormat": "{{pvc}} / {{mode}}",
           "range": true
         }
       ]

@@ -103,7 +103,7 @@
       "id": 3,
       "type": "timeseries",
       "title": "Container restarts over one hour",
-      "description": "Counter increases show containers restarting within the selected rolling hour.",
+      "description": "Restarts per namespace during the rolling hour. Use the Pods dashboards to identify individual containers.",
       "datasource": {
         "type": "prometheus",
         "uid": "VictoriaMetrics"
@@ -136,8 +136,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by(namespace,pod,container) (increase(kube_pod_container_status_restarts_total[1h]))",
-          "legendFormat": "{{namespace}} / {{pod}} / {{container}}",
+          "expr": "sum by(namespace) (increase(kube_pod_container_status_restarts_total[1h]))",
+          "legendFormat": "{{namespace}}",
           "range": true
         }
       ]
