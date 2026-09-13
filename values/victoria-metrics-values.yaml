@@ -44,6 +44,14 @@ grafana:
       # during folder migration and prevented it from processing deletions.
       skipReload: true
       initDashboards: true
+      restartPolicy: Always
+      startupProbe:
+        httpGet:
+          path: /healthz
+          port: 8084
+        periodSeconds: 5
+        timeoutSeconds: 3
+        failureThreshold: 60
       provider:
         foldersFromFilesStructure: true
   # Avoid reader/writer lock contention observed during dashboard provisioning.
