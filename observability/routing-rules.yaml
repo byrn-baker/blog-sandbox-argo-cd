@@ -645,6 +645,7 @@ spec:
         summary: Expected SERVERS VRF BGP peer is missing from collection
         description: Check VRF SNMP access, collector errors and the peer in the device
           CLI. Update this baseline after intentional topology changes.
+      record: ''
     - alert: LabBGPVRFPeerMissing
       expr: absent_over_time(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf03",vrf="SERVERS",peer="10.1.2.17"}[3m])
       for: 2m
@@ -657,6 +658,7 @@ spec:
         summary: Expected SERVERS VRF BGP peer is missing from collection
         description: Check VRF SNMP access, collector errors and the peer in the device
           CLI. Update this baseline after intentional topology changes.
+      record: ''
     - alert: LabBGPVRFPeerMissing
       expr: absent_over_time(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf03",vrf="SERVERS",peer="10.1.3.17"}[3m])
       for: 2m
@@ -669,3 +671,4 @@ spec:
         summary: Expected SERVERS VRF BGP peer is missing from collection
         description: Check VRF SNMP access, collector errors and the peer in the device
           CLI. Update this baseline after intentional topology changes.
+      record: ''
