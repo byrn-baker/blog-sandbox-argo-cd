@@ -2,7 +2,7 @@
   "uid": "network-routing",
   "title": "Network Routing",
   "schemaVersion": 39,
-  "version": 2,
+  "version": 3,
   "tags": [
     "network",
     "snmp",
@@ -842,11 +842,11 @@
         "w": 12,
         "h": 8
       },
-      "description": "Transitions into Established can expose a recovered flap between polls. A counter reset or a gap still needs investigation.",
+      "description": "Observed increases in the established-transition counter. VictoriaMetrics increase_prometheus excludes the initial counter value, so starting collection does not create false flaps. Polling gaps can still hide events.",
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(snmp_bgp_peer_established_transitions_total{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"}[15m])",
+          "expr": "increase_prometheus(snmp_bgp_peer_established_transitions_total{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"}[15m])",
           "instant": false,
           "range": true,
           "format": "time_series",
