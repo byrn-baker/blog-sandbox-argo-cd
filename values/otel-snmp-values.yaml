@@ -2202,6 +2202,54 @@ alternateConfig:
             monotonic: true
             value_type: int
       initial_delay: 23s
+    snmp/DCB-Leaf03/SERVERS:
+      endpoint: udp://192.168.3.39:161
+      version: v2c
+      community: ${env:SNMP_DCB_LEAF03}@SERVERS
+      collection_interval: 60s
+      timeout: 5s
+      attributes:
+        peer:
+          oid: 1.3.6.1.2.1.15.3.1.7
+        remote_as:
+          oid: 1.3.6.1.2.1.15.3.1.9
+      metrics:
+        snmp_bgp_peer_state:
+          description: 'BGP4-MIB peer state: 1 Idle, 2 Connect, 3 Active, 4 OpenSent,
+            5 OpenConfirm, 6 Established'
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.2
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_uptime_seconds:
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
+          unit: s
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.16
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_established_transitions_total:
+          description: Transitions into Established; not a count of every intermediate
+            state change
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.15
+            attributes:
+            - name: peer
+            - name: remote_as
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+      initial_delay: 52s
     snmp/DCB-Spine01:
       endpoint: udp://192.168.3.35:161
       version: v2c
@@ -3077,6 +3125,54 @@ alternateConfig:
             monotonic: true
             value_type: int
       initial_delay: 34s
+    snmp/DCC-Leaf03/SERVERS:
+      endpoint: udp://192.168.3.44:161
+      version: v2c
+      community: ${env:SNMP_DCC_LEAF03}@SERVERS
+      collection_interval: 60s
+      timeout: 5s
+      attributes:
+        peer:
+          oid: 1.3.6.1.2.1.15.3.1.7
+        remote_as:
+          oid: 1.3.6.1.2.1.15.3.1.9
+      metrics:
+        snmp_bgp_peer_state:
+          description: 'BGP4-MIB peer state: 1 Idle, 2 Connect, 3 Active, 4 OpenSent,
+            5 OpenConfirm, 6 Established'
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.2
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_uptime_seconds:
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
+          unit: s
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.16
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_established_transitions_total:
+          description: Transitions into Established; not a count of every intermediate
+            state change
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.15
+            attributes:
+            - name: peer
+            - name: remote_as
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+      initial_delay: 4s
     snmp/DCC-Spine01:
       endpoint: udp://192.168.3.40:161
       version: v2c
@@ -6087,6 +6183,17 @@ alternateConfig:
         exporters:
         - otlp_http/victoriametrics
         - otlp_http/snmp_history
+      metrics/DCB-Leaf03/SERVERS:
+        receivers:
+        - snmp/DCB-Leaf03/SERVERS
+        processors:
+        - memory_limiter
+        - resource/DCB-Leaf03
+        - transform/bgp_vrf_SERVERS
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
       metrics/DCB-Spine01:
         receivers:
         - snmp/DCB-Spine01
@@ -6138,6 +6245,17 @@ alternateConfig:
         - memory_limiter
         - resource/DCC-Leaf03
         - transform/routing_indices
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCC-Leaf03/SERVERS:
+        receivers:
+        - snmp/DCC-Leaf03/SERVERS
+        processors:
+        - memory_limiter
+        - resource/DCC-Leaf03
+        - transform/bgp_vrf_SERVERS
         - batch
         exporters:
         - otlp_http/victoriametrics

@@ -8,14 +8,14 @@ spec:
   - name: lab-routing-health
     rules:
     - alert: LabBGPNotUp
-      expr: snmp_bgp_peer_state{job="snmp"} != 6
+      expr: snmp_bgp_peer_state{job="snmp",vrf!=""} != 6
       for: 2m
       labels:
         severity: warning
       annotations:
         summary: BGP reports a non-up state
-        description: '{{ $labels.device }} reports state {{ $value }}. Inspect routing
-          in the CLI; polling does not provide the reason for this transition.'
+        description: '{{ $labels.device }} VRF {{ $labels.vrf }}, peer {{ $labels.peer
+          }} reports state {{ $value }}. Inspect the CLI for the reason.'
       record: ''
     - alert: LabISISNotUp
       expr: snmp_isis_adjacency_state{job="snmp"} != 3
@@ -38,12 +38,13 @@ spec:
           in the CLI; polling does not provide the reason for this transition.'
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="BORDER1"}) or vector(0))
-        < 2
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="BORDER1"})
+        or vector(0)) < 2
       for: 5m
       labels:
         severity: warning
         device: BORDER1
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 2 BGP rows on BORDER1. Check missing peers,
@@ -77,11 +78,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="CE1"}) or vector(0)) < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="CE1"}) or
+        vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: CE1
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on CE1. Check missing peers, SNMP
@@ -89,11 +92,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="CE2"}) or vector(0)) < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="CE2"}) or
+        vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: CE2
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on CE2. Check missing peers, SNMP
@@ -101,11 +106,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="CE3"}) or vector(0)) < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="CE3"}) or
+        vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: CE3
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on CE3. Check missing peers, SNMP
@@ -113,12 +120,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Leaf01"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCA-Leaf01"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCA-Leaf01
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCA-Leaf01. Check missing peers,
@@ -126,12 +134,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Leaf02"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCA-Leaf02"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCA-Leaf02
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCA-Leaf02. Check missing peers,
@@ -139,12 +148,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Leaf03"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCA-Leaf03"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCA-Leaf03
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCA-Leaf03. Check missing peers,
@@ -152,12 +162,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Spine01"}) or vector(0))
-        < 11
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCA-Spine01"})
+        or vector(0)) < 11
       for: 5m
       labels:
         severity: warning
         device: DCA-Spine01
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 11 BGP rows on DCA-Spine01. Check missing peers,
@@ -165,12 +176,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCA-Spine02"}) or vector(0))
-        < 11
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCA-Spine02"})
+        or vector(0)) < 11
       for: 5m
       labels:
         severity: warning
         device: DCA-Spine02
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 11 BGP rows on DCA-Spine02. Check missing peers,
@@ -178,12 +190,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf01"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCB-Leaf01"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCB-Leaf01
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCB-Leaf01. Check missing peers,
@@ -191,12 +204,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf02"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCB-Leaf02"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCB-Leaf02
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCB-Leaf02. Check missing peers,
@@ -204,12 +218,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf03"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCB-Leaf03"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCB-Leaf03
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCB-Leaf03. Check missing peers,
@@ -217,12 +232,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Spine01"}) or vector(0))
-        < 11
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCB-Spine01"})
+        or vector(0)) < 11
       for: 5m
       labels:
         severity: warning
         device: DCB-Spine01
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 11 BGP rows on DCB-Spine01. Check missing peers,
@@ -230,12 +246,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCB-Spine02"}) or vector(0))
-        < 11
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCB-Spine02"})
+        or vector(0)) < 11
       for: 5m
       labels:
         severity: warning
         device: DCB-Spine02
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 11 BGP rows on DCB-Spine02. Check missing peers,
@@ -243,12 +260,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf01"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCC-Leaf01"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCC-Leaf01
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCC-Leaf01. Check missing peers,
@@ -256,12 +274,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf02"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCC-Leaf02"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCC-Leaf02
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCC-Leaf02. Check missing peers,
@@ -269,12 +288,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf03"}) or vector(0))
-        < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCC-Leaf03"})
+        or vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: DCC-Leaf03
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on DCC-Leaf03. Check missing peers,
@@ -282,12 +302,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Spine01"}) or vector(0))
-        < 11
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCC-Spine01"})
+        or vector(0)) < 11
       for: 5m
       labels:
         severity: warning
         device: DCC-Spine01
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 11 BGP rows on DCC-Spine01. Check missing peers,
@@ -295,12 +316,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="DCC-Spine02"}) or vector(0))
-        < 11
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="DCC-Spine02"})
+        or vector(0)) < 11
       for: 5m
       labels:
         severity: warning
         device: DCC-Spine02
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 11 BGP rows on DCC-Spine02. Check missing peers,
@@ -308,11 +330,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="RR1"}) or vector(0)) < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="RR1"}) or
+        vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: RR1
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on RR1. Check missing peers, SNMP
@@ -346,11 +370,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="RR2"}) or vector(0)) < 4
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="RR2"}) or
+        vector(0)) < 4
       for: 5m
       labels:
         severity: warning
         device: RR2
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 4 BGP rows on RR2. Check missing peers, SNMP
@@ -488,12 +514,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="SPE1"}) or vector(0)) <
-        3
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="SPE1"}) or
+        vector(0)) < 3
       for: 5m
       labels:
         severity: warning
         device: SPE1
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 3 BGP rows on SPE1. Check missing peers, SNMP
@@ -527,12 +554,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="SPE2"}) or vector(0)) <
-        3
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="SPE2"}) or
+        vector(0)) < 3
       for: 5m
       labels:
         severity: warning
         device: SPE2
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 3 BGP rows on SPE2. Check missing peers, SNMP
@@ -566,12 +594,13 @@ spec:
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
     - alert: LabBGPCoverage
-      expr: (count(snmp_bgp_peer_state{job="snmp",device="SPE3"}) or vector(0)) <
-        3
+      expr: (count(snmp_bgp_peer_state{job="snmp",vrf="default",device="SPE3"}) or
+        vector(0)) < 3
       for: 5m
       labels:
         severity: warning
         device: SPE3
+        vrf: default
       annotations:
         summary: BGP polling has fewer rows than the verified baseline
         description: Expected at least 3 BGP rows on SPE3. Check missing peers, SNMP
@@ -604,3 +633,39 @@ spec:
           access and collector errors. Update this Git baseline after intentional
           topology changes. BFD rows are per application, not unique sessions.
       record: ''
+    - alert: LabBGPVRFPeerMissing
+      expr: absent_over_time(snmp_bgp_peer_state{job="snmp",device="DCA-Leaf03",vrf="SERVERS",peer="10.1.1.17"}[3m])
+      for: 2m
+      labels:
+        severity: warning
+        device: DCA-Leaf03
+        vrf: SERVERS
+        peer: 10.1.1.17
+      annotations:
+        summary: Expected SERVERS VRF BGP peer is missing from collection
+        description: Check VRF SNMP access, collector errors and the peer in the device
+          CLI. Update this baseline after intentional topology changes.
+    - alert: LabBGPVRFPeerMissing
+      expr: absent_over_time(snmp_bgp_peer_state{job="snmp",device="DCB-Leaf03",vrf="SERVERS",peer="10.1.2.17"}[3m])
+      for: 2m
+      labels:
+        severity: warning
+        device: DCB-Leaf03
+        vrf: SERVERS
+        peer: 10.1.2.17
+      annotations:
+        summary: Expected SERVERS VRF BGP peer is missing from collection
+        description: Check VRF SNMP access, collector errors and the peer in the device
+          CLI. Update this baseline after intentional topology changes.
+    - alert: LabBGPVRFPeerMissing
+      expr: absent_over_time(snmp_bgp_peer_state{job="snmp",device="DCC-Leaf03",vrf="SERVERS",peer="10.1.3.17"}[3m])
+      for: 2m
+      labels:
+        severity: warning
+        device: DCC-Leaf03
+        vrf: SERVERS
+        peer: 10.1.3.17
+      annotations:
+        summary: Expected SERVERS VRF BGP peer is missing from collection
+        description: Check VRF SNMP access, collector errors and the peer in the device
+          CLI. Update this baseline after intentional topology changes.

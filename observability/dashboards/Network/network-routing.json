@@ -2,7 +2,7 @@
   "uid": "network-routing",
   "title": "Network Routing",
   "schemaVersion": 39,
-  "version": 1,
+  "version": 2,
   "tags": [
     "network",
     "snmp",
@@ -15,7 +15,7 @@
     "from": "now-1h",
     "to": "now"
   },
-  "description": "Polled routing health via OpenTelemetry SNMP. State and BGP transitions, not a trap/syslog event archive. Missing peers are checked separately by coverage alerts.",
+  "description": "Polled routing health, with BGP VRF identity and CLI-readable interfaces. The BGP VRF selector affects BGP panels only. Polling does not replace traps or syslog.",
   "templating": {
     "list": [
       {
@@ -30,6 +30,28 @@
         "query": {
           "query": "label_values(snmp_interface_oper_status{job=\"snmp\"},device)",
           "refId": "device"
+        },
+        "refresh": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        }
+      },
+      {
+        "name": "vrf",
+        "label": "BGP VRF",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "network-snmp"
+        },
+        "definition": "label_values(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\",vrf!=\"\"},vrf)",
+        "query": {
+          "query": "label_values(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\",vrf!=\"\"},vrf)",
+          "refId": "vrf"
         },
         "refresh": 1,
         "multi": true,
@@ -57,11 +79,11 @@
         "w": 4,
         "h": 4
       },
-      "description": "Observed rows in the selected devices. Fleet baseline: 133 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
+      "description": "Observed rows in the selected devices. Fleet baseline: 136 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
       "targets": [
         {
           "refId": "A",
-          "expr": "count(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"}) or vector(0)",
+          "expr": "count(snmp_bgp_peer_state{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"}) or vector(0)",
           "instant": true,
           "range": false,
           "format": "time_series",
@@ -109,7 +131,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "count(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"} != 6) or vector(0)",
+          "expr": "count(snmp_bgp_peer_state{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"} != 6) or vector(0)",
           "instant": true,
           "range": false,
           "format": "time_series",
@@ -153,7 +175,7 @@
         "w": 4,
         "h": 4
       },
-      "description": "Observed rows in the selected devices. Fleet baseline: 133 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
+      "description": "Observed rows in the selected devices. Fleet baseline: 136 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
       "targets": [
         {
           "refId": "A",
@@ -249,7 +271,7 @@
         "w": 4,
         "h": 4
       },
-      "description": "Observed rows in the selected devices. Fleet baseline: 133 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
+      "description": "Observed rows in the selected devices. Fleet baseline: 136 BGP peers on 24 devices, 28 IS-IS adjacencies and 56 BFD application rows representing 28 CLI sessions on 10 Cisco routers.",
       "targets": [
         {
           "refId": "A",
@@ -345,11 +367,11 @@
         "w": 24,
         "h": 10
       },
-      "description": "IPv4 peer transports in the default SNMP context. This table does not inventory VPNv4, EVPN, IPv6 address families or per-VRF prefixes. Three SERVERS-VRF peers on the Leaf03 devices are absent from these SNMP tables. Their sessions require separate VRF-aware collection.",
+      "description": "IPv4 BGP peer transports in the default and verified SERVERS SNMP contexts. VRF is part of peer identity. This does not inventory prefixes or individual address families.",
       "targets": [
         {
           "refId": "A",
-          "expr": "max by(device,peer,remote_as)(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"})",
+          "expr": "max by(device,vrf,peer,remote_as)(snmp_bgp_peer_state{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"})",
           "instant": true,
           "range": false,
           "format": "table",
@@ -447,6 +469,7 @@
             "include": {
               "names": [
                 "device",
+                "vrf",
                 "peer",
                 "remote_as",
                 "Value"
@@ -459,12 +482,14 @@
           "options": {
             "indexByName": {
               "device": 0,
-              "peer": 1,
-              "remote_as": 2,
-              "Value": 3
+              "vrf": 1,
+              "peer": 2,
+              "remote_as": 3,
+              "Value": 4
             },
             "renameByName": {
               "device": "Device",
+              "vrf": "VRF",
               "peer": "Peer address",
               "remote_as": "Remote AS",
               "Value": "State"
@@ -784,11 +809,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "snmp_bgp_peer_uptime_seconds{job=\"snmp\",device=~\"$device\"}",
+          "expr": "snmp_bgp_peer_uptime_seconds{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"}",
           "instant": false,
           "range": true,
           "format": "time_series",
-          "legendFormat": "{{device}} to {{peer}}"
+          "legendFormat": "{{device}} / {{vrf}} / {{peer}}"
         }
       ],
       "fieldConfig": {
@@ -821,11 +846,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(snmp_bgp_peer_established_transitions_total{job=\"snmp\",device=~\"$device\"}[15m])",
+          "expr": "increase(snmp_bgp_peer_established_transitions_total{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"}[15m])",
           "instant": false,
           "range": true,
           "format": "time_series",
-          "legendFormat": "{{device}} to {{peer}}"
+          "legendFormat": "{{device}} / {{vrf}} / {{peer}}"
         }
       ],
       "fieldConfig": {
@@ -954,7 +979,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "count(count by(device)(snmp_bgp_peer_state{job=\"snmp\",device=~\"$device\"})) or vector(0)",
+          "expr": "count(count by(device)(snmp_bgp_peer_state{job=\"snmp\",vrf!=\"\",vrf=~\"$vrf\",device=~\"$device\"})) or vector(0)",
           "instant": true,
           "range": false,
           "format": "time_series",
