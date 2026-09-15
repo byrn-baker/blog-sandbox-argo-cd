@@ -1,0 +1,83 @@
+deployment:
+  replicas: 2
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+topologySpreadConstraints:
+- maxSkew: 1
+  topologyKey: topology.kubernetes.io/zone
+  whenUnsatisfiable: DoNotSchedule
+  labelSelector:
+    matchLabels: &id001
+      app.kubernetes.io/name: traefik
+- maxSkew: 1
+  topologyKey: kubernetes.io/hostname
+  whenUnsatisfiable: DoNotSchedule
+  labelSelector:
+    matchLabels: *id001
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    memory: 384Mi
+providers:
+  kubernetesCRD:
+    enabled: true
+    allowCrossNamespace: false
+  kubernetesIngress:
+    enabled: true
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+  name: traefik
+ingressRoute:
+  dashboard:
+    enabled: false
+ports:
+  web:
+    expose:
+      default: true
+      lab: true
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    expose:
+      default: true
+      lab: true
+service:
+  annotations:
+    metallb.io/address-pool: ingress-management
+    metallb.io/loadBalancerIPs: 192.168.3.240
+  spec:
+    type: LoadBalancer
+    externalTrafficPolicy: Cluster
+  additionalServices:
+    lab:
+      single: true
+      annotations:
+        metallb.io/address-pool: ingress-lab
+        metallb.io/loadBalancerIPs: 10.100.0.240
+      spec:
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+tlsStore:
+  default:
+    defaultCertificate:
+      secretName: ingress-tls
+log:
+  level: INFO
+accessLog:
+  enabled: true
+  format: json
+  fields:
+    headers:
+      defaultMode: drop

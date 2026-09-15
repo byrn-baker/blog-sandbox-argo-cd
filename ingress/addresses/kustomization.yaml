@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- management-ipaddresspool.yaml
+- management-l2advertisement.yaml
+- lab-ipaddresspool.yaml
+- lab-l2advertisement.yaml

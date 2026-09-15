@@ -1,0 +1,9 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ingress-lab
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.100.0.240/32
+  autoAssign: false

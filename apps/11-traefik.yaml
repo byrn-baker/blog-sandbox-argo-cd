@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '11'
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+  sources:
+  - repoURL: http://192.168.3.21:8888/helm/
+    chart: traefik
+    targetRevision: 41.5.0
+    helm:
+      valueFiles:
+      - $values/values/traefik-values.yaml
+  - repoURL: https://github.com/byrn-baker/blog-sandbox-argo-cd.git
+    targetRevision: main
+    ref: values
