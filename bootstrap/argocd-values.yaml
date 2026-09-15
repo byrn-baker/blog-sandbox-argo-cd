@@ -70,6 +70,7 @@ redis:
 # This does not serialize later independent child auto-sync operations.
 configs:
   cm:
+    url: https://argocd.sandbox.lab
     resource.customizations.health.argoproj.io_Application: |
       hs = {}
       hs.status = "Progressing"

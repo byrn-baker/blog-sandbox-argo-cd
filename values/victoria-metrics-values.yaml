@@ -56,6 +56,9 @@ grafana:
         foldersFromFilesStructure: true
   # Avoid reader/writer lock contention observed during dashboard provisioning.
   grafana.ini:
+    server:
+      domain: grafana.sandbox.lab
+      root_url: https://grafana.sandbox.lab/
     database:
       wal: true
   readinessProbe:
