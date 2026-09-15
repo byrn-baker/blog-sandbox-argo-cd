@@ -6,7 +6,6 @@ client trust stores. Re-run for renewal; the tool renews within 30 days of expir
 """
 import base64
 import datetime as dt
-import ipaddress
 import json
 import os
 from pathlib import Path
@@ -32,14 +31,15 @@ def keyfile(name):
     return key
 
 ca_key = keyfile('ca.key')
-if (STATE/'ca.crt').exists():
-    ca = x509.load_pem_x509_certificate((STATE/'ca.crt').read_bytes())
-else:
+ca = x509.load_pem_x509_certificate((STATE/'ca.crt').read_bytes()) if (STATE/'ca.crt').exists() else None
+if ca is None or not any(e.oid == x509.ExtensionOID.SUBJECT_KEY_IDENTIFIER for e in ca.extensions):
     name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, 'Sandbox Lab Ingress CA')])
     ca = (x509.CertificateBuilder().subject_name(name).issuer_name(name).public_key(ca_key.public_key())
           .serial_number(x509.random_serial_number()).not_valid_before(now-dt.timedelta(minutes=5))
           .not_valid_after(now+dt.timedelta(days=3650)).add_extension(x509.BasicConstraints(ca=True,path_length=0),critical=True)
           .add_extension(x509.KeyUsage(False,False,False,False,False,True,True,False,False),critical=True)
+          .add_extension(x509.SubjectKeyIdentifier.from_public_key(ca_key.public_key()),critical=False)
+          .add_extension(x509.AuthorityKeyIdentifier.from_issuer_public_key(ca_key.public_key()),critical=False)
           .sign(ca_key,hashes.SHA256()))
     (STATE/'ca.crt').write_bytes(ca.public_bytes(serialization.Encoding.PEM))
 key = keyfile('ingress.key')
@@ -55,12 +55,15 @@ assert hosts and len(hosts)==len(set(hosts))
 cert_path=STATE/'ingress.crt'
 cert=x509.load_pem_x509_certificate(cert_path.read_bytes()) if cert_path.exists() else None
 existing=set(cert.extensions.get_extension_for_class(x509.SubjectAlternativeName).value.get_values_for_type(x509.DNSName)) if cert else set()
-if cert is None or existing!=set(hosts) or cert.not_valid_after_utc<now+dt.timedelta(days=30):
+if cert is None or existing!=set(hosts) or cert.not_valid_after_utc<now+dt.timedelta(days=30) or not any(e.oid == x509.ExtensionOID.AUTHORITY_KEY_IDENTIFIER for e in cert.extensions):
     cert=(x509.CertificateBuilder().subject_name(x509.Name([x509.NameAttribute(NameOID.COMMON_NAME,'Sandbox Lab Ingress')]))
           .issuer_name(ca.subject).public_key(key.public_key()).serial_number(x509.random_serial_number())
           .not_valid_before(now-dt.timedelta(minutes=5)).not_valid_after(now+dt.timedelta(days=365))
           .add_extension(x509.SubjectAlternativeName([x509.DNSName(h) for h in hosts]),critical=False)
           .add_extension(x509.BasicConstraints(ca=False,path_length=None),critical=True)
+          .add_extension(x509.SubjectKeyIdentifier.from_public_key(key.public_key()),critical=False)
+          .add_extension(x509.AuthorityKeyIdentifier.from_issuer_public_key(ca_key.public_key()),critical=False)
+          .add_extension(x509.KeyUsage(True,False,True,False,False,False,False,False,False),critical=True)
           .add_extension(x509.ExtendedKeyUsage([x509.oid.ExtendedKeyUsageOID.SERVER_AUTH]),critical=False)
           .sign(ca_key,hashes.SHA256()))
     cert_path.write_bytes(cert.public_bytes(serialization.Encoding.PEM))
