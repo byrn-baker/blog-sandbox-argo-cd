@@ -1,0 +1,90 @@
+{
+  "grafana_authenticated": 200,
+  "grafana_unauthenticated": 401,
+  "argocd_authenticated": 200,
+  "argocd_unauthenticated": 401,
+  "argocd_applications": 10,
+  "tls_chain_and_hostname_verified": true,
+  "applications": {
+    "cluster-observability": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "ingress-addresses": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "ingress-routes": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "longhorn": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "metallb": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "otel-snmp": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "root-app": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "snmp-metrics": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "traefik": {
+      "sync": "Synced",
+      "health": "Healthy"
+    },
+    "victoria-metrics-k8s-stack": {
+      "sync": "Synced",
+      "health": "Healthy"
+    }
+  },
+  "nodes_ready": {
+    "dca-k3s-m1": "True",
+    "dca-k3s-m2": "True",
+    "dca-k3s-m3": "True",
+    "dcb-k3s-w1": "True",
+    "dcb-k3s-w2": "True",
+    "dcb-k3s-w3": "True",
+    "dcc-k3s-w4": "True",
+    "dcc-k3s-w5": "True",
+    "dcc-k3s-w6": "True"
+  },
+  "http_redirect": 308,
+  "unknown_host": 404,
+  "legacy_grafana_login": 200,
+  "management_dns_answer": "192.168.3.240",
+  "lab_dns_answer": "10.100.0.240",
+  "pfsense_dns_status": "NXDOMAIN; domain override pending",
+  "grafana_network_routing_browser": {
+    "query_errors": [],
+    "empty_panels": 0
+  },
+  "cross_site_https_checks": {
+    "sites": [
+      "DC-A",
+      "DC-B",
+      "DC-C"
+    ],
+    "hostnames": [
+      "grafana.sandbox.lab",
+      "argocd.sandbox.lab"
+    ],
+    "status": 200,
+    "certificate_verified": true
+  },
+  "not_tested": [
+    "client workstation access",
+    "cold boot",
+    "datacenter failure",
+    "maximum throughput"
+  ]
+}
