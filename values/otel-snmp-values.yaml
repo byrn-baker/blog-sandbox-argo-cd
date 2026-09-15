@@ -173,8 +173,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -380,8 +380,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -555,8 +555,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -730,8 +730,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -905,8 +905,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -1080,8 +1080,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -1255,8 +1255,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -1279,6 +1279,54 @@ alternateConfig:
             monotonic: true
             value_type: int
       initial_delay: 13s
+    snmp/DCA-Leaf03/SERVERS:
+      endpoint: udp://192.168.3.34:161
+      version: v2c
+      community: ${env:SNMP_DCA_LEAF03}@SERVERS
+      collection_interval: 60s
+      timeout: 5s
+      attributes:
+        peer:
+          oid: 1.3.6.1.2.1.15.3.1.7
+        remote_as:
+          oid: 1.3.6.1.2.1.15.3.1.9
+      metrics:
+        snmp_bgp_peer_state:
+          description: 'BGP4-MIB peer state: 1 Idle, 2 Connect, 3 Active, 4 OpenSent,
+            5 OpenConfirm, 6 Established'
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.2
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_uptime_seconds:
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
+          unit: s
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.16
+            attributes:
+            - name: peer
+            - name: remote_as
+          gauge:
+            value_type: int
+        snmp_bgp_peer_established_transitions_total:
+          description: Transitions into Established; not a count of every intermediate
+            state change
+          unit: '1'
+          column_oids:
+          - oid: 1.3.6.1.2.1.15.3.1.15
+            attributes:
+            - name: peer
+            - name: remote_as
+          sum:
+            aggregation: cumulative
+            monotonic: true
+            value_type: int
+      initial_delay: 42s
     snmp/DCA-Spine01:
       endpoint: udp://192.168.3.30:161
       version: v2c
@@ -1430,8 +1478,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -1605,8 +1653,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -1780,8 +1828,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -1955,8 +2003,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -2130,8 +2178,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -2305,8 +2353,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -2480,8 +2528,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -2655,8 +2703,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -2830,8 +2878,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -3005,8 +3053,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -3180,8 +3228,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -3355,8 +3403,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -3542,8 +3590,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -3761,8 +3809,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -4700,8 +4748,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -4919,8 +4967,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -5138,8 +5186,8 @@ alternateConfig:
           gauge:
             value_type: int
         snmp_bgp_peer_uptime_seconds:
-          description: Seconds in Established state; default SNMP context, IPv4 peer
-            transport
+          description: Seconds in Established state; IPv4 peer transport in the labeled
+            VRF
           unit: s
           column_oids:
           - oid: 1.3.6.1.2.1.15.3.1.16
@@ -5203,6 +5251,15 @@ alternateConfig:
       timeout: 5s
       send_batch_size: 2048
       send_batch_max_size: 4096
+    transform/routing_indices:
+      error_mode: propagate
+      metric_statements:
+      - context: datapoint
+        statements:
+        - set(datapoint.attributes["if_index"], Concat(["if", String(datapoint.value_int)],
+          ".")) where metric.name == "snmp_isis_circuit_if_index"
+        - set(datapoint.attributes["vrf"], "default") where IsMatch(metric.name, "^snmp_bgp_peer_")
+          and datapoint.attributes["vrf"] == nil
     resource/BORDER1:
       attributes:
       - key: device
@@ -5364,6 +5421,12 @@ alternateConfig:
       - key: instance
         value: 192.168.3.34
         action: upsert
+    transform/bgp_vrf_SERVERS:
+      error_mode: propagate
+      metric_statements:
+      - context: datapoint
+        statements:
+        - set(datapoint.attributes["vrf"], "SERVERS")
     resource/DCA-Spine01:
       attributes:
       - key: device
@@ -5847,13 +5910,6 @@ alternateConfig:
       - key: instance
         value: 192.168.3.59
         action: upsert
-    transform/routing_indices:
-      error_mode: propagate
-      metric_statements:
-      - context: datapoint
-        statements:
-        - set(datapoint.attributes["if_index"], Concat(["if", String(datapoint.value_int)],
-          ".")) where metric.name == "snmp_isis_circuit_if_index"
   exporters:
     otlp_http/victoriametrics:
       metrics_endpoint: http://vmsingle-victoria-metrics-k8s-stack.observability.svc:8428/opentelemetry/v1/metrics
@@ -5961,6 +6017,17 @@ alternateConfig:
         - memory_limiter
         - resource/DCA-Leaf03
         - transform/routing_indices
+        - batch
+        exporters:
+        - otlp_http/victoriametrics
+        - otlp_http/snmp_history
+      metrics/DCA-Leaf03/SERVERS:
+        receivers:
+        - snmp/DCA-Leaf03/SERVERS
+        processors:
+        - memory_limiter
+        - resource/DCA-Leaf03
+        - transform/bgp_vrf_SERVERS
         - batch
         exporters:
         - otlp_http/victoriametrics
