@@ -57,9 +57,9 @@ Overrides** with domain `sandbox.lab` and destination `192.168.3.71`, then
 save and apply. This forwards that zone to BIND while retaining pfSense's normal
 resolution for other domains. See the [pfSense domain override documentation](https://docs.netgate.com/pfsense/en/latest/services/dns/resolver-domain-overrides.html).
 
-The pfSense override wasn't configured during this rollout because management
-access wasn't available. A direct query to pfSense still returned NXDOMAIN.
-After configuring it, verify from the workstation:
+The user configured the pfSense override and confirmed access. Subsequent
+queries through `192.168.3.1` returned the management VIP for both hostnames.
+To check the client resolver path from the workstation:
 
 ```sh
 nslookup grafana.sandbox.lab

@@ -1,0 +1,49 @@
+{
+  "part7-k3s-stability": {
+    "query_errors": [],
+    "no_data_panels": 0,
+    "selection": {}
+  },
+  "part7-longhorn": {
+    "query_errors": [],
+    "no_data_panels": 0,
+    "selection": {}
+  },
+  "part7-argocd": {
+    "query_errors": [],
+    "no_data_panels": 0,
+    "selection": {}
+  },
+  "part7-snmp-cisco": {
+    "query_errors": [],
+    "no_data_panels": 0,
+    "selection": {
+      "var-device": "CE1",
+      "var-interface": "GigabitEthernet2"
+    }
+  },
+  "part7-snmp-arista": {
+    "query_errors": [],
+    "no_data_panels": 0,
+    "selection": {
+      "var-device": "DCA-Leaf01",
+      "var-interface": "Ethernet1"
+    }
+  },
+  "part7-routing-vrf": {
+    "query_errors": [],
+    "no_data_panels": 0,
+    "selection": {
+      "var-device": "$__all",
+      "var-vrf": "SERVERS"
+    }
+  },
+  "folders": {
+    "names": [
+      "Network",
+      "K3s",
+      "Storage",
+      "Observability"
+    ]
+  }
+}
