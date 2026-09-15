@@ -1,0 +1,445 @@
+{
+  "stores": {
+    "network-snmp": {
+      "snmp_bgp_peer_state": {
+        "default": 133,
+        "SERVERS": [
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_state",
+              "device": "DCA-Leaf03",
+              "instance": "192.168.3.34",
+              "job": "snmp",
+              "management_ip": "192.168.3.34",
+              "peer": "10.1.1.17",
+              "platform": "arista_eos",
+              "remote_as": "65001",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-A",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462845,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_state",
+              "device": "DCB-Leaf03",
+              "instance": "192.168.3.39",
+              "job": "snmp",
+              "management_ip": "192.168.3.39",
+              "peer": "10.1.2.17",
+              "platform": "arista_eos",
+              "remote_as": "65002",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-B",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462845,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_state",
+              "device": "DCC-Leaf03",
+              "instance": "192.168.3.44",
+              "job": "snmp",
+              "management_ip": "192.168.3.44",
+              "peer": "10.1.3.17",
+              "platform": "arista_eos",
+              "remote_as": "65003",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-C",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462845,
+              "6"
+            ]
+          }
+        ]
+      },
+      "snmp_bgp_peer_uptime_seconds": {
+        "default": 133,
+        "SERVERS": [
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_uptime_seconds",
+              "device": "DCA-Leaf03",
+              "instance": "192.168.3.34",
+              "job": "snmp",
+              "management_ip": "192.168.3.34",
+              "peer": "10.1.1.17",
+              "platform": "arista_eos",
+              "remote_as": "65001",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-A",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462845,
+              "305248"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_uptime_seconds",
+              "device": "DCB-Leaf03",
+              "instance": "192.168.3.39",
+              "job": "snmp",
+              "management_ip": "192.168.3.39",
+              "peer": "10.1.2.17",
+              "platform": "arista_eos",
+              "remote_as": "65002",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-B",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462845,
+              "216635"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_uptime_seconds",
+              "device": "DCC-Leaf03",
+              "instance": "192.168.3.44",
+              "job": "snmp",
+              "management_ip": "192.168.3.44",
+              "peer": "10.1.3.17",
+              "platform": "arista_eos",
+              "remote_as": "65003",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-C",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462845,
+              "304191"
+            ]
+          }
+        ]
+      },
+      "snmp_bgp_peer_established_transitions_total": {
+        "default": 133,
+        "SERVERS": [
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_established_transitions_total",
+              "device": "DCA-Leaf03",
+              "instance": "192.168.3.34",
+              "job": "snmp",
+              "management_ip": "192.168.3.34",
+              "peer": "10.1.1.17",
+              "platform": "arista_eos",
+              "remote_as": "65001",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-A",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462846,
+              "3"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_established_transitions_total",
+              "device": "DCB-Leaf03",
+              "instance": "192.168.3.39",
+              "job": "snmp",
+              "management_ip": "192.168.3.39",
+              "peer": "10.1.2.17",
+              "platform": "arista_eos",
+              "remote_as": "65002",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-B",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462846,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_established_transitions_total",
+              "device": "DCC-Leaf03",
+              "instance": "192.168.3.44",
+              "job": "snmp",
+              "management_ip": "192.168.3.44",
+              "peer": "10.1.3.17",
+              "platform": "arista_eos",
+              "remote_as": "65003",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-C",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462846,
+              "3"
+            ]
+          }
+        ]
+      },
+      "snmp_device_uptime_ticks": 28,
+      "snmp_isis_adjacency_state": 28,
+      "snmp_bfd_session_state": 56
+    },
+    "VictoriaMetrics": {
+      "snmp_bgp_peer_state": {
+        "default": 133,
+        "SERVERS": [
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_state",
+              "device": "DCA-Leaf03",
+              "instance": "192.168.3.34",
+              "job": "snmp",
+              "management_ip": "192.168.3.34",
+              "peer": "10.1.1.17",
+              "platform": "arista_eos",
+              "remote_as": "65001",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-A",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462849,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_state",
+              "device": "DCB-Leaf03",
+              "instance": "192.168.3.39",
+              "job": "snmp",
+              "management_ip": "192.168.3.39",
+              "peer": "10.1.2.17",
+              "platform": "arista_eos",
+              "remote_as": "65002",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-B",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462849,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_state",
+              "device": "DCC-Leaf03",
+              "instance": "192.168.3.44",
+              "job": "snmp",
+              "management_ip": "192.168.3.44",
+              "peer": "10.1.3.17",
+              "platform": "arista_eos",
+              "remote_as": "65003",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-C",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462849,
+              "6"
+            ]
+          }
+        ]
+      },
+      "snmp_bgp_peer_uptime_seconds": {
+        "default": 133,
+        "SERVERS": [
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_uptime_seconds",
+              "device": "DCA-Leaf03",
+              "instance": "192.168.3.34",
+              "job": "snmp",
+              "management_ip": "192.168.3.34",
+              "peer": "10.1.1.17",
+              "platform": "arista_eos",
+              "remote_as": "65001",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-A",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462849,
+              "305248"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_uptime_seconds",
+              "device": "DCB-Leaf03",
+              "instance": "192.168.3.39",
+              "job": "snmp",
+              "management_ip": "192.168.3.39",
+              "peer": "10.1.2.17",
+              "platform": "arista_eos",
+              "remote_as": "65002",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-B",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462849,
+              "216635"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_uptime_seconds",
+              "device": "DCC-Leaf03",
+              "instance": "192.168.3.44",
+              "job": "snmp",
+              "management_ip": "192.168.3.44",
+              "peer": "10.1.3.17",
+              "platform": "arista_eos",
+              "remote_as": "65003",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-C",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462849,
+              "304191"
+            ]
+          }
+        ]
+      },
+      "snmp_bgp_peer_established_transitions_total": {
+        "default": 133,
+        "SERVERS": [
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_established_transitions_total",
+              "device": "DCA-Leaf03",
+              "instance": "192.168.3.34",
+              "job": "snmp",
+              "management_ip": "192.168.3.34",
+              "peer": "10.1.1.17",
+              "platform": "arista_eos",
+              "remote_as": "65001",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-A",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462850,
+              "3"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_established_transitions_total",
+              "device": "DCB-Leaf03",
+              "instance": "192.168.3.39",
+              "job": "snmp",
+              "management_ip": "192.168.3.39",
+              "peer": "10.1.2.17",
+              "platform": "arista_eos",
+              "remote_as": "65002",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-B",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462850,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "snmp_bgp_peer_established_transitions_total",
+              "device": "DCC-Leaf03",
+              "instance": "192.168.3.44",
+              "job": "snmp",
+              "management_ip": "192.168.3.44",
+              "peer": "10.1.3.17",
+              "platform": "arista_eos",
+              "remote_as": "65003",
+              "scope.name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/snmpreceiver",
+              "scope.version": "0.154.0",
+              "site": "DC-C",
+              "telemetry_source": "snmp",
+              "vrf": "SERVERS"
+            },
+            "value": [
+              1789462850,
+              "3"
+            ]
+          }
+        ]
+      },
+      "snmp_device_uptime_ticks": 28,
+      "snmp_isis_adjacency_state": 28,
+      "snmp_bfd_session_state": 56
+    }
+  },
+  "dashboard": {
+    ".*": {
+      "queries_with_data": 15
+    },
+    "SERVERS": {
+      "queries_with_data": 15
+    },
+    "default": {
+      "queries_with_data": 15
+    }
+  },
+  "browser": {
+    "SERVERS_peers_visible": 3,
+    "remote_AS_numbers_exact": true,
+    "query_errors": [],
+    "empty_panels": 0
+  },
+  "alerts": {
+    "vrf_peer_absence_rules": 3,
+    "health": "ok",
+    "state": "inactive",
+    "external_delivery_tested": false
+  }
+}
