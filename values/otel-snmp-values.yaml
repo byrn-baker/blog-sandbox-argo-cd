@@ -5361,6 +5361,9 @@ alternateConfig:
       - key: device
         value: BORDER1
         action: upsert
+      - key: role
+        value: Border-Router
+        action: upsert
       - key: platform
         value: cisco_iosxe
         action: upsert
@@ -5383,6 +5386,9 @@ alternateConfig:
       attributes:
       - key: device
         value: CE1
+        action: upsert
+      - key: role
+        value: CE-Router
         action: upsert
       - key: platform
         value: cisco_iosxe
@@ -5407,6 +5413,9 @@ alternateConfig:
       - key: device
         value: CE2
         action: upsert
+      - key: role
+        value: CE-Router
+        action: upsert
       - key: platform
         value: cisco_iosxe
         action: upsert
@@ -5429,6 +5438,9 @@ alternateConfig:
       attributes:
       - key: device
         value: CE3
+        action: upsert
+      - key: role
+        value: CE-Router
         action: upsert
       - key: platform
         value: cisco_iosxe
@@ -5453,6 +5465,9 @@ alternateConfig:
       - key: device
         value: DCA-Leaf01
         action: upsert
+      - key: role
+        value: Leaf
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5476,6 +5491,9 @@ alternateConfig:
       - key: device
         value: DCA-Leaf02
         action: upsert
+      - key: role
+        value: Leaf
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5498,6 +5516,9 @@ alternateConfig:
       attributes:
       - key: device
         value: DCA-Leaf03
+        action: upsert
+      - key: role
+        value: Leaf
         action: upsert
       - key: platform
         value: arista_eos
@@ -5528,6 +5549,9 @@ alternateConfig:
       - key: device
         value: DCA-Spine01
         action: upsert
+      - key: role
+        value: Spine
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5550,6 +5574,9 @@ alternateConfig:
       attributes:
       - key: device
         value: DCA-Spine02
+        action: upsert
+      - key: role
+        value: Spine
         action: upsert
       - key: platform
         value: arista_eos
@@ -5574,6 +5601,9 @@ alternateConfig:
       - key: device
         value: DCB-Leaf01
         action: upsert
+      - key: role
+        value: Leaf
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5596,6 +5626,9 @@ alternateConfig:
       attributes:
       - key: device
         value: DCB-Leaf02
+        action: upsert
+      - key: role
+        value: Leaf
         action: upsert
       - key: platform
         value: arista_eos
@@ -5620,6 +5653,9 @@ alternateConfig:
       - key: device
         value: DCB-Leaf03
         action: upsert
+      - key: role
+        value: Leaf
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5642,6 +5678,9 @@ alternateConfig:
       attributes:
       - key: device
         value: DCB-Spine01
+        action: upsert
+      - key: role
+        value: Spine
         action: upsert
       - key: platform
         value: arista_eos
@@ -5666,6 +5705,9 @@ alternateConfig:
       - key: device
         value: DCB-Spine02
         action: upsert
+      - key: role
+        value: Spine
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5688,6 +5730,9 @@ alternateConfig:
       attributes:
       - key: device
         value: DCC-Leaf01
+        action: upsert
+      - key: role
+        value: Leaf
         action: upsert
       - key: platform
         value: arista_eos
@@ -5712,6 +5757,9 @@ alternateConfig:
       - key: device
         value: DCC-Leaf02
         action: upsert
+      - key: role
+        value: Leaf
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5734,6 +5782,9 @@ alternateConfig:
       attributes:
       - key: device
         value: DCC-Leaf03
+        action: upsert
+      - key: role
+        value: Leaf
         action: upsert
       - key: platform
         value: arista_eos
@@ -5758,6 +5809,9 @@ alternateConfig:
       - key: device
         value: DCC-Spine01
         action: upsert
+      - key: role
+        value: Spine
+        action: upsert
       - key: platform
         value: arista_eos
         action: upsert
@@ -5780,6 +5834,9 @@ alternateConfig:
       attributes:
       - key: device
         value: DCC-Spine02
+        action: upsert
+      - key: role
+        value: Spine
         action: upsert
       - key: platform
         value: arista_eos
@@ -5804,6 +5861,9 @@ alternateConfig:
       - key: device
         value: RR1
         action: upsert
+      - key: role
+        value: Route-Reflector
+        action: upsert
       - key: platform
         value: cisco_iosxe
         action: upsert
@@ -5826,6 +5886,9 @@ alternateConfig:
       attributes:
       - key: device
         value: RR2
+        action: upsert
+      - key: role
+        value: Route-Reflector
         action: upsert
       - key: platform
         value: cisco_iosxe
@@ -5850,6 +5913,9 @@ alternateConfig:
       - key: device
         value: SP1
         action: upsert
+      - key: role
+        value: P-Router
+        action: upsert
       - key: platform
         value: cisco_iosxe
         action: upsert
@@ -5872,6 +5938,9 @@ alternateConfig:
       attributes:
       - key: device
         value: SP2
+        action: upsert
+      - key: role
+        value: P-Router
         action: upsert
       - key: platform
         value: cisco_iosxe
@@ -5896,6 +5965,9 @@ alternateConfig:
       - key: device
         value: SP3
         action: upsert
+      - key: role
+        value: P-Router
+        action: upsert
       - key: platform
         value: cisco_iosxe
         action: upsert
@@ -5918,6 +5990,9 @@ alternateConfig:
       attributes:
       - key: device
         value: SP4
+        action: upsert
+      - key: role
+        value: P-Router
         action: upsert
       - key: platform
         value: cisco_iosxe
@@ -5942,6 +6017,9 @@ alternateConfig:
       - key: device
         value: SPE1
         action: upsert
+      - key: role
+        value: PE-Router
+        action: upsert
       - key: platform
         value: cisco_iosxe
         action: upsert
@@ -5965,6 +6043,9 @@ alternateConfig:
       - key: device
         value: SPE2
         action: upsert
+      - key: role
+        value: PE-Router
+        action: upsert
       - key: platform
         value: cisco_iosxe
         action: upsert
@@ -5987,6 +6068,9 @@ alternateConfig:
       attributes:
       - key: device
         value: SPE3
+        action: upsert
+      - key: role
+        value: PE-Router
         action: upsert
       - key: platform
         value: cisco_iosxe
@@ -6884,6 +6968,261 @@ extraManifests:
       \  \"multi\": true,\n        \"includeAll\": true,\n        \"allValue\": \"\
       .*\",\n        \"current\": {\n          \"text\": \"All\",\n          \"value\"\
       : \"$__all\"\n        }\n      }\n    ]\n  }\n}"
+    network-operations.json: "{\n  \"uid\": \"network-operations\",\n  \"title\":\
+      \ \"Network Operations Overview\",\n  \"description\": \"Exception-oriented\
+      \ NOC landing page. Use Network SNMP and Network Routing for drill-down.\",\n\
+      \  \"tags\": [\n    \"network\",\n    \"noc\",\n    \"snmp\"\n  ],\n  \"schemaVersion\"\
+      : 39,\n  \"version\": 1,\n  \"editable\": false,\n  \"timezone\": \"browser\"\
+      ,\n  \"refresh\": \"30s\",\n  \"time\": {\n    \"from\": \"now-1h\",\n    \"\
+      to\": \"now\"\n  },\n  \"panels\": [\n    {\n      \"id\": 1,\n      \"title\"\
+      : \"Devices stale\",\n      \"type\": \"stat\",\n      \"datasource\": {\n \
+      \       \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n     \
+      \ },\n      \"gridPos\": {\n        \"x\": 0,\n        \"y\": 0,\n        \"\
+      w\": 4,\n        \"h\": 4\n      },\n      \"targets\": [\n        {\n     \
+      \     \"refId\": \"A\",\n          \"expr\": \"clamp_min(vector(28) - (count(max\
+      \ by (device) (timestamp(snmp_device_uptime_ticks{job=\\\"snmp\\\"})) > time()\
+      \ - 180) or vector(0)), 0)\",\n          \"instant\": true\n        }\n    \
+      \  ],\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\"\
+      : \"short\",\n          \"thresholds\": {\n            \"mode\": \"absolute\"\
+      ,\n            \"steps\": [\n              {\n                \"color\": \"\
+      green\",\n                \"value\": null\n              },\n              {\n\
+      \                \"color\": \"red\",\n                \"value\": 1\n       \
+      \       }\n            ]\n          }\n        },\n        \"overrides\": []\n\
+      \      },\n      \"options\": {\n        \"colorMode\": \"background\",\n  \
+      \      \"graphMode\": \"none\",\n        \"textMode\": \"value_and_name\"\n\
+      \      }\n    },\n    {\n      \"id\": 2,\n      \"title\": \"Interfaces unexpectedly\
+      \ down\",\n      \"type\": \"stat\",\n      \"datasource\": {\n        \"type\"\
+      : \"prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"gridPos\"\
+      : {\n        \"x\": 4,\n        \"y\": 0,\n        \"w\": 4,\n        \"h\"\
+      : 4\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n\
+      \          \"expr\": \"count(snmp_interface_oper_status{job=\\\"snmp\\\",if_type!=\\\
+      \"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\"} != 1 and on(device,if_index)\
+      \ snmp_interface_admin_status{job=\\\"snmp\\\"} == 1) or vector(0)\",\n    \
+      \      \"instant\": true\n        }\n      ],\n      \"fieldConfig\": {\n  \
+      \      \"defaults\": {\n          \"unit\": \"short\",\n          \"thresholds\"\
+      : {\n            \"mode\": \"absolute\",\n            \"steps\": [\n       \
+      \       {\n                \"color\": \"green\",\n                \"value\"\
+      : null\n              },\n              {\n                \"color\": \"red\"\
+      ,\n                \"value\": 1\n              }\n            ]\n          }\n\
+      \        },\n        \"overrides\": []\n      },\n      \"options\": {\n   \
+      \     \"colorMode\": \"background\",\n        \"graphMode\": \"none\",\n   \
+      \     \"textMode\": \"value_and_name\"\n      }\n    },\n    {\n      \"id\"\
+      : 3,\n      \"title\": \"BGP peers not established\",\n      \"type\": \"stat\"\
+      ,\n      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\"\
+      : \"network-snmp\"\n      },\n      \"gridPos\": {\n        \"x\": 8,\n    \
+      \    \"y\": 0,\n        \"w\": 4,\n        \"h\": 4\n      },\n      \"targets\"\
+      : [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"count(snmp_bgp_peer_state{job=\\\
+      \"snmp\\\",vrf!=\\\"\\\"} != 6) or vector(0)\",\n          \"instant\": true\n\
+      \        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n  \
+      \        \"unit\": \"short\",\n          \"thresholds\": {\n            \"mode\"\
+      : \"absolute\",\n            \"steps\": [\n              {\n               \
+      \ \"color\": \"green\",\n                \"value\": null\n              },\n\
+      \              {\n                \"color\": \"red\",\n                \"value\"\
+      : 1\n              }\n            ]\n          }\n        },\n        \"overrides\"\
+      : []\n      },\n      \"options\": {\n        \"colorMode\": \"background\"\
+      ,\n        \"graphMode\": \"none\",\n        \"textMode\": \"value_and_name\"\
+      \n      }\n    },\n    {\n      \"id\": 4,\n      \"title\": \"IS-IS adjacencies\
+      \ not up\",\n      \"type\": \"stat\",\n      \"datasource\": {\n        \"\
+      type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n     \
+      \ \"gridPos\": {\n        \"x\": 12,\n        \"y\": 0,\n        \"w\": 4,\n\
+      \        \"h\": 4\n      },\n      \"targets\": [\n        {\n          \"refId\"\
+      : \"A\",\n          \"expr\": \"count(snmp_isis_adjacency_state{job=\\\"snmp\\\
+      \"} != 3) or vector(0)\",\n          \"instant\": true\n        }\n      ],\n\
+      \      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"short\"\
+      ,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n      \
+      \      \"steps\": [\n              {\n                \"color\": \"green\",\n\
+      \                \"value\": null\n              },\n              {\n      \
+      \          \"color\": \"red\",\n                \"value\": 1\n             \
+      \ }\n            ]\n          }\n        },\n        \"overrides\": []\n   \
+      \   },\n      \"options\": {\n        \"colorMode\": \"background\",\n     \
+      \   \"graphMode\": \"none\",\n        \"textMode\": \"value_and_name\"\n   \
+      \   }\n    },\n    {\n      \"id\": 5,\n      \"title\": \"BFD rows not up\"\
+      ,\n      \"type\": \"stat\",\n      \"datasource\": {\n        \"type\": \"\
+      prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"gridPos\"\
+      : {\n        \"x\": 16,\n        \"y\": 0,\n        \"w\": 4,\n        \"h\"\
+      : 4\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n\
+      \          \"expr\": \"count(snmp_bfd_session_state{job=\\\"snmp\\\"} != 4)\
+      \ or vector(0)\",\n          \"instant\": true\n        }\n      ],\n      \"\
+      fieldConfig\": {\n        \"defaults\": {\n          \"unit\": \"short\",\n\
+      \          \"thresholds\": {\n            \"mode\": \"absolute\",\n        \
+      \    \"steps\": [\n              {\n                \"color\": \"green\",\n\
+      \                \"value\": null\n              },\n              {\n      \
+      \          \"color\": \"red\",\n                \"value\": 1\n             \
+      \ }\n            ]\n          }\n        },\n        \"overrides\": []\n   \
+      \   },\n      \"options\": {\n        \"colorMode\": \"background\",\n     \
+      \   \"graphMode\": \"none\",\n        \"textMode\": \"value_and_name\"\n   \
+      \   }\n    },\n    {\n      \"id\": 6,\n      \"title\": \"Poll errors (5m)\"\
+      ,\n      \"type\": \"stat\",\n      \"datasource\": {\n        \"type\": \"\
+      prometheus\",\n        \"uid\": \"VictoriaMetrics\"\n      },\n      \"gridPos\"\
+      : {\n        \"x\": 20,\n        \"y\": 0,\n        \"w\": 4,\n        \"h\"\
+      : 4\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n\
+      \          \"expr\": \"sum(increase(otelcol_scraper_errored_metric_points{receiver=~\\\
+      \"snmp/.*\\\"}[5m])) or vector(0)\",\n          \"instant\": true\n        }\n\
+      \      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\"\
+      : \"short\",\n          \"thresholds\": {\n            \"mode\": \"absolute\"\
+      ,\n            \"steps\": [\n              {\n                \"color\": \"\
+      green\",\n                \"value\": null\n              },\n              {\n\
+      \                \"color\": \"red\",\n                \"value\": 1\n       \
+      \       }\n            ]\n          }\n        },\n        \"overrides\": []\n\
+      \      },\n      \"options\": {\n        \"colorMode\": \"background\",\n  \
+      \      \"graphMode\": \"none\",\n        \"textMode\": \"value_and_name\"\n\
+      \      }\n    },\n    {\n      \"id\": 7,\n      \"title\": \"Unexpectedly down\
+      \ interfaces\",\n      \"type\": \"table\",\n      \"datasource\": {\n     \
+      \   \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n\
+      \      \"description\": \"Interfaces are shown only when administratively enabled\
+      \ but operationally not Up.\",\n      \"gridPos\": {\n        \"x\": 0,\n  \
+      \      \"y\": 4,\n        \"w\": 12,\n        \"h\": 8\n      },\n      \"targets\"\
+      : [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"snmp_interface_oper_status{job=\\\
+      \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
+      \"} != 1 and on(device,if_index) snmp_interface_admin_status{job=\\\"snmp\\\"\
+      } == 1\",\n          \"instant\": true,\n          \"format\": \"table\"\n \
+      \       }\n      ],\n      \"transformations\": [\n        {\n          \"id\"\
+      : \"filterFieldsByName\",\n          \"options\": {\n            \"include\"\
+      : {\n              \"names\": [\n                \"site\",\n               \
+      \ \"device\",\n                \"role\",\n                \"interface\",\n \
+      \               \"Value\"\n              ]\n            }\n          }\n   \
+      \     },\n        {\n          \"id\": \"organize\",\n          \"options\"\
+      : {\n            \"indexByName\": {\n              \"site\": 0,\n          \
+      \    \"device\": 1,\n              \"role\": 2,\n              \"interface\"\
+      : 3,\n              \"Value\": 4\n            },\n            \"renameByName\"\
+      : {\n              \"site\": \"Site\",\n              \"device\": \"Device\"\
+      ,\n              \"role\": \"Role\",\n              \"interface\": \"Interface\"\
+      ,\n              \"Value\": \"Unexpectedly down interfaces\"\n            }\n\
+      \          }\n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\"\
+      : {},\n        \"overrides\": []\n      },\n      \"options\": {\n        \"\
+      showHeader\": true\n      }\n    },\n    {\n      \"id\": 8,\n      \"title\"\
+      : \"Routing exceptions\",\n      \"type\": \"table\",\n      \"datasource\"\
+      : {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n\
+      \      },\n      \"description\": \"BGP exceptions are listed here. IS-IS and\
+      \ BFD detail remains on Network Routing until their peer identity is consistent.\"\
+      ,\n      \"gridPos\": {\n        \"x\": 12,\n        \"y\": 4,\n        \"w\"\
+      : 12,\n        \"h\": 8\n      },\n      \"targets\": [\n        {\n       \
+      \   \"refId\": \"A\",\n          \"expr\": \"label_replace(max by(site,device,vrf,peer)(snmp_bgp_peer_state{job=\\\
+      \"snmp\\\",vrf!=\\\"\\\"} != 6), \\\"protocol\\\", \\\"BGP\\\", \\\"device\\\
+      \", \\\".*\\\")\",\n          \"instant\": true,\n          \"format\": \"table\"\
+      \n        }\n      ],\n      \"transformations\": [\n        {\n          \"\
+      id\": \"filterFieldsByName\",\n          \"options\": {\n            \"include\"\
+      : {\n              \"names\": [\n                \"site\",\n               \
+      \ \"device\",\n                \"protocol\",\n                \"vrf\",\n   \
+      \             \"peer\",\n                \"Value\"\n              ]\n      \
+      \      }\n          }\n        },\n        {\n          \"id\": \"organize\"\
+      ,\n          \"options\": {\n            \"indexByName\": {\n              \"\
+      site\": 0,\n              \"device\": 1,\n              \"protocol\": 2,\n \
+      \             \"vrf\": 3,\n              \"peer\": 4,\n              \"Value\"\
+      : 5\n            },\n            \"renameByName\": {\n              \"site\"\
+      : \"Site\",\n              \"device\": \"Device\",\n              \"protocol\"\
+      : \"Protocol\",\n              \"vrf\": \"VRF\",\n              \"peer\": \"\
+      Peer\",\n              \"Value\": \"Routing exceptions\"\n            }\n  \
+      \        }\n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\"\
+      : {},\n        \"overrides\": []\n      },\n      \"options\": {\n        \"\
+      showHeader\": true\n      }\n    },\n    {\n      \"id\": 9,\n      \"title\"\
+      : \"Most utilized inbound interfaces\",\n      \"type\": \"table\",\n      \"\
+      datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\
+      \n      },\n      \"description\": \"Uses SNMP-reported speed. Treat virtual-interface\
+      \ utilization as advisory.\",\n      \"gridPos\": {\n        \"x\": 0,\n   \
+      \     \"y\": 12,\n        \"w\": 12,\n        \"h\": 9\n      },\n      \"targets\"\
+      : [\n        {\n          \"refId\": \"A\",\n          \"expr\": \"topk(15,\
+      \ 100 * rate(snmp_interface_in_octets_total{job=\\\"snmp\\\",if_type!=\\\"\\\
+      \",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\"}[5m]) * 8 / (snmp_interface_speed_mbps{job=\\\
+      \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
+      \"} * 1000000 > 0))\",\n          \"instant\": true,\n          \"format\":\
+      \ \"table\"\n        }\n      ],\n      \"transformations\": [\n        {\n\
+      \          \"id\": \"filterFieldsByName\",\n          \"options\": {\n     \
+      \       \"include\": {\n              \"names\": [\n                \"site\"\
+      ,\n                \"device\",\n                \"role\",\n                \"\
+      interface\",\n                \"Value\"\n              ]\n            }\n  \
+      \        }\n        },\n        {\n          \"id\": \"organize\",\n       \
+      \   \"options\": {\n            \"indexByName\": {\n              \"site\":\
+      \ 0,\n              \"device\": 1,\n              \"role\": 2,\n           \
+      \   \"interface\": 3,\n              \"Value\": 4\n            },\n        \
+      \    \"renameByName\": {\n              \"site\": \"Site\",\n              \"\
+      device\": \"Device\",\n              \"role\": \"Role\",\n              \"interface\"\
+      : \"Interface\",\n              \"Value\": \"Most utilized inbound interfaces\"\
+      \n            }\n          }\n        }\n      ],\n      \"fieldConfig\": {\n\
+      \        \"defaults\": {\n          \"unit\": \"percent\"\n        },\n    \
+      \    \"overrides\": []\n      },\n      \"options\": {\n        \"showHeader\"\
+      : true\n      }\n    },\n    {\n      \"id\": 10,\n      \"title\": \"Interfaces\
+      \ with errors or discards\",\n      \"type\": \"table\",\n      \"datasource\"\
+      : {\n        \"type\": \"prometheus\",\n        \"uid\": \"network-snmp\"\n\
+      \      },\n      \"description\": \"Combined error and discard rate highlights\
+      \ interfaces for drill-down. It is not a packet-loss percentage.\",\n      \"\
+      gridPos\": {\n        \"x\": 12,\n        \"y\": 12,\n        \"w\": 12,\n \
+      \       \"h\": 9\n      },\n      \"targets\": [\n        {\n          \"refId\"\
+      : \"A\",\n          \"expr\": \"topk(15, rate(snmp_interface_in_errors_total{job=\\\
+      \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
+      \"}[5m]) + rate(snmp_interface_out_errors_total{job=\\\"snmp\\\",if_type!=\\\
+      \"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\"}[5m]) + rate(snmp_interface_in_discards_total{job=\\\
+      \"snmp\\\",if_type!=\\\"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\
+      \"}[5m]) + rate(snmp_interface_out_discards_total{job=\\\"snmp\\\",if_type!=\\\
+      \"\\\",if_type!=\\\"166\\\",interface!~\\\"(VoIP-)?Null0\\\"}[5m])) > 0\",\n\
+      \          \"instant\": true,\n          \"format\": \"table\"\n        }\n\
+      \      ],\n      \"transformations\": [\n        {\n          \"id\": \"filterFieldsByName\"\
+      ,\n          \"options\": {\n            \"include\": {\n              \"names\"\
+      : [\n                \"site\",\n                \"device\",\n              \
+      \  \"role\",\n                \"interface\",\n                \"Value\"\n  \
+      \            ]\n            }\n          }\n        },\n        {\n        \
+      \  \"id\": \"organize\",\n          \"options\": {\n            \"indexByName\"\
+      : {\n              \"site\": 0,\n              \"device\": 1,\n            \
+      \  \"role\": 2,\n              \"interface\": 3,\n              \"Value\": 4\n\
+      \            },\n            \"renameByName\": {\n              \"site\": \"\
+      Site\",\n              \"device\": \"Device\",\n              \"role\": \"Role\"\
+      ,\n              \"interface\": \"Interface\",\n              \"Value\": \"\
+      Interfaces with errors or discards\"\n            }\n          }\n        }\n\
+      \      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"unit\"\
+      : \"suffix: events/s\"\n        },\n        \"overrides\": []\n      },\n  \
+      \    \"options\": {\n        \"showHeader\": true\n      }\n    },\n    {\n\
+      \      \"id\": 11,\n      \"title\": \"Device sample age\",\n      \"type\"\
+      : \"table\",\n      \"datasource\": {\n        \"type\": \"prometheus\",\n \
+      \       \"uid\": \"network-snmp\"\n      },\n      \"description\": \"Sample\
+      \ age for devices that still have a series in the selected time range. The fleet\
+      \ count detects fully absent devices.\",\n      \"gridPos\": {\n        \"x\"\
+      : 0,\n        \"y\": 21,\n        \"w\": 12,\n        \"h\": 7\n      },\n \
+      \     \"targets\": [\n        {\n          \"refId\": \"A\",\n          \"expr\"\
+      : \"time() - max by(site,device,role,platform)(timestamp(snmp_device_uptime_ticks{job=\\\
+      \"snmp\\\"}))\",\n          \"instant\": true,\n          \"format\": \"table\"\
+      \n        }\n      ],\n      \"transformations\": [\n        {\n          \"\
+      id\": \"filterFieldsByName\",\n          \"options\": {\n            \"include\"\
+      : {\n              \"names\": [\n                \"site\",\n               \
+      \ \"device\",\n                \"role\",\n                \"platform\",\n  \
+      \              \"Value\"\n              ]\n            }\n          }\n    \
+      \    },\n        {\n          \"id\": \"organize\",\n          \"options\":\
+      \ {\n            \"indexByName\": {\n              \"site\": 0,\n          \
+      \    \"device\": 1,\n              \"role\": 2,\n              \"platform\"\
+      : 3,\n              \"Value\": 4\n            },\n            \"renameByName\"\
+      : {\n              \"site\": \"Site\",\n              \"device\": \"Device\"\
+      ,\n              \"role\": \"Role\",\n              \"platform\": \"Platform\"\
+      ,\n              \"Value\": \"Device sample age\"\n            }\n         \
+      \ }\n        }\n      ],\n      \"fieldConfig\": {\n        \"defaults\": {\n\
+      \          \"unit\": \"s\"\n        },\n        \"overrides\": []\n      },\n\
+      \      \"options\": {\n        \"showHeader\": true\n      }\n    },\n    {\n\
+      \      \"id\": 12,\n      \"title\": \"BGP transitions into Established (1h)\"\
+      ,\n      \"type\": \"table\",\n      \"datasource\": {\n        \"type\": \"\
+      prometheus\",\n        \"uid\": \"network-snmp\"\n      },\n      \"description\"\
+      : \"A transition is evidence of session activity, not the reason. Correlate\
+      \ it with syslog when event ingestion is available.\",\n      \"gridPos\": {\n\
+      \        \"x\": 12,\n        \"y\": 21,\n        \"w\": 12,\n        \"h\":\
+      \ 7\n      },\n      \"targets\": [\n        {\n          \"refId\": \"A\",\n\
+      \          \"expr\": \"increase_prometheus(snmp_bgp_peer_established_transitions_total{job=\\\
+      \"snmp\\\",vrf!=\\\"\\\"}[1h]) > 0\",\n          \"instant\": true,\n      \
+      \    \"format\": \"table\"\n        }\n      ],\n      \"transformations\":\
+      \ [\n        {\n          \"id\": \"filterFieldsByName\",\n          \"options\"\
+      : {\n            \"include\": {\n              \"names\": [\n              \
+      \  \"site\",\n                \"device\",\n                \"vrf\",\n      \
+      \          \"peer\",\n                \"Value\"\n              ]\n         \
+      \   }\n          }\n        },\n        {\n          \"id\": \"organize\",\n\
+      \          \"options\": {\n            \"indexByName\": {\n              \"\
+      site\": 0,\n              \"device\": 1,\n              \"vrf\": 2,\n      \
+      \        \"peer\": 3,\n              \"Value\": 4\n            },\n        \
+      \    \"renameByName\": {\n              \"site\": \"Site\",\n              \"\
+      device\": \"Device\",\n              \"vrf\": \"VRF\",\n              \"peer\"\
+      : \"Peer\",\n              \"Value\": \"BGP transitions into Established (1h)\"\
+      \n            }\n          }\n        }\n      ],\n      \"fieldConfig\": {\n\
+      \        \"defaults\": {},\n        \"overrides\": []\n      },\n      \"options\"\
+      : {\n        \"showHeader\": true\n      }\n    }\n  ],\n  \"links\": [\n  \
+      \  {\n      \"title\": \"Network SNMP\",\n      \"type\": \"link\",\n      \"\
+      url\": \"/d/network-snmp\",\n      \"keepTime\": true\n    },\n    {\n     \
+      \ \"title\": \"Network Routing\",\n      \"type\": \"link\",\n      \"url\"\
+      : \"/d/network-routing\",\n      \"keepTime\": true\n    }\n  ]\n}"
 - apiVersion: v1
   kind: ConfigMap
   metadata:
