@@ -1,0 +1,19 @@
+serviceAccount:
+  automountToken: false
+server:
+  fullnameOverride: victorialogs
+  image:
+    tag: v1.52.0
+  retentionPeriod: 14d
+  persistentVolume:
+    enabled: true
+    storageClassName: longhorn
+    size: 10Gi
+  nodeSelector:
+    kubernetes.io/hostname: dcb-k3s-w2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 768Mi

@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: telemetry-canary-reachability
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      containers:
+        - name: gate
+          image: docker.io/python:3.13.7-slim
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {memory: 96Mi}
+          command: [python3, -u, -c]
+          args:
+            - |
+              import json,time,urllib.parse,urllib.request
+              endpoint='http://victorialogs.observability.svc:9428/select/logsql/query'
+              checks={
+                'management-netflow':'source.address:198.18.0.1 AND source.port:42001',
+                'lab-netflow':'source.address:198.18.0.2 AND source.port:42002',
+                'management-sflow':'source.address:198.18.0.1 AND source.port:43001',
+                'lab-sflow':'source.address:198.18.0.2 AND source.port:43002',
+                'management-syslog':'"part8-gate-management"',
+                'lab-syslog':'"part8-gate-lab"',
+              }
+              start=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime(time.time()-5))
+              for attempt in range(110):
+                found=[]
+                for name,query in checks.items():
+                  data=urllib.parse.urlencode({'query':f'_time:[{start}, now] AND ({query}) | stats count() as records'}).encode()
+                  try:
+                    with urllib.request.urlopen(endpoint,data=data,timeout=5) as r:
+                      rows=[json.loads(line) for line in r.read().splitlines() if line]
+                    if rows and int(rows[0].get('records',0))>0: found.append(name)
+                  except Exception as e: print(type(e).__name__,flush=True)
+                if len(found)==len(checks):
+                  print(json.dumps({'passed':True,'checks':found}),flush=True)
+                  break
+                if attempt%6==0: print(json.dumps({'pending':sorted(set(checks)-set(found))}),flush=True)
+                time.sleep(5)
+              else: raise SystemExit('Receiver reachability gate failed; device rollout forbidden')
