@@ -58,7 +58,9 @@ data:
       syslog:
         udp:
           listen_address: 0.0.0.0:5514
-        protocol: rfc3164
+          add_attributes: true
+          one_log_per_packet: true
+        protocol: none
         allow_skip_pri_header: true
         on_error: send
     processors:
