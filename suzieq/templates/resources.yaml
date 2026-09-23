@@ -1,0 +1,143 @@
+{{- if or (eq .Values.credentialRevision "required") (not .Values.inventory.sources) }}
+{{- fail "generated-values.yaml with inventory and credentialRevision is required" }}
+{{- end }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: suzieq-inventory
+data:
+  inventory.yaml: |
+{{ toYaml .Values.inventory | indent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: suzieq
+spec:
+  selector:
+    app: suzieq
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: suzieq
+spec:
+  serviceName: suzieq
+  replicas: 1
+  selector:
+    matchLabels: {app: suzieq}
+  template:
+    metadata:
+      labels: {app: suzieq}
+      annotations:
+        telemetry.lab/credential-revision: {{ .Values.credentialRevision | quote }}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: {type: RuntimeDefault}
+      initContainers:
+        - name: runtime-config
+          image: {{ .Values.image | quote }}
+          command: [sh, -ec]
+          args:
+            - |
+              umask 077
+              printf '%s\n' \
+                'data-directory: /data' \
+                'temp-directory: /tmp' \
+                'rest:' \
+                "  API_KEY: ${API_KEY}" \
+                '  logging-level: WARNING' \
+                '  log-stdout: true' \
+                '  address: 0.0.0.0' \
+                '  port: 8000' \
+                'poller:' \
+                '  logging-level: WARNING' \
+                '  log-stdout: true' \
+                '  period: {{ .Values.pollPeriod }}' \
+                '  connect-timeout: 15' \
+                '  manager:' \
+                '    workers: 1' \
+                'coalescer:' \
+                '  period: 1h' \
+                '  archive-directory:' \
+                '  logging-level: WARNING' \
+                '  log-stdout: true' \
+                'analyzer:' \
+                '  timezone: Etc/UTC' > /runtime/suzieq-cfg.yml
+          env:
+            - name: API_KEY
+              valueFrom: {secretKeyRef: {name: suzieq-credentials, key: API_KEY}}
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {memory: 64Mi}
+          securityContext: &security
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: runtime, mountPath: /runtime}
+      containers:
+        - name: poller
+          image: {{ .Values.image | quote }}
+          command: [sq-poller]
+          args:
+            - -c
+            - /runtime/suzieq-cfg.yml
+            - -I
+            - /config/inventory.yaml
+            - -s
+            - {{ .Values.services | quote }}
+          env:
+            - name: SUZIEQ_CISCO_USERNAME
+              valueFrom: {secretKeyRef: {name: suzieq-credentials, key: SUZIEQ_CISCO_USERNAME}}
+            - name: SUZIEQ_CISCO_PASSWORD
+              valueFrom: {secretKeyRef: {name: suzieq-credentials, key: SUZIEQ_CISCO_PASSWORD}}
+            - name: SUZIEQ_ARISTA_USERNAME
+              valueFrom: {secretKeyRef: {name: suzieq-credentials, key: SUZIEQ_ARISTA_USERNAME}}
+            - name: SUZIEQ_ARISTA_PASSWORD
+              valueFrom: {secretKeyRef: {name: suzieq-credentials, key: SUZIEQ_ARISTA_PASSWORD}}
+          resources: {{ toYaml .Values.resources.poller | nindent 12 }}
+          securityContext: *security
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: runtime, mountPath: /runtime, readOnly: true}
+            - {name: inventory, mountPath: /config, readOnly: true}
+        - name: api
+          image: {{ .Values.image | quote }}
+          command: [sq-rest-server]
+          args: [-c, /runtime/suzieq-cfg.yml, --no-https]
+          ports:
+            - {name: http, containerPort: 8000}
+          readinessProbe:
+            tcpSocket: {port: http}
+            initialDelaySeconds: 10
+          livenessProbe:
+            tcpSocket: {port: http}
+            initialDelaySeconds: 30
+          resources: {{ toYaml .Values.resources.api | nindent 12 }}
+          securityContext: *security
+          volumeMounts:
+            - {name: data, mountPath: /data, readOnly: true}
+            - {name: runtime, mountPath: /runtime, readOnly: true}
+      volumes:
+        - name: runtime
+          emptyDir: {medium: Memory}
+        - name: inventory
+          configMap: {name: suzieq-inventory}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ReadWriteOnce]
+        storageClassName: {{ .Values.storage.className | quote }}
+        resources:
+          requests:
+            storage: {{ .Values.storage.size | quote }}

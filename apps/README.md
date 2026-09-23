@@ -2,8 +2,9 @@
 
 The root Application loads the manifests in this directory. Longhorn precedes
 VictoriaMetrics through their sync-wave annotations. SNMP history follows at
-wave 4 (`snmp-metrics`), then its Collector at wave 5 (`otel-snmp`). Flow/syslog,
-MetalLB, VictoriaLogs and SuzieQ remain separate future work.
+wave 4 (`snmp-metrics`), then its Collector at wave 5 (`otel-snmp`). MetalLB,
+VictoriaLogs and the flow/syslog Collector are deployed separately. SuzieQ is
+introduced at wave 6 with generated inventory and an externally managed Secret.
 
 The child-Application health script in ../bootstrap/argocd-values.yaml was
 installed through the existing Argo CD Helm bootstrap on 2026-09-12 and checked

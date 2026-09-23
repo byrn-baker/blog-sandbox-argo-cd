@@ -1,0 +1,5 @@
+apiVersion: v2
+name: suzieq
+version: 0.1.0
+description: SuzieQ poller and REST API for the SP demo lab
+type: application

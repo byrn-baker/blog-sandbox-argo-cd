@@ -1,0 +1,15 @@
+image: docker.io/netenglabs/suzieq:0.25.0@sha256:51e9615a9245e118b5f5f2b13043913a59f1f52e42cf1265c29ad12b1bd5ab4e
+credentialRevision: required
+inventory: {}
+pollPeriod: 60
+services: device bgp interfaces lldp routes
+storage:
+  className: longhorn
+  size: 5Gi
+resources:
+  poller:
+    requests: {cpu: 200m, memory: 512Mi}
+    limits: {memory: 1Gi}
+  api:
+    requests: {cpu: 50m, memory: 256Mi}
+    limits: {memory: 512Mi}
