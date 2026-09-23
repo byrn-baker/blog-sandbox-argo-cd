@@ -137,11 +137,14 @@ spec:
         - name: inventory
           configMap: {name: suzieq-inventory}
   volumeClaimTemplates:
-    - metadata:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
         name: data
       spec:
         accessModes: [ReadWriteOnce]
         storageClassName: {{ .Values.storage.className | quote }}
+        volumeMode: Filesystem
         resources:
           requests:
             storage: {{ .Values.storage.size | quote }}
