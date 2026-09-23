@@ -110,6 +110,7 @@ spec:
             - {name: data, mountPath: /data}
             - {name: runtime, mountPath: /runtime, readOnly: true}
             - {name: inventory, mountPath: /config, readOnly: true}
+            - {name: tmp, mountPath: /tmp}
         - name: api
           image: {{ .Values.image | quote }}
           command: [sq-rest-server]
@@ -125,11 +126,14 @@ spec:
           resources: {{ toYaml .Values.resources.api | nindent 12 }}
           securityContext: *security
           volumeMounts:
-            - {name: data, mountPath: /data, readOnly: true}
+            - {name: data, mountPath: /data}
             - {name: runtime, mountPath: /runtime, readOnly: true}
+            - {name: tmp, mountPath: /tmp}
       volumes:
         - name: runtime
           emptyDir: {medium: Memory}
+        - name: tmp
+          emptyDir: {}
         - name: inventory
           configMap: {name: suzieq-inventory}
   volumeClaimTemplates:
