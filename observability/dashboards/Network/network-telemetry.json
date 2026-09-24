@@ -193,13 +193,42 @@
       "description": "Record counts during the selected interval. Exporter address identifies the device.",
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "none",
           "noValue": "No data",
           "custom": {
             "minWidth": 75
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Destination port"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bytes"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          }
+        ]
       },
       "options": {
         "showHeader": true,
@@ -212,6 +241,10 @@
             "mode": "columns",
             "valueLabel": "__name__"
           }
+        },
+        {
+          "id": "merge",
+          "options": {}
         },
         {
           "id": "organize",
@@ -229,6 +262,11 @@
               "records": "Records",
               "bytes": "Bytes",
               "packets": "Packets"
+            },
+            "indexByName": {
+              "flow.sampler_address": 0,
+              "flow.type": 1,
+              "records": 2
             }
           }
         }
@@ -260,13 +298,42 @@
       "description": "Top 25 exported conversations. Do not sum observations across routers as unique traffic; the same packets may cross several monitors.",
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "none",
           "noValue": "No data",
           "custom": {
             "minWidth": 75
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Destination port"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bytes"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          }
+        ]
       },
       "options": {
         "showHeader": true,
@@ -279,6 +346,10 @@
             "mode": "columns",
             "valueLabel": "__name__"
           }
+        },
+        {
+          "id": "merge",
+          "options": {}
         },
         {
           "id": "organize",
@@ -296,6 +367,15 @@
               "records": "Records",
               "bytes": "Bytes",
               "packets": "Packets"
+            },
+            "indexByName": {
+              "flow.sampler_address": 0,
+              "source.address": 1,
+              "destination.address": 2,
+              "network.transport": 3,
+              "destination.port": 4,
+              "bytes": 5,
+              "packets": 6
             }
           }
         }
@@ -312,7 +392,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | sort by (_time desc) | limit 500 | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | limit 500 | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
           "queryType": "instant",
           "editorMode": "code",
           "maxLines": 500
@@ -324,7 +404,7 @@
         "w": 24,
         "h": 10
       },
-      "description": "Up to 500 decoded records, including sampled values and sampling metadata. No per-VNI attribution.",
+      "description": "Up to 500 matching records from the selected range, not necessarily the newest. This bounded preview avoids sorting the entire flow history. Select a device and narrow the time range to investigate specific traffic. sFlow samples are not a complete packet history.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
@@ -972,7 +1052,20 @@
             "minWidth": 75
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "timestamp"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsIso"
+              }
+            ]
+          }
+        ]
       },
       "options": {
         "showHeader": true,

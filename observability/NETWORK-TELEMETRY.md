@@ -8,6 +8,8 @@ their management addresses for exporter filtering. Missing data stays missing.
 ## Data and time
 
 - SNMP charts and raw logs use Grafana's selected time range.
+- Raw flow detail is a bounded preview of up to 500 matching records, not
+  necessarily the newest. Narrow the device and time selection for investigation.
 - NetFlow byte/packet sums describe exported observations. The same traffic can
   be observed by several routers; All is not a unique network traffic total.
 - sFlow detail displays sampled fields and sampling rate. Record counts are
@@ -70,5 +72,10 @@ The verifier uses the existing admin Secret in memory, queries the provisioned
 dashboard through Grafana for All, CE1, DCA-Leaf01 and CE2, and prints only result
 counts and errors. Browser verification is available in
 `check_telemetry_browser.py` with Playwright and a locally installed Chromium.
+Set `CHROMIUM_PATH` if Chromium is not installed in Playwright's default location.
+The browser check records JavaScript and Grafana query errors as well as screenshots.
+The API check accepts `--report path.json` for sanitized evidence and asserts
+the known empty canary scopes. It resolves exporter addresses from live SNMP
+labels, matching the dashboard's exact-address selection.
 An empty scope-limited table is expected; inspect poller status before treating
 it as collection failure.
