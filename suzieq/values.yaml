@@ -3,6 +3,9 @@ credentialRevision: required
 inventory: {}
 pollPeriod: 60
 services: device bgp interfaces lldp routes
+retention:
+  days: 14
+  apply: false
 storage:
   className: longhorn
   size: 5Gi

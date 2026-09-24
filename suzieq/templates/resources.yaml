@@ -10,6 +10,14 @@ data:
 {{ toYaml .Values.inventory | indent 4 }}
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: suzieq-retention
+data:
+  retention.py: |
+{{ .Files.Get "files/retention.py" | indent 4 }}
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: suzieq
@@ -35,8 +43,18 @@ spec:
       labels: {app: suzieq}
       annotations:
         telemetry.lab/credential-revision: {{ .Values.credentialRevision | quote }}
+        checksum/inventory: {{ toJson .Values.inventory | sha256sum }}
+        checksum/retention: {{ .Files.Get "files/retention.py" | sha256sum }}
     spec:
       automountServiceAccountToken: false
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: topology.kubernetes.io/zone
+                    operator: In
+                    values: [dc-b, dc-c]
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -85,6 +103,23 @@ spec:
           volumeMounts:
             - {name: runtime, mountPath: /runtime}
       containers:
+        - name: retention
+          image: {{ .Values.image | quote }}
+          command: [python, /retention/retention.py]
+          args:
+            - --days
+            - {{ .Values.retention.days | quote }}
+{{- if .Values.retention.apply }}
+            - --apply
+{{- end }}
+          resources:
+            requests: {cpu: 10m, memory: 64Mi}
+            limits: {memory: 192Mi}
+          securityContext: *security
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: retention, mountPath: /retention, readOnly: true}
+            - {name: tmp, mountPath: /tmp}
         - name: poller
           image: {{ .Values.image | quote }}
           command: [sq-poller]
@@ -130,6 +165,8 @@ spec:
             - {name: runtime, mountPath: /runtime, readOnly: true}
             - {name: tmp, mountPath: /tmp}
       volumes:
+        - name: retention
+          configMap: {name: suzieq-retention}
         - name: runtime
           emptyDir: {medium: Memory}
         - name: tmp
