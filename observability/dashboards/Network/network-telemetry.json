@@ -201,7 +201,35 @@
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns",
+            "valueLabel": "__name__"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "renameByName": {
+              "flow.sampler_address": "Exporter",
+              "flow.type": "Format",
+              "source.address": "Source",
+              "destination.address": "Destination",
+              "network.transport": "Protocol",
+              "destination.port": "Destination port",
+              "records": "Records",
+              "bytes": "Bytes",
+              "packets": "Packets"
+            }
+          }
+        }
+      ]
     },
     {
       "id": 5,
@@ -237,7 +265,35 @@
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns",
+            "valueLabel": "__name__"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "renameByName": {
+              "flow.sampler_address": "Exporter",
+              "flow.type": "Format",
+              "source.address": "Source",
+              "destination.address": "Destination",
+              "network.transport": "Protocol",
+              "destination.port": "Destination port",
+              "records": "Records",
+              "bytes": "Bytes",
+              "packets": "Packets"
+            }
+          }
+        }
+      ]
     },
     {
       "id": 6,
