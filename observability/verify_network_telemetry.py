@@ -65,9 +65,8 @@ def run():
                        for v in body.get('results', {}).values() for f in v.get('frames', [])
                        if f.get('data', {}).get('values'))
             expected_empty = (
-                (device == 'CE1' and panel['id'] == 11)
+                (device in ('CE1', 'CE2') and panel['id'] == 11)
                 or (device == 'DCA-Leaf01' and panel['id'] == 5)
-                or (device == 'CE2' and panel['id'] >= 7)
             )
             if expected_empty and rows:
                 errors.append('Unexpected rows outside the known collection scope')

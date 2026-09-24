@@ -18,11 +18,15 @@ their management addresses for exporter filtering. Missing data stays missing.
   Row timestamps can be old because unchanged state is not rewritten each poll.
 - The live sqPoller table deliberately ignores historical range selection. It
   shows collection status and timestamp independently of state-change age.
-- SuzieQ and syslog cover CE1 and DCA-Leaf01 only. CE1 LLDP successfully returns
-  no rows. Choosing another device should return no SuzieQ rows.
-- Raw logs have 14-day configured retention. SuzieQ expiry and fleet rollout
-  remain separate work. No OTLP state bridge or new state trend metrics are
-  introduced by this dashboard.
+- SuzieQ and syslog cover all 28 network devices. Empty BGP or LLDP tables can
+  be valid for a device; check collection status before diagnosing missing data.
+- Raw logs retain 14 days. SuzieQ coalesced history retains 14 days plus a
+  pre-cutoff baseline for unchanged state, with a 24-hour recovery quarantine.
+  See `../suzieq/README.md` for the expiry and recovery limits.
+- Storage usage, active/quarantined bytes, retention age and coalescer age are
+  fleet-wide panels, independent of the device selector. These operational
+  gauges arrive through OTLP. SuzieQ state still comes directly from its API;
+  it is not converted into Prometheus state metrics.
 
 ## Provisioning and credentials
 
@@ -75,7 +79,7 @@ counts and errors. Browser verification is available in
 Set `CHROMIUM_PATH` if Chromium is not installed in Playwright's default location.
 The browser check records JavaScript and Grafana query errors as well as screenshots.
 The API check accepts `--report path.json` for sanitized evidence and asserts
-the known empty canary scopes. It resolves exporter addresses from live SNMP
+the known empty protocol scopes. It resolves exporter addresses from live SNMP
 labels, matching the dashboard's exact-address selection.
 An empty scope-limited table is expected; inspect poller status before treating
 it as collection failure.

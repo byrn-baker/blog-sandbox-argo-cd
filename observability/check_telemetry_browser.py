@@ -67,6 +67,11 @@ def run():
             page.wait_for_timeout(8000)
             page.wait_for_load_state('networkidle', timeout=90000)
             page.screenshot(path=str(dest / (device + '-state.png')))
+            page.get_by_text('SuzieQ volume used (fleet)', exact=True).evaluate(
+                "el => el.scrollIntoView({block: 'start'})")
+            page.wait_for_timeout(3000)
+            page.wait_for_load_state('networkidle', timeout=90000)
+            page.screenshot(path=str(dest / (device + '-storage.png')))
             report = {'device': device, 'page_errors': list(errors),
                       'query_errors': list(query_errors),
                       'has_dashboard': 'Network Telemetry' in page.title()}

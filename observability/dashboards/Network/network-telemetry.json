@@ -100,7 +100,7 @@
       },
       "options": {
         "mode": "markdown",
-        "content": "Choose a device to correlate SNMP, exported traffic and device state. Flows and logs use the selected time range; SuzieQ state is the last known state at the range end. **SuzieQ covers CE1 and DCA-Leaf01 only. Syslog covers the same two devices.** Empty panels for other devices mean collection is outside scope. Flow counts are stored records, not packets or utilization. sFlow is sampled at 1:16,384. SuzieQ row timestamps describe state changes; use the live poller table for collection freshness. Raw logs retain 14 days."
+        "content": "Choose a device to correlate SNMP, exported traffic, syslog and SuzieQ state across the 28-device fleet. Flows and logs use the selected time range; SuzieQ state is the last known state at range end. Empty protocol tables can mean no peers or neighbors, so check the live poller table before treating missing rows as failure. Flow counts are stored records, not packets or utilization. sFlow is sampled at 1:16,384. Raw logs retain 14 days; SuzieQ retains 14 days of coalesced history plus a baseline for unchanged state. Storage panels describe the shared fleet volume, not the selected device."
       }
     },
     {
@@ -421,7 +421,7 @@
     },
     {
       "id": 7,
-      "title": "Syslog: CE1 and DCA-Leaf01",
+      "title": "Device syslog",
       "type": "logs",
       "datasource": {
         "type": "victoriametrics-logs-datasource",
@@ -1095,6 +1095,130 @@
           }
         }
       ]
+    },
+    {
+      "id": 14,
+      "title": "SuzieQ volume used (fleet)",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 104,
+        "w": 24,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(1 - suzieq_storage_available_bytes / suzieq_storage_capacity_bytes) * 100",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{__name__}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 15,
+      "title": "SuzieQ stored history (fleet)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 108,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{__name__=~\"suzieq_storage_active_bytes|suzieq_storage_quarantine_bytes\"}",
+          "instant": false,
+          "range": true,
+          "legendFormat": "{{__name__}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 16,
+      "title": "Time since successful retention check",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 116,
+        "w": 24,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - suzieq_retention_last_success_timestamp_seconds",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{__name__}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 17,
+      "title": "Age of latest coalesced poller block",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 120,
+        "w": 24,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - suzieq_coalescer_latest_block_end_seconds",
+          "instant": true,
+          "range": false,
+          "legendFormat": "{{__name__}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {}
     }
   ]
 }
