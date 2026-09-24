@@ -1,0 +1,132 @@
+{
+  "network-snmp": [
+    {
+      "metric": "suzieq_coalescer_latest_block_end_seconds",
+      "value": [
+        1790222628,
+        "1790222400"
+      ]
+    },
+    {
+      "metric": "suzieq_retention_enabled",
+      "value": [
+        1790222628,
+        "1"
+      ]
+    },
+    {
+      "metric": "suzieq_retention_failures",
+      "value": [
+        1790222628,
+        "0"
+      ]
+    },
+    {
+      "metric": "suzieq_retention_last_success_timestamp_seconds",
+      "value": [
+        1790222628,
+        "1790222321.7978444"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_active_bytes",
+      "value": [
+        1790222628,
+        "1546764"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_available_bytes",
+      "value": [
+        1790222628,
+        "5177069568"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_capacity_bytes",
+      "value": [
+        1790222628,
+        "5196382208"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_files",
+      "value": [
+        1790222628,
+        "94"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_quarantine_bytes",
+      "value": [
+        1790222628,
+        "0"
+      ]
+    }
+  ],
+  "VictoriaMetrics": [
+    {
+      "metric": "suzieq_coalescer_latest_block_end_seconds",
+      "value": [
+        1790222629,
+        "1790222400"
+      ]
+    },
+    {
+      "metric": "suzieq_retention_enabled",
+      "value": [
+        1790222629,
+        "1"
+      ]
+    },
+    {
+      "metric": "suzieq_retention_failures",
+      "value": [
+        1790222629,
+        "0"
+      ]
+    },
+    {
+      "metric": "suzieq_retention_last_success_timestamp_seconds",
+      "value": [
+        1790222629,
+        "1790222321.7978444"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_active_bytes",
+      "value": [
+        1790222629,
+        "1546764"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_available_bytes",
+      "value": [
+        1790222629,
+        "5177069568"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_capacity_bytes",
+      "value": [
+        1790222629,
+        "5196382208"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_files",
+      "value": [
+        1790222629,
+        "94"
+      ]
+    },
+    {
+      "metric": "suzieq_storage_quarantine_bytes",
+      "value": [
+        1790222629,
+        "0"
+      ]
+    }
+  ]
+}

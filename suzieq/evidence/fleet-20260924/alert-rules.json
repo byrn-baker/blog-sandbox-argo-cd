@@ -1,0 +1,26 @@
+[
+  {
+    "name": "LabSuzieQStorageLow",
+    "health": "ok",
+    "state": "inactive",
+    "lastError": ""
+  },
+  {
+    "name": "LabSuzieQStorageGrowth",
+    "health": "ok",
+    "state": "inactive",
+    "lastError": ""
+  },
+  {
+    "name": "LabSuzieQRetentionStale",
+    "health": "ok",
+    "state": "inactive",
+    "lastError": ""
+  },
+  {
+    "name": "LabSuzieQCoalescerStale",
+    "health": "ok",
+    "state": "inactive",
+    "lastError": ""
+  }
+]
