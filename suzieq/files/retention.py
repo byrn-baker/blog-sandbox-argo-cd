@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import re
+import struct
 import time
 import urllib.request
 
@@ -136,15 +137,34 @@ def measurements(root):
             'suzieq_coalescer_latest_block_end_seconds':max(poll_blocks, default=0)}
 
 
+def varint(value):
+    result = bytearray()
+    while value > 127:
+        result.append((value & 127) | 128)
+        value >>= 7
+    result.append(value)
+    return bytes(result)
+
+
+def field(number, value):
+    return varint(number * 8 + 2) + varint(len(value)) + value
+
+
+def encode_metrics(values, timestamp):
+    # OTLP metrics.proto: Metric.gauge=5, Gauge.data_points=1,
+    # NumberDataPoint.time_unix_nano=3 (fixed64), as_double=4 (double).
+    # Encoding this fixed gauge-only schema avoids runtime package downloads.
+    metrics = b''
+    for name, value in values.items():
+        point = b'\x19' + struct.pack('<Q', timestamp) + b'\x21' + struct.pack('<d', float(value))
+        metrics += field(2, field(1, name.encode()) + field(5, field(1, point)))
+    resource = field(1, field(1, b'service.name') + field(2, field(1, b'suzieq-retention')))
+    return field(1, field(1, resource) + field(2, metrics))
+
+
 def publish(values, endpoint):
-    point_time = str(time.time_ns())
-    body = {'resourceMetrics':[{'resource':{'attributes':[
-        {'key':'service.name','value':{'stringValue':'suzieq-retention'}}]},
-        'scopeMetrics':[{'scope':{'name':'lab.suzieq.storage'}, 'metrics':[
-            {'name':name, 'gauge':{'dataPoints':[{'timeUnixNano':point_time,'asDouble':value}]}}
-            for name, value in values.items()]}]}]}
-    request = urllib.request.Request(endpoint, data=json.dumps(body).encode(),
-                                     headers={'Content-Type':'application/json'})
+    request = urllib.request.Request(endpoint, data=encode_metrics(values, time.time_ns()),
+                                     headers={'Content-Type':'application/x-protobuf'})
     for attempt in range(3):
         try:
             with urllib.request.urlopen(request, timeout=10) as response:
@@ -164,6 +184,7 @@ def main():
     parser.add_argument('--apply', action='store_true')
     parser.add_argument('--once', action='store_true')
     parser.add_argument('--endpoint', default='http://snmp-metrics.observability.svc:8428/opentelemetry/v1/metrics')
+    parser.add_argument('--health-endpoint', default='http://vmsingle-victoria-metrics-k8s-stack.observability.svc:8428/opentelemetry/v1/metrics')
     args = parser.parse_args()
     root = Path(args.root)
     last_run = last_success = failures = 0
@@ -181,6 +202,7 @@ def main():
         values.update(suzieq_retention_last_success_timestamp_seconds=last_success,
                       suzieq_retention_failures=failures, suzieq_retention_enabled=int(args.apply))
         publish(values, args.endpoint)
+        publish(values, args.health_endpoint)
         if args.once:
             break
         time.sleep(60)

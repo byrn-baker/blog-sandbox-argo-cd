@@ -5,7 +5,7 @@ pollPeriod: 60
 services: device bgp interfaces lldp routes
 retention:
   days: 14
-  apply: false
+  apply: true
 storage:
   className: longhorn
   size: 5Gi

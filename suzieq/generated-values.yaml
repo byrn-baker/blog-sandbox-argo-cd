@@ -6,10 +6,13 @@ inventory:
     type: native
     hosts:
     - url: ssh://192.168.3.32
+    - url: ssh://192.168.3.33
+    - url: ssh://192.168.3.30
   - name: cisco-network-fleet
     type: native
     hosts:
     - url: ssh://192.168.3.60
+    - url: ssh://192.168.3.61
   devices:
   - name: ssh-defaults
     transport: ssh

@@ -1,0 +1,37 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: lab-suzieq-storage
+  namespace: observability
+spec:
+  groups:
+    - name: lab-suzieq-storage
+      rules:
+        - alert: LabSuzieQStorageLow
+          expr: suzieq_storage_available_bytes / suzieq_storage_capacity_bytes < 0.3
+          for: 10m
+          labels: {severity: warning}
+          annotations:
+            summary: SuzieQ volume has less than 30 percent free
+            description: Inspect growth and coalescer health before expanding polling or deleting history.
+        - alert: LabSuzieQStorageGrowth
+          expr: predict_linear(suzieq_storage_active_bytes[6h], 7 * 86400) > 0.8 * suzieq_storage_capacity_bytes
+          for: 30m
+          labels: {severity: warning}
+          annotations:
+            summary: SuzieQ growth projects above 80 percent capacity within seven days
+            description: This is a projection from six hours of data, not a guaranteed exhaustion date.
+        - alert: LabSuzieQRetentionStale
+          expr: (time() - suzieq_retention_last_success_timestamp_seconds > 7200) or absent(suzieq_retention_last_success_timestamp_seconds)
+          for: 10m
+          labels: {severity: warning}
+          annotations:
+            summary: SuzieQ retention checks are missing or stale
+            description: Inspect the retention sidecar logs; unknown layouts stop cleanup without deleting data.
+        - alert: LabSuzieQCoalescerStale
+          expr: time() - suzieq_coalescer_latest_block_end_seconds > 14400
+          for: 15m
+          labels: {severity: warning}
+          annotations:
+            summary: SuzieQ poller data has not been coalesced for four hours
+            description: Raw data is deliberately never deleted by the retention policy. Inspect the poller and coalescer.
