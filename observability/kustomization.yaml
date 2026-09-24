@@ -10,6 +10,15 @@ resources:
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
+- name: lab-dashboard-network-telemetry
+  files:
+  - dashboards/Network/network-telemetry.json
+  options:
+    labels:
+      grafana_dashboard: '1'
+    annotations:
+      grafana_folder: /var/lib/grafana/dashboards/Network
+  namespace: observability
 - name: lab-dashboard-alertmanager-overview
   files:
   - dashboards/Observability/alertmanager-overview.json

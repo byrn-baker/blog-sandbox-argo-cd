@@ -1,0 +1,828 @@
+{
+  "uid": "network-telemetry",
+  "title": "Network Telemetry",
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "tags": [
+    "network",
+    "flows",
+    "suzieq"
+  ],
+  "timezone": "browser",
+  "refresh": "1m",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "links": [
+    {
+      "title": "Network Operations",
+      "url": "/d/network-operations?var-device=${device}",
+      "type": "link",
+      "includeVars": true,
+      "keepTime": true
+    },
+    {
+      "title": "Network SNMP",
+      "url": "/d/network-snmp",
+      "type": "link",
+      "includeVars": true,
+      "keepTime": true
+    },
+    {
+      "title": "Network Routing",
+      "url": "/d/network-routing",
+      "type": "link",
+      "includeVars": true,
+      "keepTime": true
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "device",
+        "label": "Device",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "network-snmp"
+        },
+        "query": {
+          "query": "label_values(snmp_device_uptime_ticks{job=\"snmp\"},device)",
+          "refId": "device"
+        },
+        "definition": "label_values(snmp_device_uptime_ticks{job=\"snmp\"},device)",
+        "refresh": 1,
+        "multi": false,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 0
+      },
+      {
+        "name": "exporter",
+        "label": "Exporter IP",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "network-snmp"
+        },
+        "query": {
+          "query": "label_values(snmp_device_uptime_ticks{job=\"snmp\",device=~\"$device\"},management_ip)",
+          "refId": "exporter"
+        },
+        "definition": "label_values(snmp_device_uptime_ticks{job=\"snmp\",device=~\"$device\"},management_ip)",
+        "refresh": 1,
+        "multi": false,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 2
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "How to read this dashboard",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Choose a device to correlate SNMP, exported traffic and device state. Flows and logs use the selected time range; SuzieQ state is the last known state at the range end. **SuzieQ covers CE1 and DCA-Leaf01 only. Syslog covers the same two devices.** Empty panels for other devices mean collection is outside scope. Flow counts are stored records, not packets or utilization. sFlow is sampled at 1:16,384. SuzieQ row timestamps describe state changes; use the live poller table for collection freshness. Raw logs retain 14 days."
+      }
+    },
+    {
+      "id": 2,
+      "title": "Interface ingress",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(snmp_interface_in_octets_total{job=\"snmp\",device=~\"$device\",if_type!=\"\",if_type!=\"166\",interface!~\"(VoIP-)?Null0\"}[$__rate_interval])*8",
+          "legendFormat": "{{device}} / {{interface}}",
+          "range": true
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "description": "SNMP interface counters, not flow-derived estimates.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 3,
+      "title": "Interface discards",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "network-snmp"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(snmp_interface_in_discards_total{job=\"snmp\",device=~\"$device\",if_type!=\"166\"}[$__rate_interval])",
+          "legendFormat": "{{device}} / {{interface}}",
+          "range": true
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Missing counters remain unknown.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "pps",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 4,
+      "title": "Stored flow records by exporter",
+      "type": "table",
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "network-logs"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:~\"${exporter:regex}\" | stats by (flow.sampler_address, flow.type) count() as records",
+          "queryType": "stats",
+          "editorMode": "code",
+          "maxLines": 500
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Record counts during the selected interval. Exporter address identifies the device.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 5,
+      "title": "NetFlow conversations: observed bytes and packets",
+      "type": "table",
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "network-logs"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "flow.type:netflow_v9 AND flow.sampler_address:~\"${exporter:regex}\" | stats by (flow.sampler_address, source.address, destination.address, network.transport, destination.port) sum(flow.io.bytes) as bytes, sum(flow.io.packets) as packets | sort by (bytes desc) | limit 25",
+          "queryType": "stats",
+          "editorMode": "code",
+          "maxLines": 500
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "description": "Top 25 exported conversations. Do not sum observations across routers as unique traffic; the same packets may cross several monitors.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 6,
+      "title": "Flow record detail",
+      "type": "logs",
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "network-logs"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:~\"${exporter:regex}\" | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
+          "queryType": "instant",
+          "editorMode": "code",
+          "maxLines": 500
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 20,
+        "w": 24,
+        "h": 9
+      },
+      "description": "Up to 500 decoded records, including sampled values and sampling metadata. No per-VNI attribution.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 7,
+      "title": "Syslog: CE1 and DCA-Leaf01",
+      "type": "logs",
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "network-logs"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "net.peer.ip:~\"${exporter:regex}\" AND NOT flow.type:*",
+          "queryType": "instant",
+          "editorMode": "code",
+          "maxLines": 500
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 29,
+        "w": 24,
+        "h": 8
+      },
+      "description": "Original vendor messages. Stored time is ingestion time. Other devices are not enabled for syslog.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {}
+    },
+    {
+      "id": 8,
+      "title": "Device state",
+      "type": "table",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "network-suzieq"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "http://suzieq.observability.svc:8000/api/v2/device/show",
+          "url_options": {
+            "method": "GET",
+            "params": [
+              {
+                "key": "namespace",
+                "value": "sp-demo-lab"
+              },
+              {
+                "key": "hostname",
+                "value": "~${device:regex}"
+              },
+              {
+                "key": "end_time",
+                "value": "${__to:date:iso}"
+              }
+            ]
+          },
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "hostname",
+              "text": "hostname",
+              "type": "string"
+            },
+            {
+              "selector": "vendor",
+              "text": "vendor",
+              "type": "string"
+            },
+            {
+              "selector": "model",
+              "text": "model",
+              "type": "string"
+            },
+            {
+              "selector": "version",
+              "text": "version",
+              "type": "string"
+            },
+            {
+              "selector": "status",
+              "text": "status",
+              "type": "string"
+            },
+            {
+              "selector": "address",
+              "text": "address",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 37,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 9,
+      "title": "BGP state and prefixes",
+      "type": "table",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "network-suzieq"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "http://suzieq.observability.svc:8000/api/v2/bgp/show",
+          "url_options": {
+            "method": "GET",
+            "params": [
+              {
+                "key": "namespace",
+                "value": "sp-demo-lab"
+              },
+              {
+                "key": "hostname",
+                "value": "~${device:regex}"
+              },
+              {
+                "key": "end_time",
+                "value": "${__to:date:iso}"
+              }
+            ]
+          },
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "hostname",
+              "text": "hostname",
+              "type": "string"
+            },
+            {
+              "selector": "vrf",
+              "text": "vrf",
+              "type": "string"
+            },
+            {
+              "selector": "peer",
+              "text": "peer",
+              "type": "string"
+            },
+            {
+              "selector": "state",
+              "text": "state",
+              "type": "string"
+            },
+            {
+              "selector": "afi",
+              "text": "afi",
+              "type": "string"
+            },
+            {
+              "selector": "safi",
+              "text": "safi",
+              "type": "string"
+            },
+            {
+              "selector": "pfxRx",
+              "text": "pfxRx",
+              "type": "number"
+            },
+            {
+              "selector": "pfxTx",
+              "text": "pfxTx",
+              "type": "number"
+            }
+          ]
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 37,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 10,
+      "title": "Interface state",
+      "type": "table",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "network-suzieq"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "http://suzieq.observability.svc:8000/api/v2/interface/show",
+          "url_options": {
+            "method": "GET",
+            "params": [
+              {
+                "key": "namespace",
+                "value": "sp-demo-lab"
+              },
+              {
+                "key": "hostname",
+                "value": "~${device:regex}"
+              },
+              {
+                "key": "end_time",
+                "value": "${__to:date:iso}"
+              }
+            ]
+          },
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "hostname",
+              "text": "hostname",
+              "type": "string"
+            },
+            {
+              "selector": "ifname",
+              "text": "ifname",
+              "type": "string"
+            },
+            {
+              "selector": "adminState",
+              "text": "adminState",
+              "type": "string"
+            },
+            {
+              "selector": "state",
+              "text": "state",
+              "type": "string"
+            },
+            {
+              "selector": "mtu",
+              "text": "mtu",
+              "type": "number"
+            },
+            {
+              "selector": "master",
+              "text": "master",
+              "type": "string"
+            },
+            {
+              "selector": "ipAddressList",
+              "text": "ipAddressList",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 47,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 11,
+      "title": "LLDP neighbors",
+      "type": "table",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "network-suzieq"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "http://suzieq.observability.svc:8000/api/v2/lldp/show",
+          "url_options": {
+            "method": "GET",
+            "params": [
+              {
+                "key": "namespace",
+                "value": "sp-demo-lab"
+              },
+              {
+                "key": "hostname",
+                "value": "~${device:regex}"
+              },
+              {
+                "key": "end_time",
+                "value": "${__to:date:iso}"
+              }
+            ]
+          },
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "hostname",
+              "text": "hostname",
+              "type": "string"
+            },
+            {
+              "selector": "ifname",
+              "text": "ifname",
+              "type": "string"
+            },
+            {
+              "selector": "peerHostname",
+              "text": "peerHostname",
+              "type": "string"
+            },
+            {
+              "selector": "peerIfname",
+              "text": "peerIfname",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 47,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 12,
+      "title": "Installed routes",
+      "type": "table",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "network-suzieq"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "http://suzieq.observability.svc:8000/api/v2/route/show",
+          "url_options": {
+            "method": "GET",
+            "params": [
+              {
+                "key": "namespace",
+                "value": "sp-demo-lab"
+              },
+              {
+                "key": "hostname",
+                "value": "~${device:regex}"
+              },
+              {
+                "key": "end_time",
+                "value": "${__to:date:iso}"
+              }
+            ]
+          },
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "hostname",
+              "text": "hostname",
+              "type": "string"
+            },
+            {
+              "selector": "vrf",
+              "text": "vrf",
+              "type": "string"
+            },
+            {
+              "selector": "prefix",
+              "text": "prefix",
+              "type": "string"
+            },
+            {
+              "selector": "protocol",
+              "text": "protocol",
+              "type": "string"
+            },
+            {
+              "selector": "nexthopIps",
+              "text": "nexthopIps",
+              "type": "string"
+            },
+            {
+              "selector": "oifs",
+              "text": "oifs",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 57,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    },
+    {
+      "id": 13,
+      "title": "Live SuzieQ poller health",
+      "type": "table",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "network-suzieq"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "url": "http://suzieq.observability.svc:8000/api/v2/sqPoller/show",
+          "url_options": {
+            "method": "GET",
+            "params": [
+              {
+                "key": "namespace",
+                "value": "sp-demo-lab"
+              },
+              {
+                "key": "hostname",
+                "value": "~${device:regex}"
+              }
+            ]
+          },
+          "root_selector": "",
+          "columns": [
+            {
+              "selector": "hostname",
+              "text": "hostname",
+              "type": "string"
+            },
+            {
+              "selector": "service",
+              "text": "service",
+              "type": "string"
+            },
+            {
+              "selector": "statusStr",
+              "text": "statusStr",
+              "type": "string"
+            },
+            {
+              "selector": "pollExcdPeriodCount",
+              "text": "pollExcdPeriodCount",
+              "type": "number"
+            },
+            {
+              "selector": "timestamp",
+              "text": "timestamp",
+              "type": "timestamp_epoch"
+            }
+          ]
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 57,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Live collection health, independent of the dashboard history range. State-row timestamps may be old even when polling works.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      }
+    }
+  ]
+}

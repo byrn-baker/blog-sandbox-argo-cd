@@ -35,6 +35,39 @@ vmsingle:
           storage: 20Gi
 
 grafana:
+  plugins:
+    - victoriametrics-logs-datasource@0.32.0
+    - yesoreyeram-infinity-datasource@4.0.0
+  envValueFrom:
+    SUZIEQ_API_KEY:
+      secretKeyRef:
+        name: suzieq-credentials
+        key: API_KEY
+  datasources:
+    network-telemetry.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Network Logs
+          uid: network-logs
+          type: victoriametrics-logs-datasource
+          access: proxy
+          url: http://victorialogs.observability.svc:9428
+          editable: false
+          jsonData:
+            maxLines: 500
+        - name: SuzieQ
+          uid: network-suzieq
+          type: yesoreyeram-infinity-datasource
+          access: proxy
+          url: http://suzieq.observability.svc:8000
+          editable: false
+          jsonData:
+            allowedHosts:
+              - http://suzieq.observability.svc:8000
+            httpHeaderName1: access_token
+            timeoutInSeconds: 30
+          secureJsonData:
+            httpHeaderValue1: $SUZIEQ_API_KEY
   sidecar:
     dashboards:
       defaultFolderName: ""
