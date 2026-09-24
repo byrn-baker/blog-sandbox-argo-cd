@@ -36,8 +36,8 @@ vmsingle:
 
 grafana:
   plugins:
-    - victoriametrics-logs-datasource@0.32.0
-    - yesoreyeram-infinity-datasource@4.0.0
+    - victoriametrics-logs-datasource@0.32.0@http://192.168.3.21:8888/grafana-plugins/victoriametrics-logs-datasource-0.32.0.zip
+    - yesoreyeram-infinity-datasource@4.0.0@http://192.168.3.21:8888/grafana-plugins/yesoreyeram-infinity-datasource-4.0.0.zip
   envValueFrom:
     SUZIEQ_API_KEY:
       secretKeyRef:
