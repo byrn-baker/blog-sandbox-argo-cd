@@ -187,14 +187,17 @@
       "gridPos": {
         "x": 0,
         "y": 12,
-        "w": 12,
-        "h": 8
+        "w": 24,
+        "h": 10
       },
       "description": "Record counts during the selected interval. Exporter address identifies the device.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
@@ -249,16 +252,19 @@
         }
       ],
       "gridPos": {
-        "x": 12,
-        "y": 12,
-        "w": 12,
-        "h": 8
+        "x": 0,
+        "y": 22,
+        "w": 24,
+        "h": 10
       },
       "description": "Top 25 exported conversations. Do not sum observations across routers as unique traffic; the same packets may cross several monitors.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
@@ -306,7 +312,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | sort by (_time desc) | limit 500 | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
           "queryType": "instant",
           "editorMode": "code",
           "maxLines": 500
@@ -314,9 +320,9 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 20,
+        "y": 32,
         "w": 24,
-        "h": 9
+        "h": 10
       },
       "description": "Up to 500 decoded records, including sampled values and sampling metadata. No per-VNI attribution.",
       "fieldConfig": {
@@ -347,9 +353,9 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 29,
+        "y": 42,
         "w": 24,
-        "h": 8
+        "h": 10
       },
       "description": "Original vendor messages. Stored time is ingestion time. Other devices are not enabled for syslog.",
       "fieldConfig": {
@@ -431,22 +437,40 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 37,
-        "w": 12,
-        "h": 10
+        "y": 52,
+        "w": 24,
+        "h": 6
       },
       "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "hostname": 0,
+              "vendor": 1,
+              "model": 2,
+              "version": 3,
+              "status": 4,
+              "address": 5
+            }
+          }
+        }
+      ]
     },
     {
       "id": 9,
@@ -527,23 +551,43 @@
         }
       ],
       "gridPos": {
-        "x": 12,
-        "y": 37,
-        "w": 12,
+        "x": 0,
+        "y": 58,
+        "w": 24,
         "h": 10
       },
       "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "hostname": 0,
+              "vrf": 1,
+              "peer": 2,
+              "state": 3,
+              "afi": 4,
+              "safi": 5,
+              "pfxRx": 6,
+              "pfxTx": 7
+            }
+          }
+        }
+      ]
     },
     {
       "id": 10,
@@ -620,22 +664,41 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 47,
-        "w": 12,
+        "y": 68,
+        "w": 24,
         "h": 10
       },
       "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "hostname": 0,
+              "ifname": 1,
+              "adminState": 2,
+              "state": 3,
+              "mtu": 4,
+              "master": 5,
+              "ipAddressList": 6
+            }
+          }
+        }
+      ]
     },
     {
       "id": 11,
@@ -696,23 +759,39 @@
         }
       ],
       "gridPos": {
-        "x": 12,
-        "y": 47,
-        "w": 12,
-        "h": 10
+        "x": 0,
+        "y": 78,
+        "w": 24,
+        "h": 6
       },
       "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "hostname": 0,
+              "ifname": 1,
+              "peerHostname": 2,
+              "peerIfname": 3
+            }
+          }
+        }
+      ]
     },
     {
       "id": 12,
@@ -784,22 +863,40 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 57,
-        "w": 12,
+        "y": 84,
+        "w": 24,
         "h": 10
       },
       "description": "Last known state at the selected range end. Only CE1 and DCA-Leaf01 are polled. CE1 LLDP is legitimately empty.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "hostname": 0,
+              "vrf": 1,
+              "prefix": 2,
+              "protocol": 3,
+              "nexthopIps": 4,
+              "oifs": 5
+            }
+          }
+        }
+      ]
     },
     {
       "id": 13,
@@ -861,23 +958,40 @@
         }
       ],
       "gridPos": {
-        "x": 12,
-        "y": 57,
-        "w": 12,
+        "x": 0,
+        "y": 94,
+        "w": 24,
         "h": 10
       },
       "description": "Live collection health, independent of the dashboard history range. State-row timestamps may be old even when polling works.",
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "noValue": "No data"
+          "noValue": "No data",
+          "custom": {
+            "minWidth": 75
+          }
         },
         "overrides": []
       },
       "options": {
         "showHeader": true,
         "cellHeight": "sm"
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "hostname": 0,
+              "service": 1,
+              "statusStr": 2,
+              "pollExcdPeriodCount": 3,
+              "timestamp": 4
+            }
+          }
+        }
+      ]
     }
   ]
 }
