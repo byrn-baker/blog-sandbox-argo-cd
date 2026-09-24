@@ -412,7 +412,12 @@
         },
         "overrides": []
       },
-      "options": {}
+      "options": {
+        "showTime": true,
+        "showLevel": false,
+        "wrapLogMessage": true,
+        "sortOrder": "Descending"
+      }
     },
     {
       "id": 7,
@@ -445,7 +450,12 @@
         },
         "overrides": []
       },
-      "options": {}
+      "options": {
+        "showTime": true,
+        "showLevel": false,
+        "wrapLogMessage": true,
+        "sortOrder": "Descending"
+      }
     },
     {
       "id": 8,

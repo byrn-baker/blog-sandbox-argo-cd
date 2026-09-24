@@ -52,6 +52,11 @@ def run():
             page.wait_for_timeout(12000)
             page.wait_for_load_state('networkidle', timeout=90000)
             page.screenshot(path=str(dest / (device + '-traffic.png')))
+            page.get_by_text('NetFlow conversations: observed bytes and packets', exact=True).evaluate(
+                "el => el.scrollIntoView({block: 'start'})")
+            page.wait_for_timeout(2000)
+            page.wait_for_load_state('networkidle', timeout=90000)
+            page.screenshot(path=str(dest / (device + '-conversations.png')))
             page.get_by_text('Flow record detail', exact=True).evaluate(
                 "el => el.scrollIntoView({block: 'start'})")
             page.wait_for_timeout(8000)
