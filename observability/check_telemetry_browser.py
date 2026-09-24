@@ -4,6 +4,7 @@ Run with Playwright installed. Screenshot destination is a command-line path.
 Credentials stay in memory and are never written to evidence.
 """
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -18,7 +19,7 @@ def run():
     dest.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True, executable_path=
-            '/home/ubuntu/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome')
+            os.environ.get('CHROMIUM_PATH'))
         page = browser.new_page(viewport={'width': 1600, 'height': 1100})
         errors = []
         page.on('pageerror', lambda err: errors.append(str(err)))
@@ -33,10 +34,12 @@ def run():
             page.get_by_text('How to read this dashboard', exact=True).wait_for(timeout=60000)
             page.wait_for_timeout(12000)
             page.screenshot(path=str(dest / (device + '-traffic.png')))
-            page.get_by_text('Flow record detail', exact=True).scroll_into_view_if_needed()
+            page.get_by_text('Flow record detail', exact=True).evaluate(
+                "el => el.scrollIntoView({block: 'start'})")
             page.wait_for_timeout(8000)
             page.screenshot(path=str(dest / (device + '-flows.png')))
-            page.get_by_text('Installed routes', exact=True).scroll_into_view_if_needed()
+            page.get_by_text('Installed routes', exact=True).evaluate(
+                "el => el.scrollIntoView({block: 'start'})")
             page.wait_for_timeout(8000)
             page.screenshot(path=str(dest / (device + '-state.png')))
             print(json.dumps({'device': device, 'page_errors': errors,

@@ -178,7 +178,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:~\"${exporter:regex}\" | stats by (flow.sampler_address, flow.type) count() as records",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | stats by (flow.sampler_address, flow.type) count() as records",
           "queryType": "stats",
           "editorMode": "code",
           "maxLines": 500
@@ -242,7 +242,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:netflow_v9 AND flow.sampler_address:~\"${exporter:regex}\" | stats by (flow.sampler_address, source.address, destination.address, network.transport, destination.port) sum(flow.io.bytes) as bytes, sum(flow.io.packets) as packets | sort by (bytes desc) | limit 25",
+          "expr": "flow.type:netflow_v9 AND flow.sampler_address:in(${exporter:doublequote}) | stats by (flow.sampler_address, source.address, destination.address, network.transport, destination.port) sum(flow.io.bytes) as bytes, sum(flow.io.packets) as packets | sort by (bytes desc) | limit 25",
           "queryType": "stats",
           "editorMode": "code",
           "maxLines": 500
@@ -306,7 +306,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:~\"${exporter:regex}\" | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
           "queryType": "instant",
           "editorMode": "code",
           "maxLines": 500
@@ -339,7 +339,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "net.peer.ip:~\"${exporter:regex}\" AND NOT flow.type:*",
+          "expr": "net.peer.ip:in(${exporter:doublequote}) AND NOT flow.type:*",
           "queryType": "instant",
           "editorMode": "code",
           "maxLines": 500

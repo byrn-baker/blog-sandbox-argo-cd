@@ -44,6 +44,18 @@ in dashboard JSON or URL parameters. Infinity restricts destinations to the
 internal SuzieQ service and uses its backend parser. Rotating the Secret also
 requires a declared Grafana pod rollout to reread the environment value.
 
+## Grafana startup
+
+Grafana 13.1.1's SQLite adapter converts `_journal_mode=WAL` to
+`_pragma=_journal_mode(WAL)`, leaving the database in rollback-journal mode.
+The rollout encountered repeated SQLITE_BUSY errors during provisioning.
+The declared `sqlite-wal` init container sets `PRAGMA journal_mode=WAL` before
+Grafana starts, and saves a SQLite backup to `grafana.db.before-wal` first.
+It does not overwrite that backup on later starts. Recreate deployment keeps
+the startup step separate from the Grafana writer. Recheck the workaround when
+upgrading Grafana. The relevant upstream implementation is
+[the 13.1.1 SQLite adapter](https://github.com/grafana/grafana/blob/v13.1.1/pkg/util/sqlite/sqlite_nocgo.go).
+
 ## Verification
 
 Render the pinned chart and run `kubectl kustomize observability` before pushing.

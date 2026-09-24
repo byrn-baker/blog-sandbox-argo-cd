@@ -45,6 +45,7 @@ grafana:
         - |
           import os
           import sqlite3
+          os.umask(0o077)
           path = '/var/lib/grafana/grafana.db'
           with sqlite3.connect(path, timeout=30) as db:
               mode = db.execute('PRAGMA journal_mode').fetchone()[0]
