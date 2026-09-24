@@ -1,0 +1,341 @@
+{
+  "checked_at": "2026-09-24T03:16:57.251000+00:00",
+  "panels": [
+    {
+      "device": ".*",
+      "panel": "Interface ingress",
+      "http": 200,
+      "rows": 458238,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Interface discards",
+      "http": 200,
+      "rows": 495704,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Stored flow records by exporter",
+      "http": 200,
+      "rows": 28,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "NetFlow conversations: observed bytes and packets",
+      "http": 200,
+      "rows": 50,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Flow record detail",
+      "http": 200,
+      "rows": 500,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Syslog: CE1 and DCA-Leaf01",
+      "http": 200,
+      "rows": 20,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Device state",
+      "http": 200,
+      "rows": 2,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "BGP state and prefixes",
+      "http": 200,
+      "rows": 18,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Interface state",
+      "http": 200,
+      "rows": 33,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "LLDP neighbors",
+      "http": 200,
+      "rows": 2,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Installed routes",
+      "http": 200,
+      "rows": 182,
+      "errors": []
+    },
+    {
+      "device": ".*",
+      "panel": "Live SuzieQ poller health",
+      "http": 200,
+      "rows": 10,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Interface ingress",
+      "http": 200,
+      "rows": 12969,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Interface discards",
+      "http": 200,
+      "rows": 15851,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Stored flow records by exporter",
+      "http": 200,
+      "rows": 1,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "NetFlow conversations: observed bytes and packets",
+      "http": 200,
+      "rows": 50,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Flow record detail",
+      "http": 200,
+      "rows": 500,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Syslog: CE1 and DCA-Leaf01",
+      "http": 200,
+      "rows": 8,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Device state",
+      "http": 200,
+      "rows": 1,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "BGP state and prefixes",
+      "http": 200,
+      "rows": 8,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Interface state",
+      "http": 200,
+      "rows": 10,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "LLDP neighbors",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Installed routes",
+      "http": 200,
+      "rows": 76,
+      "errors": []
+    },
+    {
+      "device": "CE1",
+      "panel": "Live SuzieQ poller health",
+      "http": 200,
+      "rows": 5,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Interface ingress",
+      "http": 200,
+      "rows": 28820,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Interface discards",
+      "http": 200,
+      "rows": 28820,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Stored flow records by exporter",
+      "http": 200,
+      "rows": 1,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "NetFlow conversations: observed bytes and packets",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Flow record detail",
+      "http": 200,
+      "rows": 500,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Syslog: CE1 and DCA-Leaf01",
+      "http": 200,
+      "rows": 12,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Device state",
+      "http": 200,
+      "rows": 1,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "BGP state and prefixes",
+      "http": 200,
+      "rows": 10,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Interface state",
+      "http": 200,
+      "rows": 23,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "LLDP neighbors",
+      "http": 200,
+      "rows": 2,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Installed routes",
+      "http": 200,
+      "rows": 106,
+      "errors": []
+    },
+    {
+      "device": "DCA-Leaf01",
+      "panel": "Live SuzieQ poller health",
+      "http": 200,
+      "rows": 5,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Interface ingress",
+      "http": 200,
+      "rows": 12969,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Interface discards",
+      "http": 200,
+      "rows": 15851,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Stored flow records by exporter",
+      "http": 200,
+      "rows": 1,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "NetFlow conversations: observed bytes and packets",
+      "http": 200,
+      "rows": 50,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Flow record detail",
+      "http": 200,
+      "rows": 500,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Syslog: CE1 and DCA-Leaf01",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Device state",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "BGP state and prefixes",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Interface state",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "LLDP neighbors",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Installed routes",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    },
+    {
+      "device": "CE2",
+      "panel": "Live SuzieQ poller health",
+      "http": 200,
+      "rows": 0,
+      "errors": []
+    }
+  ]
+}
