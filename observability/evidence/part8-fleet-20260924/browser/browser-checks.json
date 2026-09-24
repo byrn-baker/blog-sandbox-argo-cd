@@ -1,0 +1,26 @@
+[
+  {
+    "device": "All",
+    "page_errors": [],
+    "query_errors": [],
+    "has_dashboard": true
+  },
+  {
+    "device": "CE1",
+    "page_errors": [],
+    "query_errors": [],
+    "has_dashboard": true
+  },
+  {
+    "device": "DCA-Leaf01",
+    "page_errors": [],
+    "query_errors": [],
+    "has_dashboard": true
+  },
+  {
+    "device": "CE2",
+    "page_errors": [],
+    "query_errors": [],
+    "has_dashboard": true
+  }
+]
