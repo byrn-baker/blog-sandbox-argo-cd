@@ -25,8 +25,10 @@ purged. They no longer appear in queries but can be recovered during that grace
 period by moving the exact file back to its relative `coalesced/` path. Restore
 only into an absent target, never overwrite a newer block. This protects against
 a mistaken expiry decision, not loss of the PVC. Maintain a separate volume
-backup for disaster recovery. No independent off-volume backup is established
-by this change.
+backup for disaster recovery. A pre-fleet copy of the table directories was
+exported to the automation host outside Git. Writers were not quiesced, so that
+copy is not a transactional snapshot. Recurring off-volume backups remain
+separate operational work.
 
 The cleaner accepts only the pinned hourly coalescer layout. Unknown formats
 stop cleanup. Internal sqCoalescer statistics use their Parquet timestamps for

@@ -1,0 +1,16 @@
+{
+  "isolated_copy": true,
+  "queries_compared": 12,
+  "latest_rows": {
+    "device": 2,
+    "bgp": 18,
+    "interfaces": 33,
+    "lldp": 2,
+    "routes": 181,
+    "sqPoller": 10
+  },
+  "quarantined_files": 12,
+  "state_and_history_preserved": true,
+  "byte_identical_restore": true,
+  "production_data_deleted": false
+}

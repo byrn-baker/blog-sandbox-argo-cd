@@ -7,12 +7,35 @@ inventory:
     hosts:
     - url: ssh://192.168.3.32
     - url: ssh://192.168.3.33
+    - url: ssh://192.168.3.34
     - url: ssh://192.168.3.30
+    - url: ssh://192.168.3.31
+    - url: ssh://192.168.3.37
+    - url: ssh://192.168.3.38
+    - url: ssh://192.168.3.39
+    - url: ssh://192.168.3.35
+    - url: ssh://192.168.3.36
+    - url: ssh://192.168.3.42
+    - url: ssh://192.168.3.43
+    - url: ssh://192.168.3.44
+    - url: ssh://192.168.3.40
+    - url: ssh://192.168.3.41
   - name: cisco-network-fleet
     type: native
     hosts:
+    - url: ssh://192.168.3.50
     - url: ssh://192.168.3.60
     - url: ssh://192.168.3.61
+    - url: ssh://192.168.3.62
+    - url: ssh://192.168.3.51
+    - url: ssh://192.168.3.52
+    - url: ssh://192.168.3.53
+    - url: ssh://192.168.3.54
+    - url: ssh://192.168.3.55
+    - url: ssh://192.168.3.56
+    - url: ssh://192.168.3.57
+    - url: ssh://192.168.3.58
+    - url: ssh://192.168.3.59
   devices:
   - name: ssh-defaults
     transport: ssh

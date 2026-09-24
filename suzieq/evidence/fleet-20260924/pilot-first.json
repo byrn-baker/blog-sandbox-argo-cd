@@ -1,0 +1,80 @@
+{
+  "checked_at": "2026-09-24T03:55:20.564695+00:00",
+  "expected_devices": [
+    "CE1",
+    "CE2",
+    "DCA-Leaf01",
+    "DCA-Leaf02",
+    "DCA-Spine01"
+  ],
+  "tables": {
+    "device": {
+      "rows": 5,
+      "by_device": {
+        "CE1": 1,
+        "CE2": 1,
+        "DCA-Leaf01": 1,
+        "DCA-Leaf02": 1,
+        "DCA-Spine01": 1
+      }
+    },
+    "bgp": {
+      "rows": 65,
+      "by_device": {
+        "CE1": 8,
+        "CE2": 8,
+        "DCA-Leaf01": 10,
+        "DCA-Leaf02": 10,
+        "DCA-Spine01": 29
+      }
+    },
+    "interface": {
+      "rows": 79,
+      "by_device": {
+        "CE1": 10,
+        "CE2": 10,
+        "DCA-Leaf01": 23,
+        "DCA-Leaf02": 23,
+        "DCA-Spine01": 13
+      }
+    },
+    "lldp": {
+      "rows": 7,
+      "by_device": {
+        "CE1": 0,
+        "CE2": 0,
+        "DCA-Leaf01": 2,
+        "DCA-Leaf02": 2,
+        "DCA-Spine01": 3
+      }
+    },
+    "route": {
+      "rows": 422,
+      "by_device": {
+        "CE1": 76,
+        "CE2": 76,
+        "DCA-Leaf01": 105,
+        "DCA-Leaf02": 109,
+        "DCA-Spine01": 56
+      }
+    },
+    "sqPoller": {
+      "rows": 25,
+      "by_device": {
+        "CE1": 5,
+        "CE2": 5,
+        "DCA-Leaf01": 5,
+        "DCA-Leaf02": 5,
+        "DCA-Spine01": 5
+      }
+    }
+  },
+  "poller_errors": [],
+  "poller_timestamps": {
+    "CE1": 1790222070562,
+    "CE2": 1790222071927,
+    "DCA-Leaf01": 1790222069388,
+    "DCA-Leaf02": 1790222070113,
+    "DCA-Spine01": 1790222068747
+  }
+}
