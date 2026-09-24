@@ -35,6 +35,30 @@ vmsingle:
           storage: 20Gi
 
 grafana:
+  # Grafana 13.1.1's modernc adapter emits _journal_mode(WAL), an ignored
+  # SQLite pragma. Set the persistent mode before the sole writer starts.
+  extraInitContainers:
+    - name: sqlite-wal
+      image: quay.io/kiwigrid/k8s-sidecar:2.8.1
+      command: [python, -c]
+      args:
+        - |
+          import os
+          import sqlite3
+          path = '/var/lib/grafana/grafana.db'
+          with sqlite3.connect(path, timeout=30) as db:
+              mode = db.execute('PRAGMA journal_mode').fetchone()[0]
+              if mode != 'wal':
+                  backup = path + '.before-wal'
+                  if not os.path.exists(backup):
+                      with sqlite3.connect(backup) as target:
+                          db.backup(target)
+                  mode = db.execute('PRAGMA journal_mode=WAL').fetchone()[0]
+              assert mode == 'wal', mode
+              print('SQLite journal mode:', mode)
+      volumeMounts:
+        - name: storage
+          mountPath: /var/lib/grafana
   plugins:
     - victoriametrics-logs-datasource@0.32.0@http://192.168.3.21:8888/grafana-plugins/victoriametrics-logs-datasource-0.32.0.zip
     - yesoreyeram-infinity-datasource@4.0.0@http://192.168.3.21:8888/grafana-plugins/yesoreyeram-infinity-datasource-4.0.0.zip
