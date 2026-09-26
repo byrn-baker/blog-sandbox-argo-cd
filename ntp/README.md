@@ -10,8 +10,9 @@ name when configuration changes, which triggers a Deployment rollout.
 | Lab fabric | `10.100.0.241:123/UDP` | `bond0` |
 
 These are two addresses for the same single replica, not independent time
-sources. Both Services preserve client source addresses with
-`externalTrafficPolicy: Local`. MetalLB announces each address from the worker
+sources. Both Services use `externalTrafficPolicy: Local` to preserve external
+client source addresses. K3s node-originated traffic can still be masqueraded.
+MetalLB announces each address from the worker
 hosting the ready pod. The Services forward UDP 123 to container port 1123.
 No HTTP ingress or DNS record is required.
 
@@ -78,6 +79,9 @@ Validated NTP replies were received over these paths at approximately 18:52 UTC:
 
 These are individual samples, not an accuracy benchmark. The longer fabric
 paths can limit NTP accuracy, particularly when latency is asymmetric.
+Chrony's client list retained the automation host address. The K3s-host fabric
+probes appeared as Flannel addresses `10.42.0.0`, `10.42.7.0`, and `10.42.5.0`,
+so those probes verify NTP reachability but not external fabric source preservation.
 Chrony's live access checks allowed both configured client networks and denied
 `203.0.113.1`. No routers, switches, PVE hosts, or K3s host time settings were
 changed. Device synchronization, pod failover, and upstream failure recovery
