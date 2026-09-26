@@ -44,8 +44,8 @@ Inspect the service:
 kubectl -n argocd get applications root-app ntp
 kubectl -n ntp get pods,services -o wide
 kubectl -n ntp exec deployment/chrony -- /usr/bin/chronyc tracking
-kubectl -n ntp exec deployment/chrony -- /usr/bin/chronyc sources -v
-kubectl -n ntp exec deployment/chrony -- /usr/bin/chronyc clients
+kubectl -n ntp exec deployment/chrony -- /usr/bin/chronyc -n sources -v
+kubectl -n ntp exec deployment/chrony -- /usr/bin/chronyc -n clients
 python3 ntp/query_ntp.py 192.168.3.242
 ```
 
@@ -58,6 +58,34 @@ Network-device NTP settings must be introduced through Git-managed Nautobot
 contexts and templates, validated, then rendered with Golden Config. Fresh
 backups, compliance, and Config Plans precede a separately approved router and
 switch deployment.
+
+## Deployment verification, 2026-09-26
+
+Argo CD deployed the service from commit `66efa67`. The `ntp` and `root-app`
+Applications reached Healthy/Synced, as did all other existing Applications.
+The pod started on `dcc-k3s-w6`, became ready after selecting `192.168.3.1`,
+and reported stratum 4 with Normal leap status. Its logs confirmed that system
+clock control was disabled.
+
+Validated NTP replies were received over these paths at approximately 18:52 UTC:
+
+| Client | Endpoint | Stratum | Sample round-trip delay |
+| --- | --- | --- | --- |
+| Automation host, `192.168.3.21` | `192.168.3.242` | 4 | 0.382 ms |
+| DCA, `10.100.0.10` | `10.100.0.241` | 4 | 181.213 ms |
+| DCB, `10.100.0.20` | `10.100.0.241` | 4 | 196.202 ms |
+| DCC, `10.100.0.30` | `10.100.0.241` | 4 | 4.243 ms |
+
+These are individual samples, not an accuracy benchmark. The longer fabric
+paths can limit NTP accuracy, particularly when latency is asymmetric.
+Chrony's live access checks allowed both configured client networks and denied
+`203.0.113.1`. No routers, switches, PVE hosts, or K3s host time settings were
+changed. Device synchronization, pod failover, and upstream failure recovery
+were not tested.
+
+The source repository reservation commit is `611839c`. Nautobot source sync,
+reservation dry-run, and reservation execution all completed with SUCCESS.
+The reservation execution JobResult is `713770f2-5b5a-4ce4-9b4e-1efee6b69e91`.
 
 References: [container source](https://github.com/cturra/docker-ntp),
 [Chrony options](https://chrony-project.org/doc/4.6/chronyd.html), and
