@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chrony
+  namespace: ntp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: chrony
+  template:
+    metadata:
+      labels:
+        app: chrony
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 100
+        runAsGroup: 101
+        fsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+      containers:
+        - name: chrony
+          image: cturra/ntp@sha256:7224d4e7c7833aabbcb7dd70c46c8a8dcccda365314c6db047b9b10403ace3bc
+          # Bypass the image startup script so Git owns the configuration.
+          command: [/bin/sh, -ec]
+          args:
+            - |
+              mkdir -p /run/chrony
+              chmod 750 /run/chrony
+              exec /usr/sbin/chronyd -d -x -U -f /etc/chrony/chrony.conf
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          ports:
+            - name: ntp
+              containerPort: 1123
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+          readinessProbe:
+            exec:
+              command: [/usr/bin/chronyc, -h, /run/chrony/chronyd.sock, waitsync, "1"]
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command: [/usr/bin/chronyc, -h, /run/chrony/chronyd.sock, tracking]
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 3
+          volumeMounts:
+            - name: config
+              mountPath: /etc/chrony
+              readOnly: true
+            - name: run
+              mountPath: /run
+            - name: state
+              mountPath: /var/lib/chrony
+      volumes:
+        - name: config
+          configMap:
+            name: chrony
+        - name: run
+          emptyDir:
+            medium: Memory
+            sizeLimit: 4Mi
+        - name: state
+          emptyDir:
+            sizeLimit: 4Mi

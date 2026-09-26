@@ -5,6 +5,8 @@ VictoriaMetrics through their sync-wave annotations. SNMP history follows at
 wave 4 (`snmp-metrics`), then its Collector at wave 5 (`otel-snmp`). MetalLB,
 VictoriaLogs and the flow/syslog Collector are deployed separately. SuzieQ is
 introduced at wave 6 with generated inventory and an externally managed Secret.
+Lab NTP also runs at wave 6, with its own MetalLB reservations and a Chrony
+Deployment. See [the NTP runbook](../ntp/README.md) for endpoints and checks.
 
 The child-Application health script in ../bootstrap/argocd-values.yaml was
 installed through the existing Argo CD Helm bootstrap on 2026-09-12 and checked

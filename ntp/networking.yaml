@@ -1,0 +1,83 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ntp-management
+  namespace: metallb-system
+spec:
+  addresses: [192.168.3.242/32]
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ntp-lab
+  namespace: metallb-system
+spec:
+  addresses: [10.100.0.241/32]
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: ntp-management
+  namespace: metallb-system
+spec:
+  ipAddressPools: [ntp-management]
+  interfaces: [eth0]
+  nodeSelectors:
+    - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: ntp-lab
+  namespace: metallb-system
+spec:
+  ipAddressPools: [ntp-lab]
+  interfaces: [bond0]
+  nodeSelectors:
+    - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ntp-management
+  namespace: ntp
+  annotations:
+    metallb.io/address-pool: ntp-management
+    metallb.io/loadBalancerIPs: 192.168.3.242
+spec:
+  type: LoadBalancer
+  allocateLoadBalancerNodePorts: false
+  externalTrafficPolicy: Local
+  selector:
+    app: chrony
+  ports:
+    - name: ntp
+      port: 123
+      targetPort: ntp
+      protocol: UDP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ntp-lab
+  namespace: ntp
+  annotations:
+    metallb.io/address-pool: ntp-lab
+    metallb.io/loadBalancerIPs: 10.100.0.241
+spec:
+  type: LoadBalancer
+  allocateLoadBalancerNodePorts: false
+  externalTrafficPolicy: Local
+  selector:
+    app: chrony
+  ports:
+    - name: ntp
+      port: 123
+      targetPort: ntp
+      protocol: UDP
