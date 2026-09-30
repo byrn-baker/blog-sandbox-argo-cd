@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "query_errors": [],
+  "dashboard_url": "https://grafana.sandbox.lab/d/network-telemetry?from=1790737343086&to=1790737712656&refresh=&var-device=%24__all&var-flow_port=%5E47933%24",
+  "source": "DCA-k3s-m1",
+  "destination": "DCC-k3s-w4",
+  "port": "47933"
+}

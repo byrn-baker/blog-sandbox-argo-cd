@@ -1,0 +1,67 @@
+{
+  "results": {
+    "A": {
+      "status": 200,
+      "frames": [
+        {
+          "schema": {
+            "name": "samples{destination.address=\"10.100.0.30\",destination.port=\"47933\",flow.sampler_address=\"192.168.3.33\",flow.sampling_rate=\"16384\",nautobot.destination.label=\"DCC-k3s-w4 / bond0 (DC-C)\",nautobot.exporter.label=\"DCA-Leaf02 / Management1 (DC-A)\",nautobot.source.label=\"DCA-k3s-m1 / bond0 (DC-A)\",network.transport=\"tcp\",source.address=\"10.100.0.10\",source.port=\"51923\"}",
+            "refId": "A",
+            "fields": [
+              {
+                "name": "Time",
+                "type": "time",
+                "typeInfo": {
+                  "frame": "time.Time"
+                },
+                "config": {
+                  "interval": 60000
+                }
+              },
+              {
+                "name": "Value",
+                "type": "number",
+                "typeInfo": {
+                  "frame": "float64",
+                  "nullable": true
+                },
+                "labels": {
+                  "__name__": "samples",
+                  "destination.address": "10.100.0.30",
+                  "destination.port": "47933",
+                  "flow.sampler_address": "192.168.3.33",
+                  "flow.sampling_rate": "16384",
+                  "nautobot.destination.label": "DCC-k3s-w4 / bond0 (DC-C)",
+                  "nautobot.exporter.label": "DCA-Leaf02 / Management1 (DC-A)",
+                  "nautobot.source.label": "DCA-k3s-m1 / bond0 (DC-A)",
+                  "network.transport": "tcp",
+                  "source.address": "10.100.0.10",
+                  "source.port": "51923"
+                },
+                "config": {
+                  "displayNameFromDS": "samples{destination.address=\"10.100.0.30\",destination.port=\"47933\",flow.sampler_address=\"192.168.3.33\",flow.sampling_rate=\"16384\",nautobot.destination.label=\"DCC-k3s-w4 / bond0 (DC-C)\",nautobot.exporter.label=\"DCA-Leaf02 / Management1 (DC-A)\",nautobot.source.label=\"DCA-k3s-m1 / bond0 (DC-A)\",network.transport=\"tcp\",source.address=\"10.100.0.10\",source.port=\"51923\"}"
+                }
+              }
+            ]
+          },
+          "data": {
+            "values": [
+              [
+                1790737712655
+              ],
+              [
+                1
+              ]
+            ],
+            "nanos": [
+              [
+                999898
+              ],
+              null
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
