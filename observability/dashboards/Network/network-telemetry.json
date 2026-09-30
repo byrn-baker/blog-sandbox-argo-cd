@@ -84,6 +84,14 @@
           "value": "$__all"
         },
         "hide": 2
+      },
+      {
+        "name": "flow_port",
+        "label": "Flow destination port (regex)",
+        "type": "textbox",
+        "query": ".*",
+        "current": {"text": ".*", "value": ".*"},
+        "hide": 0
       }
     ]
   },
@@ -283,7 +291,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:netflow_v9 AND flow.sampler_address:in(${exporter:doublequote}) | stats by (flow.sampler_address, source.address, destination.address, nautobot.source.label, nautobot.destination.label, nautobot.exporter.label, network.transport, destination.port) sum(flow.io.bytes) as bytes, sum(flow.io.packets) as packets | sort by (bytes desc) | limit 25",
+          "expr": "flow.type:netflow_v9 AND flow.sampler_address:in(${exporter:doublequote}) AND destination.port:~${flow_port:json} | stats by (flow.sampler_address, source.address, destination.address, nautobot.source.label, nautobot.destination.label, nautobot.exporter.label, network.transport, destination.port) sum(flow.io.bytes) as bytes, sum(flow.io.packets) as packets | sort by (bytes desc) | limit 25",
           "queryType": "stats",
           "editorMode": "code",
           "maxLines": 500
@@ -392,7 +400,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:sflow_5 AND flow.sampler_address:in(${exporter:doublequote}) | stats by (source.address, destination.address, source.port, destination.port, network.transport, flow.sampler_address, flow.sampling_rate, nautobot.source.label, nautobot.destination.label, nautobot.exporter.label) count() as samples | sort by (samples desc) | limit 25",
+          "expr": "flow.type:sflow_5 AND flow.sampler_address:in(${exporter:doublequote}) AND destination.port:~${flow_port:json} | stats by (source.address, destination.address, source.port, destination.port, network.transport, flow.sampler_address, flow.sampling_rate, nautobot.source.label, nautobot.destination.label, nautobot.exporter.label) count() as samples | sort by (samples desc) | limit 25",
           "queryType": "stats",
           "editorMode": "code",
           "maxLines": 500
@@ -478,7 +486,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | limit 500 | format \"exporter=<flow.sampler_address> [<nautobot.exporter.label>] <flow.type> <source.address>:<source.port> [<nautobot.source.label>] -> <destination.address>:<destination.port> [<nautobot.destination.label>] <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) AND destination.port:~${flow_port:json} | limit 500 | format \"exporter=<flow.sampler_address> [<nautobot.exporter.label>] <flow.type> <source.address>:<source.port> [<nautobot.source.label>] -> <destination.address>:<destination.port> [<nautobot.destination.label>] <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
           "queryType": "instant",
           "editorMode": "code",
           "maxLines": 500

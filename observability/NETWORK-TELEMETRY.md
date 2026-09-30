@@ -14,6 +14,13 @@ their management addresses for exporter filtering. Missing data stays missing.
   be observed by several routers; All is not a unique network traffic total.
 - sFlow detail displays sampled fields and sampling rate. Record counts are
   not packets, sessions, or utilization estimates.
+- The sFlow conversations table groups samples by endpoint tuple and exporter,
+  with Nautobot source, destination and exporter ownership alongside raw IPs.
+  Shared addresses retain all owners; unknown and pre-enrichment records retain
+  raw addresses. Labels describe assigned-IP ownership, not observed ingress
+  ports, inner VXLAN endpoints or a historical inventory at arbitrary times.
+- Narrow the time window to a controlled transfer and look for its destination
+  port. The table returns the top 25 grouped conversations, not every sample.
 - SuzieQ state tables request the last known state at the selected range end.
   Row timestamps can be old because unchanged state is not rewritten each poll.
 - The live sqPoller table deliberately ignores historical range selection. It
@@ -83,3 +90,6 @@ the known empty protocol scopes. It resolves exporter addresses from live SNMP
 labels, matching the dashboard's exact-address selection.
 An empty scope-limited table is expected; inspect poller status before treating
 it as collection failure.
+Quiet devices may have no syslog events in the selected window. The query
+verifier reports this separately; an empty successful query neither proves
+nor disproves current sender delivery.

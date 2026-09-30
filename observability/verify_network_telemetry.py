@@ -47,6 +47,7 @@ def run():
                                if device == '.*' or r['device'] == device})
             quoted = ','.join(json.dumps(ip) for ip in selected)
             text = text.replace('${exporter:doublequote}', json.dumps(quoted)[1:-1])
+            text = text.replace('${flow_port:json}', json.dumps(json.dumps('.*'))[1:-1])
             for token, value in [('${device:regex}', device), ('$device', device),
                                  ('${exporter:regex}', exporter), ('$__rate_interval', '5m'),
                                  ('${__to:date:iso}', cutoff)]:
@@ -71,10 +72,12 @@ def run():
             )
             if expected_empty and rows:
                 errors.append('Unexpected rows outside the known collection scope')
-            if not expected_empty and not rows:
+            if not expected_empty and not rows and panel['id'] != 7:
                 errors.append('Expected data in the last 24 hours, got no rows')
             item = {'device': device, 'panel': panel['title'], 'http': result.status_code,
                     'rows': rows, 'errors': errors}
+            if panel['id'] == 7 and not rows:
+                item['note'] = 'No syslog events in this window; query success does not prove sender freshness'
             report['panels'].append(item)
             print(json.dumps(item), flush=True)
     return report
