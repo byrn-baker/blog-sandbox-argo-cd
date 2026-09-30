@@ -421,7 +421,11 @@
             "minWidth": 110
           }
         },
-        "overrides": []
+        "overrides": [
+          {"matcher": {"id": "byRegexp", "options": "^(Source owner|Destination owner|Exporter owner)$"}, "properties": [{"id": "custom.width", "value": 270}]},
+          {"matcher": {"id": "byRegexp", "options": "^(Source IP|Destination IP|Exporter IP)$"}, "properties": [{"id": "custom.width", "value": 120}]},
+          {"matcher": {"id": "byRegexp", "options": "^(Protocol|Sample records)$"}, "properties": [{"id": "custom.width", "value": 100}]}
+        ]
       },
       "options": {
         "showHeader": true,
