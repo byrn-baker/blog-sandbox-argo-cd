@@ -64,6 +64,10 @@ data:
         allow_skip_pri_header: true
         on_error: send
     processors:
+{{- if .Values.enrichment }}
+      transform/nautobot:
+{{ toYaml .Values.enrichment | indent 8 }}
+{{- end }}
       memory_limiter:
         check_interval: 1s
         limit_mib: 192
@@ -91,7 +95,7 @@ data:
       pipelines:
         logs:
           receivers: [netflow, netflow/sflow, syslog]
-          processors: [memory_limiter, resource]
+          processors: [memory_limiter, resource{{ if .Values.enrichment }}, transform/nautobot{{ end }}]
           exporters: [otlp_http]
       telemetry:
         metrics:
@@ -117,6 +121,7 @@ spec:
       labels: {app: telemetry-canary}
       annotations:
         lab.sandbox/config-revision: {{ .Values.configRevision | quote }}
+        checksum/enrichment: {{ toJson .Values.enrichment | sha256sum | quote }}
     spec:
       automountServiceAccountToken: false
       nodeSelector:

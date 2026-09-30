@@ -66,6 +66,7 @@ def run():
                        if f.get('data', {}).get('values'))
             expected_empty = (
                 (device in ('CE1', 'CE2') and panel['id'] == 11)
+                or (device in ('CE1', 'CE2') and panel['id'] == 18)
                 or (device == 'DCA-Leaf01' and panel['id'] == 5)
             )
             if expected_empty and rows:

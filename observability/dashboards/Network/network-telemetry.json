@@ -283,7 +283,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:netflow_v9 AND flow.sampler_address:in(${exporter:doublequote}) | stats by (flow.sampler_address, source.address, destination.address, network.transport, destination.port) sum(flow.io.bytes) as bytes, sum(flow.io.packets) as packets | sort by (bytes desc) | limit 25",
+          "expr": "flow.type:netflow_v9 AND flow.sampler_address:in(${exporter:doublequote}) | stats by (flow.sampler_address, source.address, destination.address, nautobot.source.label, nautobot.destination.label, nautobot.exporter.label, network.transport, destination.port) sum(flow.io.bytes) as bytes, sum(flow.io.packets) as packets | sort by (bytes desc) | limit 25",
           "queryType": "stats",
           "editorMode": "code",
           "maxLines": 500
@@ -382,6 +382,92 @@
       ]
     },
     {
+      "id": 18,
+      "title": "sFlow conversations: sampled observations",
+      "type": "table",
+      "datasource": {
+        "type": "victoriametrics-logs-datasource",
+        "uid": "network-logs"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "flow.type:sflow_5 AND flow.sampler_address:in(${exporter:doublequote}) | stats by (source.address, destination.address, source.port, destination.port, network.transport, flow.sampler_address, flow.sampling_rate, nautobot.source.label, nautobot.destination.label, nautobot.exporter.label) count() as samples | sort by (samples desc) | limit 25",
+          "queryType": "stats",
+          "editorMode": "code",
+          "maxLines": 500
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 24,
+        "h": 10
+      },
+      "description": "Sampled observations, not complete flows or exact packet/byte totals. Nautobot labels are assigned-IP ownership at the recorded snapshot, not proof of ingress port or inner VXLAN identity. Shared addresses list all owners. Unknown and older unenriched records retain their IPs. Narrow the time range to the test window.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "noValue": "Unknown",
+          "custom": {
+            "minWidth": 110
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "columns",
+            "valueLabel": "__name__"
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "renameByName": {
+              "source.address": "Source IP",
+              "destination.address": "Destination IP",
+              "source.port": "Source port",
+              "destination.port": "Destination port",
+              "network.transport": "Protocol",
+              "flow.sampler_address": "Exporter IP",
+              "flow.sampling_rate": "Sampling denominator",
+              "nautobot.source.label": "Source owner",
+              "nautobot.destination.label": "Destination owner",
+              "nautobot.exporter.label": "Exporter owner",
+              "samples": "Sample records"
+            },
+            "indexByName": {
+              "nautobot.source.label": 0,
+              "source.address": 1,
+              "nautobot.destination.label": 2,
+              "destination.address": 3,
+              "destination.port": 4,
+              "network.transport": 5,
+              "samples": 6,
+              "nautobot.exporter.label": 7,
+              "flow.sampler_address": 8,
+              "source.port": 9,
+              "flow.sampling_rate": 10
+            }
+          }
+        }
+      ]
+    },
+    {
       "id": 6,
       "title": "Flow record detail",
       "type": "logs",
@@ -392,7 +478,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | limit 500 | format \"exporter=<flow.sampler_address> <flow.type> <source.address>:<source.port> -> <destination.address>:<destination.port> <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
+          "expr": "flow.type:in(netflow_v9,sflow_5) AND flow.sampler_address:in(${exporter:doublequote}) | limit 500 | format \"exporter=<flow.sampler_address> [<nautobot.exporter.label>] <flow.type> <source.address>:<source.port> [<nautobot.source.label>] -> <destination.address>:<destination.port> [<nautobot.destination.label>] <network.transport> bytes=<flow.io.bytes> packets=<flow.io.packets> sampling=<flow.sampling_rate>\" as _msg",
           "queryType": "instant",
           "editorMode": "code",
           "maxLines": 500
@@ -400,7 +486,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 32,
+        "y": 42,
         "w": 24,
         "h": 10
       },
@@ -438,7 +524,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 42,
+        "y": 52,
         "w": 24,
         "h": 10
       },
@@ -527,7 +613,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 52,
+        "y": 62,
         "w": 24,
         "h": 6
       },
@@ -642,7 +728,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 58,
+        "y": 68,
         "w": 24,
         "h": 10
       },
@@ -754,7 +840,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 68,
+        "y": 78,
         "w": 24,
         "h": 10
       },
@@ -850,7 +936,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 78,
+        "y": 88,
         "w": 24,
         "h": 6
       },
@@ -953,7 +1039,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 84,
+        "y": 94,
         "w": 24,
         "h": 10
       },
@@ -1049,7 +1135,7 @@
       ],
       "gridPos": {
         "x": 0,
-        "y": 94,
+        "y": 104,
         "w": 24,
         "h": 10
       },
@@ -1106,7 +1192,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 104,
+        "y": 114,
         "w": 24,
         "h": 4
       },
@@ -1154,7 +1240,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 108,
+        "y": 118,
         "w": 24,
         "h": 8
       },
@@ -1185,7 +1271,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 116,
+        "y": 126,
         "w": 24,
         "h": 4
       },
@@ -1233,7 +1319,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 120,
+        "y": 130,
         "w": 24,
         "h": 4
       },
