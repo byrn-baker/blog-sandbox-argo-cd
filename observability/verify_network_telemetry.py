@@ -47,7 +47,7 @@ def run():
                                if device == '.*' or r['device'] == device})
             quoted = ','.join(json.dumps(ip) for ip in selected)
             text = text.replace('${exporter:doublequote}', json.dumps(quoted)[1:-1])
-            text = text.replace('${flow_port:json}', json.dumps(json.dumps('.*'))[1:-1])
+            text = text.replace('${flow_port:doublequote}', json.dumps(json.dumps('.*'))[1:-1])
             for token, value in [('${device:regex}', device), ('$device', device),
                                  ('${exporter:regex}', exporter), ('$__rate_interval', '5m'),
                                  ('${__to:date:iso}', cutoff)]:
